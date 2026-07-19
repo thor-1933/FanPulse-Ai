@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FanPulse AI — FIFA World Cup 2026 Stadium Companion</title>
+<meta name="description" content="GenAI-powered stadium companion for navigation, crowd management, accessibility, transport, sustainability and multilingual assistance." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================= DESIGN TOKENS ============================= */
+  :root{
+    --bg:#0F1B16;
+    --bg-elevated:#17251E;
+    --bg-card:#1C2C23;
+    --turf:#1F7A4D;
+    --turf-bright:#2E9E63;
+    --gold:#FFB627;
+    --chalk:#F5F7F0;
+    --muted:#A9B8AE;
+    --coral:#FF6B57;
+    --amber-soft:#F2C94C;
+    --line:#2B3B31;
+    --focus:#FFE08A;
+    --radius:10px;
+    --display:'Oswald', sans-serif;
+    --body:'Inter', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+  [data-contrast="high"]{
+    --bg:#000000;
+    --bg-elevated:#0A0A0A;
+    --bg-card:#111111;
+    --chalk:#FFFFFF;
+    --muted:#E8E8E8;
+    --line:#555555;
+    --gold:#FFD166;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--chalk);
+    font-family:var(--body);
+    line-height:1.5;
+    font-size:16px;
+  }
+  [data-fontsize="lg"] body, [data-fontsize="lg"]{ font-size:19px; }
+  [data-fontsize="xl"] body, [data-fontsize="xl"]{ font-size:22px; }
+
+  a{color:var(--gold);}
+  .skip-link{
+    position:absolute; left:-999px; top:0; background:var(--gold); color:#0F1B16;
+    padding:10px 16px; z-index:100; font-weight:600; border-radius:0 0 8px 0;
+  }
+  .skip-link:focus{ left:0; }
+
+  :focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
+
+  header.top{
+    background:var(--bg-elevated);
+    border-bottom:1px solid var(--line);
+    padding:14px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    flex-wrap:wrap;
+    position:sticky; top:0; z-index:10;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand-mark{
+    width:34px;height:34px;border-radius:8px;
+    background:conic-gradient(from 180deg, var(--turf), var(--gold), var(--turf));
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono); font-weight:600; color:#0F1B16; font-size:13px;
+  }
+  .brand h1{ font-family:var(--display); font-size:1.15rem; letter-spacing:0.02em; margin:0; text-transform:uppercase;}
+  .brand p{ margin:0; font-size:0.75rem; color:var(--muted); }
+
+  .toolbar{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .toolbar button, .toolbar select{
+    background:var(--bg-card); color:var(--chalk); border:1px solid var(--line);
+    padding:7px 10px; border-radius:8px; font-size:0.78rem; cursor:pointer; font-family:var(--body);
+  }
+  .toolbar button[aria-pressed="true"]{ border-color:var(--gold); color:var(--gold); }
+
+  main{ max-width:1080px; margin:0 auto; padding:0 20px 80px; }
+
+  .hero{ padding:44px 0 20px; }
+  .eyebrow{ font-family:var(--mono); color:var(--gold); font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; }
+  .hero h2{ font-family:var(--display); font-size:clamp(1.8rem, 4vw, 2.9rem); margin:8px 0 10px; line-height:1.05; text-transform:uppercase; letter-spacing:0.01em;}
+  .hero p.lede{ color:var(--muted); max-width:640px; font-size:1.02rem; }
+
+  .scoreboard{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+    gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden; margin-top:26px;
+  }
+  .score-tile{ background:var(--bg-card); padding:16px; }
+  .score-tile .label{ font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+  .score-tile .value{ font-family:var(--mono); font-size:1.7rem; color:var(--gold); margin-top:4px; font-weight:600;}
+  .score-tile .value.small{ font-size:1.1rem; color:var(--chalk); }
+
+  section{ margin-top:56px; }
+  .section-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:14px; flex-wrap:wrap;}
+  .section-num{ font-family:var(--mono); color:var(--turf-bright); font-size:0.85rem; }
+  h3.section-title{ font-family:var(--display); text-transform:uppercase; letter-spacing:0.01em; font-size:1.4rem; margin:0; }
+  .section-desc{ color:var(--muted); margin:0 0 18px; max-width:680px; font-size:0.94rem;}
+
+  .card{ background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; }
+
+  /* Concierge chat */
+  .chat-log{
+    height:300px; overflow-y:auto; border:1px solid var(--line); border-radius:8px;
+    padding:14px; background:var(--bg-elevated); display:flex; flex-direction:column; gap:10px;
+  }
+  .msg{ max-width:82%; padding:9px 12px; border-radius:10px; font-size:0.92rem; word-wrap:break-word; white-space:pre-wrap;}
+  .msg.user{ align-self:flex-end; background:var(--turf); color:#fff; }
+  .msg.ai{ align-self:flex-start; background:#233329; color:var(--chalk); border:1px solid var(--line); }
+  .msg.system{ align-self:center; color:var(--muted); font-size:0.78rem; font-style:italic; background:none;}
+  .chat-input-row{ display:flex; gap:8px; margin-top:12px; }
+  .chat-input-row input[type=text], .chat-input-row textarea{
+    flex:1; background:var(--bg-elevated); border:1px solid var(--line); color:var(--chalk);
+    padding:10px 12px; border-radius:8px; font-family:var(--body); font-size:0.94rem; resize:none;
+  }
+  button.primary{
+    background:var(--gold); color:#0F1B16; border:none; padding:10px 16px; border-radius:8px;
+    font-weight:600; cursor:pointer; font-size:0.9rem; font-family:var(--body);
+  }
+  button.primary:disabled{ opacity:0.55; cursor:not-allowed; }
+  button.secondary{
+    background:transparent; color:var(--chalk); border:1px solid var(--line); padding:10px 16px;
+    border-radius:8px; cursor:pointer; font-size:0.9rem; font-family:var(--body);
+  }
+  .char-count{ font-size:0.72rem; color:var(--muted); text-align:right; margin-top:4px;}
+  .field-row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:12px;}
+  label{ display:block; font-size:0.8rem; color:var(--muted); margin-bottom:5px; }
+  select, input[type=text], input[type=number]{
+    width:100%; background:var(--bg-elevated); border:1px solid var(--line); color:var(--chalk);
+    padding:9px 10px; border-radius:8px; font-family:var(--body); font-size:0.9rem;
+  }
+
+  .ai-output{
+    margin-top:14px; padding:14px; border-radius:8px; background:var(--bg-elevated);
+    border-left:3px solid var(--gold); font-size:0.92rem; min-height:20px;
+  }
+  .ai-output.empty{ color:var(--muted); font-style:italic; }
+
+  /* Crowd grid */
+  .zone-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; }
+  .zone{ background:var(--bg-elevated); border:1px solid var(--line); border-radius:8px; padding:14px; position:relative; }
+  .zone .zone-name{ font-family:var(--mono); font-size:0.85rem; color:var(--muted); }
+  .zone .zone-level{ font-family:var(--display); font-size:1.3rem; margin-top:4px; text-transform:uppercase;}
+  .zone .bar{ height:6px; background:var(--line); border-radius:4px; margin-top:10px; overflow:hidden;}
+  .zone .bar-fill{ height:100%; border-radius:4px; }
+  .zone .badge{ position:absolute; top:12px; right:12px; font-size:0.68rem; padding:2px 7px; border-radius:20px; border:1px solid var(--line); font-family:var(--mono);}
+  .level-low .zone-level, .level-low .zone-name{ color:var(--turf-bright); }
+  .level-low .bar-fill{ background:var(--turf-bright); width:30%; }
+  .level-moderate .zone-level{ color:var(--amber-soft); }
+  .level-moderate .bar-fill{ background:var(--amber-soft); width:60%; }
+  .level-high .zone-level{ color:var(--gold); }
+  .level-high .bar-fill{ background:var(--gold); width:82%; }
+  .level-critical .zone-level{ color:var(--coral); }
+  .level-critical .bar-fill{ background:var(--coral); width:97%; }
+
+  /* Alerts */
+  .alert-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .alert-item{ display:flex; gap:10px; align-items:flex-start; padding:10px 12px; background:var(--bg-elevated); border:1px solid var(--line); border-radius:8px;}
+  .sev{ font-family:var(--mono); font-size:0.68rem; padding:2px 8px; border-radius:20px; text-transform:uppercase; flex-shrink:0; margin-top:2px;}
+  .sev-critical{ background:rgba(255,107,87,0.18); color:var(--coral); border:1px solid var(--coral);}
+  .sev-high{ background:rgba(255,182,39,0.15); color:var(--gold); border:1px solid var(--gold);}
+  .sev-medium{ background:rgba(242,201,76,0.14); color:var(--amber-soft); border:1px solid var(--amber-soft);}
+  .sev-low{ background:rgba(169,184,174,0.12); color:var(--muted); border:1px solid var(--muted);}
+
+  footer{ border-top:1px solid var(--line); padding:30px 20px; color:var(--muted); font-size:0.82rem; text-align:center; }
+  footer strong{ color:var(--chalk); }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+  .status-line{ font-size:0.78rem; color:var(--muted); margin-top:8px;}
+  .error-text{ color:var(--coral); font-size:0.85rem; margin-top:8px;}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="top">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">FP</div>
+    <div>
+      <h1>FanPulse AI</h1>
+      <p>Stadium Operations &amp; Fan Experience — FIFA World Cup 2026</p>
+    </div>
+  </div>
+  <div class="toolbar" role="toolbar" aria-label="Accessibility controls">
+    <label for="lang-select" class="visually-hidden">Assistant language</label>
+    <select id="lang-select" aria-label="Assistant reply language">
+      <option value="English">English</option>
+      <option value="Spanish">Español</option>
+      <option value="French">Français</option>
+      <option value="Portuguese">Português</option>
+      <option value="Arabic">العربية</option>
+      <option value="Japanese">日本語</option>
+      <option value="Hindi">हिन्दी</option>
+    </select>
+    <button id="btn-contrast" type="button" aria-pressed="false">High contrast</button>
+    <button id="btn-fontdown" type="button" aria-label="Decrease text size">A−</button>
+    <button id="btn-fontup" type="button" aria-label="Increase text size">A+</button>
+  </div>
+</header>
+
+<main id="main">
+  <div class="hero">
+    <p class="eyebrow">Generative AI · Real-time stadium intelligence</p>
+    <h2>One assistant. Every fan, volunteer, and gate.</h2>
+    <p class="lede">FanPulse AI combines a multilingual GenAI concierge with live crowd, navigation, transport and sustainability intelligence — built for fans, organizers, volunteers and venue staff during the tournament.</p>
+
+    <div class="scoreboard" aria-label="Live stadium snapshot">
+      <div class="score-tile"><div class="label">Kickoff in</div><div class="value" id="tile-kickoff">--:--</div></div>
+      <div class="score-tile"><div class="label">Avg. gate wait</div><div class="value" id="tile-wait">-- min</div></div>
+      <div class="score-tile"><div class="label">Busiest zone</div><div class="value small" id="tile-busy">—</div></div>
+      <div class="score-tile"><div class="label">Active alerts</div><div class="value" id="tile-alerts">0</div></div>
+    </div>
+  </div>
+
+  <!-- ============================ AI CONCIERGE ============================ -->
+  <section aria-labelledby="concierge-title">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h3 class="section-title" id="concierge-title">Multilingual AI Concierge</h3>
+    </div>
+    <p class="section-desc">Ask about gates, schedules, accessibility services, lost &amp; found, or stadium rules. Answers are generated live in your selected language.</p>
+    <div class="card">
+      <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-label="Conversation with FanPulse concierge">
+        <div class="msg system">FanPulse concierge is ready. Try: "Where is the nearest accessible restroom to Gate C?"</div>
+      </div>
+      <form id="chat-form" class="chat-input-row">
+        <label for="chat-input" class="visually-hidden">Message the concierge</label>
+        <input type="text" id="chat-input" maxlength="400" placeholder="Ask the concierge…" autocomplete="off" />
+        <button class="primary" type="submit" id="chat-send">Send</button>
+      </form>
+      <div class="char-count" id="chat-count">0 / 400</div>
+      <div class="status-line" id="chat-status" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ============================ NAVIGATION ============================ -->
+  <section aria-labelledby="nav-title">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h3 class="section-title" id="nav-title">Smart &amp; Accessible Navigation</h3>
+    </div>
+    <p class="section-desc">Get a walking route between any two stadium points, with an accessible-route option for wheelchair users, step-free paths, or families with strollers.</p>
+    <div class="card">
+      <form id="nav-form">
+        <div class="field-row">
+          <div>
+            <label for="nav-from">Starting point</label>
+            <input type="text" id="nav-from" placeholder="e.g. Gate C, Main Concourse" required />
+          </div>
+          <div>
+            <label for="nav-to">Destination</label>
+            <input type="text" id="nav-to" placeholder="e.g. Section 114, Row 22" required />
+          </div>
+          <div>
+            <label for="nav-mode">Route type</label>
+            <select id="nav-mode">
+              <option value="standard">Standard route</option>
+              <option value="accessible">Step-free / accessible route</option>
+            </select>
+          </div>
+        </div>
+        <button class="primary" type="submit">Get directions</button>
+      </form>
+      <div class="ai-output empty" id="nav-output" role="status" aria-live="polite">Directions will appear here.</div>
+    </div>
+  </section>
+
+  <!-- ============================ CROWD DASHBOARD ============================ -->
+  <section aria-labelledby="crowd-title">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h3 class="section-title" id="crowd-title">Live Crowd Pulse</h3>
+    </div>
+    <p class="section-desc">Simulated real-time density per gate zone. Volunteers and organizers can request an AI-generated crowd-management recommendation for the current snapshot.</p>
+    <div class="card">
+      <div class="zone-grid" id="zone-grid" aria-label="Crowd density by zone"></div>
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="primary" id="btn-crowd-ai" type="button">Get AI recommendation for current snapshot</button>
+        <button class="secondary" id="btn-refresh-zones" type="button">Refresh snapshot</button>
+      </div>
+      <div class="ai-output empty" id="crowd-output" role="status" aria-live="polite">Recommendations will appear here.</div>
+    </div>
+  </section>
+
+  <!-- ============================ TRANSPORT & SUSTAINABILITY ============================ -->
+  <section aria-labelledby="transport-title">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h3 class="section-title" id="transport-title">Transport &amp; Sustainability Advisor</h3>
+    </div>
+    <p class="section-desc">Compare travel modes to the stadium by time-to-kickoff and estimated carbon footprint, with an AI-personalized recommendation.</p>
+    <div class="card">
+      <div class="field-row">
+        <div>
+          <label for="t-distance">Distance to stadium (km)</label>
+          <input type="number" id="t-distance" min="0.5" max="60" value="6" />
+        </div>
+        <div>
+          <label for="t-time">Minutes until kickoff</label>
+          <input type="number" id="t-time" min="10" max="240" value="45" />
+        </div>
+        <div>
+          <label for="t-party">Party size</label>
+          <input type="number" id="t-party" min="1" max="10" value="2" />
+        </div>
+      </div>
+      <button class="primary" type="button" id="btn-transport">Compare options</button>
+      <div class="ai-output empty" id="transport-output" role="status" aria-live="polite">Comparison will appear here.</div>
+    </div>
+  </section>
+
+  <!-- ============================ VOLUNTEER / STAFF PANEL ============================ -->
+  <section aria-labelledby="ops-title">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h3 class="section-title" id="ops-title">Volunteer &amp; Staff Operations Feed</h3>
+    </div>
+    <p class="section-desc">Live incident feed with AI-generated shift briefings, so staff coming on duty get a fast, prioritized summary.</p>
+    <div class="card">
+      <ul class="alert-list" id="alert-list"></ul>
+      <div style="margin-top:14px;">
+        <button class="primary" id="btn-briefing" type="button">Generate shift briefing</button>
+      </div>
+      <div class="ai-output empty" id="briefing-output" role="status" aria-live="polite">Briefing will appear here.</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p><strong>Privacy &amp; security:</strong> Chat and requests are processed for this session only — nothing you type is stored, and all crowd/alert data shown is simulated for demonstration.</p>
+  <p>FanPulse AI — a concept built for stadium operations at the FIFA World Cup 2026.</p>
+</footer>
+
+<!-- =========================================================================================
+     CORE LOGIC (pure functions only — no DOM access). Kept isolated so it can be unit-tested
+     by extracting this block in Node (see fanpulse-core.test.js) without needing a browser.
+     ========================================================================================= -->
+<script id="core-logic">
+  window.FanPulseCore = (function () {
+    "use strict";
+
+    /** Clamp a number between min and max. */
+    function clampNumber(n, min, max) {
+      if (typeof n !== "number" || Number.isNaN(n)) return min;
+      return Math.min(max, Math.max(min, n));
+    }
+
+    /** Classify a 0-100 crowd density value into a level + guidance. */
+    function classifyCrowd(density) {
+      const d = clampNumber(density, 0, 100);
+      if (d < 35) return { level: "Low", key: "low", advice: "Flowing normally, no action needed." };
+      if (d < 65) return { level: "Moderate", key: "moderate", advice: "Monitor; consider a second scanner lane." };
+      if (d < 88) return { level: "High", key: "high", advice: "Open overflow queue and deploy stewards." };
+      return { level: "Critical", key: "critical", advice: "Pause entry, redirect fans to nearest low-density gate." };
+    }
+
+    /** Escape HTML-significant characters and cap length. Used before any user text touches the DOM. */
+    function sanitizeText(input, maxLen) {
+      const max = typeof maxLen === "number" ? maxLen : 400;
+      const str = (input === null || input === undefined) ? "" : String(input);
+      const trimmed = str.slice(0, max);
+      return trimmed
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    /** Estimate walking time in minutes. Accessible routes may add distance for ramps/elevators. */
+    function estimateWalkTime(baseMinutes, accessible) {
+      const b = clampNumber(baseMinutes, 1, 60);
+      const multiplier = accessible ? 1.25 : 1;
+      return Math.round(b * multiplier);
+    }
+
+    /** Rough per-person CO2 estimate (kg) for a one-way trip, by mode. */
+    const EMISSION_FACTORS_KG_PER_KM = {
+      walk: 0,
+      bike: 0,
+      transit: 0.04,
+      rideshare: 0.17,
+      car: 0.19
+    };
+    function estimateCarbonKg(mode, distanceKm) {
+      const factor = EMISSION_FACTORS_KG_PER_KM.hasOwnProperty(mode) ? EMISSION_FACTORS_KG_PER_KM[mode] : EMISSION_FACTORS_KG_PER_KM.car;
+      const dist = clampNumber(distanceKm, 0, 500);
+      return Math.round(factor * dist * 100) / 100;
+    }
+
+    const SUPPORTED_LANGUAGES = ["English", "Spanish", "French", "Portuguese", "Arabic", "Japanese", "Hindi"];
+    function isSupportedLanguage(lang) {
+      return SUPPORTED_LANGUAGES.indexOf(lang) !== -1;
+    }
+
+    const SEVERITY_ORDER = { critical: 0, high: 1, medium: 2, low: 3 };
+    /** Return a new array of alerts sorted by descending severity (does not mutate input). */
+    function rankAlertsBySeverity(alerts) {
+      const copy = Array.isArray(alerts) ? alerts.slice() : [];
+      copy.sort(function (a, b) {
+        const av = SEVERITY_ORDER.hasOwnProperty(a.severity) ? SEVERITY_ORDER[a.severity] : 99;
+        const bv = SEVERITY_ORDER.hasOwnProperty(b.severity) ? SEVERITY_ORDER[b.severity] : 99;
+        return av - bv;
+      });
+      return copy;
+    }
+
+    return {
+      clampNumber: clampNumber,
+      classifyCrowd: classifyCrowd,
+      sanitizeText: sanitizeText,
+      estimateWalkTime: estimateWalkTime,
+      estimateCarbonKg: estimateCarbonKg,
+      isSupportedLanguage: isSupportedLanguage,
+      rankAlertsBySeverity: rankAlertsBySeverity,
+      SUPPORTED_LANGUAGES: SUPPORTED_LANGUAGES
+    };
+  })();
+
+  // Expose for Node-based unit tests (extracted and run in a vm context — see test file).
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = window.FanPulseCore;
+  }
+</script>
+
+<!-- =========================================================================================
+     APPLICATION LOGIC (DOM + GenAI calls)
+     ========================================================================================= -->
+<script>
+(function () {
+  "use strict";
+  const Core = window.FanPulseCore;
+
+  /* ---------------------------- Accessibility toolbar ---------------------------- */
+  const html = document.documentElement;
+  const btnContrast = document.getElementById("btn-contrast");
+  const btnFontUp = document.getElementById("btn-fontup");
+  const btnFontDown = document.getElementById("btn-fontdown");
+  let fontLevel = 0; // 0=normal,1=lg,2=xl
+  const fontSteps = [null, "lg", "xl"];
+
+  btnContrast.addEventListener("click", function () {
+    const isOn = html.getAttribute("data-contrast") === "high";
+    if (isOn) {
+      html.removeAttribute("data-contrast");
+      btnContrast.setAttribute("aria-pressed", "false");
+    } else {
+      html.setAttribute("data-contrast", "high");
+      btnContrast.setAttribute("aria-pressed", "true");
+    }
+  });
+  function applyFont() {
+    const step = fontSteps[fontLevel];
+    if (step) html.setAttribute("data-fontsize", step);
+    else html.removeAttribute("data-fontsize");
+  }
+  btnFontUp.addEventListener("click", function () {
+    fontLevel = Core.clampNumber(fontLevel + 1, 0, 2);
+    applyFont();
+  });
+  btnFontDown.addEventListener("click", function () {
+    fontLevel = Core.clampNumber(fontLevel - 1, 0, 2);
+    applyFont();
+  });
+
+  /* ---------------------------- GenAI call helper ----------------------------
+     Single shared helper: builds the request, enforces a short timeout, disables
+     the triggering control while in-flight (prevents duplicate/spammed calls),
+     and never leaks raw error detail to the UI. */
+  async function askAI(systemPrompt, userPrompt, triggerButton) {
+    if (triggerButton) triggerButton.disabled = true;
+    const controller = new AbortController();
+    const timeout = setTimeout(function () { controller.abort(); }, 20000);
+    try {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 1000,
+          system: systemPrompt,
+          messages: [{ role: "user", content: userPrompt }]
+        })
+      });
+      if (!response.ok) throw new Error("request_failed");
+      const data = await response.json();
+      const textBlock = (data.content || []).find(function (b) { return b.type === "text"; });
+      return textBlock ? textBlock.text : "I couldn't generate a response just now — please try again.";
+    } catch (err) {
+      return "__ERROR__";
+    } finally {
+      clearTimeout(timeout);
+      if (triggerButton) triggerButton.disabled = false;
+    }
+  }
+
+  function currentLanguage() {
+    const val = document.getElementById("lang-select").value;
+    return Core.isSupportedLanguage(val) ? val : "English";
+  }
+
+  /* ---------------------------- Scoreboard ticker ---------------------------- */
+  const kickoffTile = document.getElementById("tile-kickoff");
+  let secondsToKickoff = 47 * 60 + 12;
+  function tickClock() {
+    if (secondsToKickoff > 0) secondsToKickoff -= 1;
+    const m = Math.floor(secondsToKickoff / 60);
+    const s = secondsToKickoff % 60;
+    kickoffTile.textContent = String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+  }
+  tickClock();
+  const clockInterval = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 5000 : 1000;
+  setInterval(tickClock, clockInterval);
+
+  /* ---------------------------- Concierge chat ---------------------------- */
+  const chatLog = document.getElementById("chat-log");
+  const chatForm = document.getElementById("chat-form");
+  const chatInput = document.getElementById("chat-input");
+  const chatSend = document.getElementById("chat-send");
+  const chatStatus = document.getElementById("chat-status");
+  const chatCount = document.getElementById("chat-count");
+
+  chatInput.addEventListener("input", function () {
+    chatCount.textContent = chatInput.value.length + " / 400";
+  });
+
+  function appendMessage(role, text) {
+    const div = document.createElement("div");
+    div.className = "msg " + role;
+    // textContent only — never innerHTML with user or model text, avoids any XSS vector.
+    div.textContent = text;
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  chatForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const raw = chatInput.value.trim();
+    if (!raw) return;
+    const safe = Core.sanitizeText(raw, 400);
+    appendMessage("user", raw.slice(0, 400));
+    chatInput.value = "";
+    chatCount.textContent = "0 / 400";
+    chatStatus.textContent = "Concierge is thinking…";
+
+    const lang = currentLanguage();
+    const system = "You are FanPulse, an on-site concierge assistant for a FIFA World Cup 2026 host stadium. " +
+      "Answer ONLY questions related to stadium navigation, gates, seating, accessibility services, transport, schedules, safety, lost & found, food/amenities, or sustainability. " +
+      "If asked something unrelated or unsafe, politely redirect to stadium topics. " +
+      "Reply ONLY in " + lang + ". Keep answers under 80 words, friendly and concrete.";
+
+    const reply = await askAI(system, safe, chatSend);
+    chatStatus.textContent = "";
+    if (reply === "__ERROR__") {
+      appendMessage("system", "The concierge is temporarily unavailable. Please try again in a moment.");
+    } else {
+      appendMessage("ai", reply);
+    }
+  });
+
+  /* ---------------------------- Navigation ---------------------------- */
+  const navForm = document.getElementById("nav-form");
+  const navOutput = document.getElementById("nav-output");
+
+  navForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const from = Core.sanitizeText(document.getElementById("nav-from").value.trim(), 120);
+    const to = Core.sanitizeText(document.getElementById("nav-to").value.trim(), 120);
+    const accessible = document.getElementById("nav-mode").value === "accessible";
+    if (!from || !to) return;
+
+    const baseMinutes = 4 + Math.min(10, Math.floor((from.length + to.length) / 6));
+    const eta = Core.estimateWalkTime(baseMinutes, accessible);
+
+    navOutput.classList.remove("empty");
+    navOutput.textContent = "Generating directions…";
+
+    const system = "You are a stadium wayfinding assistant for FIFA World Cup 2026. Reply in " + currentLanguage() +
+      ". Give 3-4 short numbered steps from the starting point to the destination inside a stadium concourse, " +
+      (accessible ? "using only step-free / elevator / accessible paths, and mention where accessible restrooms or elevators are along the way. " : "using the most direct route. ") +
+      "Keep the whole reply under 70 words. Do not invent an exact stated walk time other than the one provided.";
+    const userPrompt = "From: " + from + "\nTo: " + to + "\nEstimated walk time: " + eta + " minutes.\nRoute type: " + (accessible ? "accessible" : "standard");
+
+    const reply = await askAI(system, userPrompt, navForm.querySelector("button"));
+    if (reply === "__ERROR__") {
+      navOutput.textContent = "Directions are temporarily unavailable. Estimated walk time: " + eta + " minutes.";
+    } else {
+      navOutput.textContent = reply + "\n\nEstimated walk time: " + eta + " minutes.";
+    }
+  });
+
+  /* ---------------------------- Crowd dashboard ---------------------------- */
+  const zoneNames = ["Gate A", "Gate B", "Gate C", "Gate D", "Concourse North", "Concourse South"];
+  let zoneState = [];
+
+  function randomDensity() {
+    return Math.round(15 + Math.random() * 85);
+  }
+  function generateZoneSnapshot() {
+    zoneState = zoneNames.map(function (name) {
+      return { name: name, density: randomDensity() };
+    });
+  }
+  function renderZones() {
+    const grid = document.getElementById("zone-grid");
+    grid.innerHTML = "";
+    let busiest = zoneState[0];
+    let totalAlerts = 0;
+    zoneState.forEach(function (zone) {
+      const c = Core.classifyCrowd(zone.density);
+      if (zone.density > busiest.density) busiest = zone;
+      if (c.key === "high" || c.key === "critical") totalAlerts += 1;
+
+      const el = document.createElement("div");
+      el.className = "zone level-" + c.key;
+      el.setAttribute("role", "group");
+      el.setAttribute("aria-label", zone.name + ": " + c.level + " density, " + zone.density + " percent");
+
+      const badge = document.createElement("span");
+      badge.className = "badge";
+      badge.textContent = zone.density + "%";
+      el.appendChild(badge);
+
+      const nameEl = document.createElement("div");
+      nameEl.className = "zone-name";
+      nameEl.textContent = zone.name;
+      el.appendChild(nameEl);
+
+      const levelEl = document.createElement("div");
+      levelEl.className = "zone-level";
+      levelEl.textContent = c.level;
+      el.appendChild(levelEl);
+
+      const bar = document.createElement("div");
+      bar.className = "bar";
+      const fill = document.createElement("div");
+      fill.className = "bar-fill";
+      bar.appendChild(fill);
+      el.appendChild(bar);
+
+      grid.appendChild(el);
+    });
+    document.getElementById("tile-busy").textContent = busiest.name;
+    document.getElementById("tile-wait").textContent = Math.max(2, Math.round(busiest.density / 10)) + " min";
+    document.getElementById("tile-alerts").textContent = String(totalAlerts + alertData.length);
+  }
+
+  document.getElementById("btn-refresh-zones").addEventListener("click", function () {
+    generateZoneSnapshot();
+    renderZones();
+  });
+
+  document.getElementById("btn-crowd-ai").addEventListener("click", async function () {
+    const out = document.getElementById("crowd-output");
+    out.classList.remove("empty");
+    out.textContent = "Analyzing snapshot…";
+
+    const snapshot = zoneState.map(function (z) {
+      const c = Core.classifyCrowd(z.density);
+      return z.name + ": " + z.density + "% (" + c.level + ")";
+    }).join("; ");
+
+    const system = "You are a crowd-management advisor for stadium operations staff at FIFA World Cup 2026. Reply in " + currentLanguage() +
+      ". Given zone density data, produce a short prioritized action list (max 3 actions) for volunteers/organizers, " +
+      "naming the specific zones that need attention. Under 70 words. Be operational and specific, not generic.";
+
+    const reply = await askAI(system, "Current zone snapshot -> " + snapshot, document.getElementById("btn-crowd-ai"));
+    out.textContent = reply === "__ERROR__" ? "Recommendation engine is temporarily unavailable." : reply;
+  });
+
+  /* ---------------------------- Transport & sustainability ---------------------------- */
+  document.getElementById("btn-transport").addEventListener("click", async function () {
+    const btn = this;
+    const distance = Core.clampNumber(parseFloat(document.getElementById("t-distance").value), 0.5, 60);
+    const minutesLeft = Core.clampNumber(parseFloat(document.getElementById("t-time").value), 10, 240);
+    const party = Core.clampNumber(parseInt(document.getElementById("t-party").value, 10), 1, 10);
+
+    const modes = ["walk", "bike", "transit", "rideshare", "car"];
+    const rows = modes.map(function (m) {
+      const co2 = Core.estimateCarbonKg(m, distance) * party;
+      return m + ": ~" + co2 + " kg CO2 for the group";
+    }).join("; ");
+
+    const out = document.getElementById("transport-output");
+    out.classList.remove("empty");
+    out.textContent = "Comparing options…";
+
+    const system = "You are a sustainable-transport advisor for FIFA World Cup 2026 fans. Reply in " + currentLanguage() +
+      ". Recommend ONE best mode given distance, time-to-kickoff, and party size, briefly justify it, and give one concrete sustainability tip. Under 60 words.";
+    const userPrompt = "Distance: " + distance + " km. Minutes to kickoff: " + minutesLeft + ". Party size: " + party + ". Estimated group emissions by mode -> " + rows;
+
+    const reply = await askAI(system, userPrompt, btn);
+    out.textContent = reply === "__ERROR__" ? "Advisor temporarily unavailable. Raw estimates -> " + rows : reply;
+  });
+
+  /* ---------------------------- Volunteer / staff alert feed ---------------------------- */
+  const alertData = [
+    { text: "Long queue building at Gate C, east scanners", severity: "high" },
+    { text: "First aid requested, Section 114 concourse", severity: "critical" },
+    { text: "Lost child reported near Family Zone, Gate B", severity: "critical" },
+    { text: "Merchandise stand low on stock, Concourse North", severity: "low" },
+    { text: "Wheelchair lift temporarily slow, Gate D", severity: "medium" }
+  ];
+
+  function renderAlerts() {
+    const list = document.getElementById("alert-list");
+    list.innerHTML = "";
+    const ranked = Core.rankAlertsBySeverity(alertData);
+    ranked.forEach(function (a) {
+      const li = document.createElement("li");
+      li.className = "alert-item";
+      const sev = document.createElement("span");
+      sev.className = "sev sev-" + a.severity;
+      sev.textContent = a.severity;
+      const txt = document.createElement("span");
+      txt.textContent = a.text;
+      li.appendChild(sev);
+      li.appendChild(txt);
+      list.appendChild(li);
+    });
+  }
+
+  document.getElementById("btn-briefing").addEventListener("click", async function () {
+    const btn = this;
+    const out = document.getElementById("briefing-output");
+    out.classList.remove("empty");
+    out.textContent = "Drafting briefing…";
+
+    const ranked = Core.rankAlertsBySeverity(alertData);
+    const feed = ranked.map(function (a) { return "[" + a.severity + "] " + a.text; }).join(" | ");
+
+    const system = "You are writing a 3-sentence shift-handoff briefing for incoming stadium volunteers at FIFA World Cup 2026, reply in " + currentLanguage() +
+      ". Prioritize critical/high items first, be calm and actionable, under 70 words total.";
+
+    const reply = await askAI(system, "Current incident feed -> " + feed, btn);
+    out.textContent = reply === "__ERROR__" ? "Briefing generator temporarily unavailable." : reply;
+  });
+
+  /* ---------------------------- Init ---------------------------- */
+  generateZoneSnapshot();
+  renderZones();
+  renderAlerts();
+})();
+</script>
+</body>
+</html>
