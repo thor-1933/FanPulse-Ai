@@ -5,29 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="dark" />
 <meta name="theme-color" content="#1F7A4D" />
-<title>FanPulse AI — FIFA World Cup 2026 Stadium Companion</title>
-<meta name="description" content="GenAI-powered stadium companion for FIFA World Cup 2026. Real-time crowd management, accessible navigation, transport advice, emergency safety, volunteer operations and multilingual concierge for fans and staff across US, Canada and Mexico host venues." />
-<meta name="keywords" content="FIFA World Cup 2026, stadium AI, crowd management, accessibility, multilingual, fan experience, sustainability" />
+<meta name="application-name" content="FanPulse AI" />
+<title>FanPulse AI â€” FIFA World Cup 2026 Stadium Companion</title>
+<meta name="description" content="GenAI-powered stadium companion for FIFA World Cup 2026. Real-time crowd management, accessible navigation, transport advice, emergency safety, volunteer operations and multilingual concierge across all 16 host venues in the United States, Canada and Mexico." />
+<meta name="keywords" content="FIFA World Cup 2026, stadium AI, crowd management, accessibility, multilingual, fan experience, sustainability, emergency safety, volunteer operations" />
+<meta name="author" content="FanPulse AI" />
 <meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://fanpulse.vercel.app/" />
+<link rel="manifest" href="/manifest.json" />
 <!-- Open Graph -->
-<meta property="og:title" content="FanPulse AI — FIFA World Cup 2026 Stadium Companion" />
-<meta property="og:description" content="AI-powered real-time stadium intelligence for fans, volunteers and venue staff." />
-<meta property="og:type" content="website" />
+<meta property="og:title"       content="FanPulse AI â€” FIFA World Cup 2026 Stadium Companion" />
+<meta property="og:description" content="AI-powered real-time stadium intelligence for fans, volunteers and venue staff at FIFA World Cup 2026." />
+<meta property="og:type"        content="website" />
+<meta property="og:locale"      content="en_US" />
 <!-- Security meta headers (supplemental to server-level headers in vercel.json) -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
-<!-- Content Security Policy: restrict to self + Anthropic API + Google Fonts only -->
+<meta http-equiv="Referrer-Policy"        content="strict-origin-when-cross-origin" />
+<!-- Content-Security-Policy: scripts self + inline; API calls only to Anthropic; fonts from Google -->
 <meta http-equiv="Content-Security-Policy"
-  content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.anthropic.com; img-src 'self' data:; frame-ancestors 'none';" />
-<!-- Preconnect for Google Fonts (performance: reduces connection latency) -->
+  content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.anthropic.com; img-src 'self' data:; frame-ancestors 'none'; manifest-src 'self';" />
+<!-- Preconnect: reduce connection latency to font origins -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<!-- Preload Google Fonts stylesheet to avoid render-blocking -->
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" /></noscript>
+<!-- Async font load: avoids render-blocking; fetchpriority signals importance to browser -->
+<link rel="preload"
+  href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+  as="style"
+  fetchpriority="high"
+  onload="this.onload=null;this.rel='stylesheet'" />
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
+</noscript>
+<!-- JSON-LD structured data: SoftwareApplication schema for FIFA World Cup 2026 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "FanPulse AI",
+  "applicationCategory": "SportsApplication",
+  "operatingSystem": "Web",
+  "description": "GenAI-powered stadium companion for FIFA World Cup 2026 featuring multilingual concierge, real-time crowd management, accessible navigation, transport sustainability advisor, emergency safety assistant, and volunteer operations feed.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "featureList": [
+    "Multilingual AI concierge (9 languages)",
+    "Real-time crowd density monitoring",
+    "Accessible step-free stadium navigation",
+    "Carbon footprint transport comparison",
+    "Emergency and safety guidance",
+    "Volunteer shift briefing generator",
+    "Match Day Hub with FIFA 2026 schedule"
+  ],
+  "about": {
+    "@type": "SportsEvent",
+    "name": "FIFA World Cup 2026",
+    "startDate": "2026-06-11",
+    "endDate": "2026-07-19",
+    "location": [
+      { "@type": "Place", "name": "United States" },
+      { "@type": "Place", "name": "Canada" },
+      { "@type": "Place", "name": "Mexico" }
+    ]
+  }
+}
+</script>
 <style>
-  /* ============================= DESIGN TOKENS ============================= */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     DESIGN TOKENS â€” single source of truth for all values
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   :root {
+    /* Colour palette */
     --bg:            #0F1B16;
     --bg-elevated:   #17251E;
     --bg-card:       #1C2C23;
@@ -41,17 +87,24 @@
     --line:          #2B3B31;
     --focus:         #FFE08A;
     --emergency:     #FF3B30;
-    --emergency-bg:  rgba(255,59,48,0.12);
+    --emergency-bg:  rgba(255, 59, 48, 0.12);
+
+    /* Layout */
     --radius:        10px;
-    --display:       'Oswald', sans-serif;
-    --body:          'Inter', sans-serif;
-    --mono:          'IBM Plex Mono', monospace;
-    /* Animation durations as tokens — overridden by prefers-reduced-motion */
-    --dur-fast:      180ms;
-    --dur-normal:    320ms;
+    --max-width:     1080px;
+    --header-height: 62px;
+
+    /* Typography */
+    --display: 'Oswald', sans-serif;
+    --body:    'Inter', sans-serif;
+    --mono:    'IBM Plex Mono', monospace;
+
+    /* Animation â€” overridden to near-zero by prefers-reduced-motion */
+    --dur-fast:   180ms;
+    --dur-normal: 320ms;
   }
 
-  /* High-contrast accessibility theme */
+  /* High-contrast accessibility override */
   [data-contrast="high"] {
     --bg:          #000000;
     --bg-elevated: #0A0A0A;
@@ -65,22 +118,27 @@
     --emergency:   #FF4444;
   }
 
-  /* ===================== RESET & GLOBAL ===================== */
-  *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     MOTION â€” respect user preference system-wide
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
     *, *::before, *::after {
-      animation-duration:       0.001ms !important;
-      animation-iteration-count: 1      !important;
-      transition-duration:      0.001ms !important;
+      animation-duration:        0.001ms !important;
+      animation-iteration-count: 1       !important;
+      transition-duration:       0.001ms !important;
     }
     :root {
       --dur-fast:   0.001ms;
       --dur-normal: 0.001ms;
     }
+    html { scroll-behavior: auto; }
   }
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     RESET & GLOBAL
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
   body {
     margin: 0;
@@ -93,11 +151,13 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Font size levels */
+  /* Font-size accessibility levels */
   [data-fontsize="lg"], [data-fontsize="lg"] body { font-size: 19px; }
   [data-fontsize="xl"], [data-fontsize="xl"] body { font-size: 22px; }
 
-  /* ===================== FOCUS & SKIP ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     FOCUS & SKIP NAVIGATION
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   :focus-visible {
     outline: 3px solid var(--focus);
     outline-offset: 2px;
@@ -119,6 +179,7 @@
   }
   .skip-link:focus { left: 0; }
 
+  /* Visually hidden but accessible to screen readers */
   .visually-hidden {
     position: absolute;
     width: 1px;
@@ -131,15 +192,16 @@
     border: 0;
   }
 
-  /* ===================== LINKS ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     TYPOGRAPHY
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   a { color: var(--gold); }
   a:hover { text-decoration-thickness: 2px; }
-  a[target="_blank"]::after {
-    content: " ↗";
-    font-size: 0.8em;
-  }
+  a[target="_blank"]::after { content: " â†--"; font-size: 0.8em; }
 
-  /* ===================== HEADER ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     HEADER
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   header.top {
     background: var(--bg-elevated);
     border-bottom: 1px solid var(--line);
@@ -152,6 +214,8 @@
     position: sticky;
     top: 0;
     z-index: 10;
+    /* Contain layout so sticky doesn't trigger full-page reflows */
+    contain: layout style;
   }
 
   .brand { display: flex; align-items: center; gap: 10px; }
@@ -178,7 +242,9 @@
   }
   .brand p { margin: 0; font-size: 0.72rem; color: var(--muted); }
 
-  /* ===================== TOOLBAR ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     TOOLBAR
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   .toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
   .toolbar button,
   .toolbar select {
@@ -192,13 +258,17 @@
     font-family: var(--body);
     transition: border-color var(--dur-fast), color var(--dur-fast);
   }
-  .toolbar button:hover { border-color: var(--muted); }
+  .toolbar button:hover             { border-color: var(--muted); }
   .toolbar button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
 
-  /* ===================== LAYOUT ===================== */
-  main { max-width: 1080px; margin: 0 auto; padding: 0 20px 80px; }
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     LAYOUT
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  main { max-width: var(--max-width); margin: 0 auto; padding: 0 20px 80px; }
 
-  /* ===================== HERO ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     HERO
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   .hero { padding: 44px 0 20px; }
   .eyebrow {
     font-family: var(--mono);
@@ -206,6 +276,7 @@
     font-size: 0.78rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+    margin: 0 0 6px;
   }
   .hero h2 {
     font-family: var(--display);
@@ -215,20 +286,10 @@
     text-transform: uppercase;
     letter-spacing: 0.01em;
   }
-  .hero p.lede {
-    color: var(--muted);
-    max-width: 700px;
-    font-size: 1.02rem;
-    line-height: 1.65;
-  }
+  .hero p.lede { color: var(--muted); max-width: 700px; font-size: 1.02rem; line-height: 1.65; }
 
-  /* Venue badge */
-  .venue-badges {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 14px;
-  }
+  /* Venue pills */
+  .venue-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
   .venue-badge {
     font-family: var(--mono);
     font-size: 0.72rem;
@@ -239,13 +300,11 @@
     background: var(--bg-card);
     letter-spacing: 0.05em;
   }
-  .venue-badge.active {
-    border-color: var(--turf-bright);
-    color: var(--turf-bright);
-    background: rgba(46,158,99,0.1);
-  }
+  .venue-badge.active { border-color: var(--turf-bright); color: var(--turf-bright); background: rgba(46, 158, 99, 0.1); }
 
-  /* ===================== SCOREBOARD ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     SCOREBOARD
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   .scoreboard {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -255,29 +314,34 @@
     border-radius: var(--radius);
     overflow: hidden;
     margin-top: 26px;
+    /* Isolate paint to this subtree */
+    contain: layout style;
   }
   .score-tile { background: var(--bg-card); padding: 16px; }
-  .score-tile .label {
-    font-size: 0.72rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
+  .score-tile .label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
   .score-tile .value {
     font-family: var(--mono);
     font-size: 1.7rem;
     color: var(--gold);
     margin-top: 4px;
     font-weight: 600;
-    transition: color var(--dur-normal);
+    /* Promote to own compositor layer for smooth live updates */
+    will-change: contents;
   }
   .score-tile .value.small { font-size: 1.1rem; color: var(--chalk); }
-  .score-tile .tile-sub { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+  .score-tile .tile-sub   { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
 
-  /* ===================== SECTIONS ===================== */
-  section { margin-top: 56px; }
-  .section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
-  .section-num { font-family: var(--mono); color: var(--turf-bright); font-size: 0.85rem; }
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     SECTIONS â€” content-visibility for paint containment
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  section {
+    margin-top: 56px;
+    /* Skip painting off-screen sections; browser estimates 600px intrinsic size */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+  }
+  .section-head  { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .section-num   { font-family: var(--mono); color: var(--turf-bright); font-size: 0.85rem; }
   h3.section-title {
     font-family: var(--display);
     text-transform: uppercase;
@@ -287,15 +351,21 @@
   }
   .section-desc { color: var(--muted); margin: 0 0 18px; max-width: 680px; font-size: 0.94rem; }
 
-  /* ===================== CARDS ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     CARDS â€” isolated layout to minimise reflow scope
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   .card {
     background: var(--bg-card);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 20px;
+    /* Prevent layout changes inside card from bubbling up */
+    contain: layout style;
   }
 
-  /* ===================== CHAT ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     CHAT
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   .chat-log {
     height: 300px;
     overflow-y: auto;
@@ -306,9 +376,10 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    /* GPU compositing for smooth scrolling */
-    will-change: scroll-position;
     scroll-behavior: smooth;
+    /* GPU layer for smooth scrolling */
+    will-change: scroll-position;
+    overscroll-behavior: contain;
   }
   .msg {
     max-width: 82%;
@@ -324,7 +395,7 @@
     from { opacity: 0; transform: translateY(4px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  .msg.user   { align-self: flex-end; background: var(--turf); color: #fff; }
+  .msg.user   { align-self: flex-end;  background: var(--turf); color: #fff; }
   .msg.ai     { align-self: flex-start; background: #233329; color: var(--chalk); border: 1px solid var(--line); }
   .msg.system { align-self: center; color: var(--muted); font-size: 0.78rem; font-style: italic; background: none; }
 
@@ -339,17 +410,13 @@
     font-family: var(--body);
     font-size: 0.94rem;
   }
-  .char-count {
-    font-size: 0.72rem;
-    color: var(--muted);
-    text-align: right;
-    margin-top: 4px;
-    transition: color var(--dur-fast);
-  }
+  .char-count { font-size: 0.72rem; color: var(--muted); text-align: right; margin-top: 4px; transition: color var(--dur-fast); }
   .char-count.near-limit { color: var(--gold); }
   .char-count.at-limit   { color: var(--coral); }
 
-  /* ===================== FORMS ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     FORMS
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   .field-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -368,7 +435,7 @@
     border-radius: 8px;
     font-family: var(--body);
     font-size: 0.9rem;
-    transition: border-color var(--dur-fast);
+    transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
   }
   select:focus,
   input[type="text"]:focus,
@@ -378,7 +445,9 @@
     box-shadow: 0 0 0 3px rgba(46, 158, 99, 0.2);
   }
 
-  /* ===================== BUTTONS ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     BUTTONS
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   button.primary {
     background: var(--gold);
     color: #0F1B16;
@@ -391,8 +460,8 @@
     font-family: var(--body);
     transition: opacity var(--dur-fast), transform var(--dur-fast);
   }
-  button.primary:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
-  button.primary:active:not(:disabled) { transform: translateY(0); }
+  button.primary:hover:not(:disabled):not([aria-disabled="true"]) { opacity: 0.88; transform: translateY(-1px); }
+  button.primary:active:not(:disabled)                             { transform: translateY(0); }
   button.primary:disabled,
   button.primary[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
 
@@ -425,7 +494,9 @@
   button.danger:disabled,
   button.danger[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
 
-  /* ===================== AI OUTPUT ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     AI OUTPUT PANEL
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   .ai-output {
     margin-top: 14px;
     padding: 14px;
@@ -438,15 +509,13 @@
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  .ai-output.empty { color: var(--muted); font-style: italic; border-left-color: var(--line); }
+  .ai-output.empty     { color: var(--muted); font-style: italic; border-left-color: var(--line); }
   .ai-output.emergency { border-left-color: var(--emergency); }
 
-  /* ===================== CROWD / ZONE GRID ===================== */
-  .zone-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
-  }
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     CROWD ZONE GRID
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  .zone-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
   .zone {
     background: var(--bg-elevated);
     border: 1px solid var(--line);
@@ -454,40 +523,30 @@
     padding: 14px;
     position: relative;
     transition: border-color var(--dur-fast);
+    contain: layout style;
   }
-  .zone:hover { border-color: var(--muted); }
-  .zone .zone-name { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
-  .zone .zone-level {
-    font-family: var(--display);
-    font-size: 1.3rem;
-    margin-top: 4px;
-    text-transform: uppercase;
-  }
-  .zone .bar { height: 6px; background: var(--line); border-radius: 4px; margin-top: 10px; overflow: hidden; }
-  .zone .bar-fill { height: 100%; border-radius: 4px; transition: width var(--dur-normal) ease-out; }
-  .zone .badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 0.68rem;
-    padding: 2px 7px;
-    border-radius: 20px;
-    border: 1px solid var(--line);
-    font-family: var(--mono);
-  }
-  .level-low    .zone-level, .level-low    .zone-name { color: var(--turf-bright); }
-  .level-low    .bar-fill { background: var(--turf-bright); width: 30%; }
-  .level-moderate .zone-level { color: var(--amber-soft); }
-  .level-moderate .bar-fill { background: var(--amber-soft); width: 60%; }
-  .level-high   .zone-level { color: var(--gold); }
-  .level-high   .bar-fill { background: var(--gold); width: 82%; }
-  .level-critical .zone-level { color: var(--coral); }
-  .level-critical .bar-fill { background: var(--coral); width: 97%; }
+  .zone:hover                  { border-color: var(--muted); }
+  .zone .zone-name             { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
+  .zone .zone-level            { font-family: var(--display); font-size: 1.3rem; margin-top: 4px; text-transform: uppercase; }
+  .zone .bar                   { height: 6px; background: var(--line); border-radius: 4px; margin-top: 10px; overflow: hidden; }
+  .zone .bar-fill              { height: 100%; border-radius: 4px; transition: width var(--dur-normal) ease-out; }
+  .zone .badge                 { position: absolute; top: 12px; right: 12px; font-size: 0.68rem; padding: 2px 7px; border-radius: 20px; border: 1px solid var(--line); font-family: var(--mono); }
 
-  /* ===================== TRANSPORT CARDS ===================== */
+  .level-low      .zone-level, .level-low      .zone-name { color: var(--turf-bright); }
+  .level-low      .bar-fill                               { background: var(--turf-bright); width: 30%; }
+  .level-moderate .zone-level                             { color: var(--amber-soft); }
+  .level-moderate .bar-fill                               { background: var(--amber-soft); width: 60%; }
+  .level-high     .zone-level                             { color: var(--gold); }
+  .level-high     .bar-fill                               { background: var(--gold); width: 82%; }
+  .level-critical .zone-level                             { color: var(--coral); }
+  .level-critical .bar-fill                               { background: var(--coral); width: 97%; }
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     TRANSPORT EMISSION CARDS
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   .transport-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
     gap: 10px;
     margin-top: 14px;
   }
@@ -496,6 +555,7 @@
     border: 1px solid var(--line);
     border-radius: 8px;
     padding: 12px 14px;
+    contain: layout style;
   }
   .transport-card .tc-mode { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); text-transform: uppercase; }
   .transport-card .tc-co2  { font-family: var(--display); font-size: 1.1rem; color: var(--chalk); margin-top: 4px; }
@@ -503,18 +563,26 @@
   .transport-card.best-mode { border-color: var(--turf-bright); }
   .transport-card.best-mode .tc-mode { color: var(--turf-bright); }
 
-  /* ===================== ALERTS ===================== */
-  .alert-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-  .alert-item {
+  /* Optimal departure recommendation */
+  .depart-rec {
     display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    padding: 10px 12px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--line);
+    align-items: center;
+    gap: 12px;
+    background: rgba(46, 158, 99, 0.12);
+    border: 1px solid var(--turf-bright);
     border-radius: 8px;
-    transition: border-color var(--dur-fast);
+    padding: 12px 16px;
+    margin-top: 12px;
+    font-size: 0.9rem;
   }
+  .depart-rec .dr-time  { font-family: var(--mono); font-size: 1.4rem; color: var(--turf-bright); }
+  .depart-rec .dr-label { color: var(--muted); font-size: 0.8rem; }
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     ALERT LIST
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  .alert-list  { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .alert-item  { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: var(--bg-elevated); border: 1px solid var(--line); border-radius: 8px; transition: border-color var(--dur-fast); }
   .alert-item:hover { border-color: var(--muted); }
   .sev {
     font-family: var(--mono);
@@ -526,12 +594,14 @@
     margin-top: 2px;
     font-weight: 600;
   }
-  .sev-critical { background: rgba(255,107,87,0.18); color: var(--coral);      border: 1px solid var(--coral); }
-  .sev-high     { background: rgba(255,182,39,0.15); color: var(--gold);       border: 1px solid var(--gold); }
-  .sev-medium   { background: rgba(242,201,76,0.14); color: var(--amber-soft); border: 1px solid var(--amber-soft); }
-  .sev-low      { background: rgba(169,184,174,0.12); color: var(--muted);     border: 1px solid var(--muted); }
+  .sev-critical { background: rgba(255, 107, 87, 0.18);  color: var(--coral);      border: 1px solid var(--coral); }
+  .sev-high     { background: rgba(255, 182, 39, 0.15);  color: var(--gold);       border: 1px solid var(--gold); }
+  .sev-medium   { background: rgba(242, 201, 76, 0.14);  color: var(--amber-soft); border: 1px solid var(--amber-soft); }
+  .sev-low      { background: rgba(169, 184, 174, 0.12); color: var(--muted);      border: 1px solid var(--muted); }
 
-  /* ===================== EMERGENCY SECTION ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     EMERGENCY SECTION
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   .emergency-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -546,14 +616,14 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    cursor: default;
     transition: border-color var(--dur-fast);
+    contain: layout style;
   }
-  .emergency-tile:hover { border-color: var(--emergency); }
-  .emergency-tile .et-icon { font-size: 1.4rem; }
-  .emergency-tile .et-label { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
-  .emergency-tile .et-value { font-family: var(--display); font-size: 1.1rem; color: var(--chalk); text-transform: uppercase; }
-  .emergency-tile .et-detail { font-size: 0.8rem; color: var(--muted); }
+  .emergency-tile:hover        { border-color: var(--emergency); }
+  .emergency-tile .et-icon     { font-size: 1.4rem; }
+  .emergency-tile .et-label    { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .emergency-tile .et-value    { font-family: var(--display); font-size: 1.1rem; color: var(--chalk); text-transform: uppercase; }
+  .emergency-tile .et-detail   { font-size: 0.8rem; color: var(--muted); }
 
   .emergency-banner {
     background: var(--emergency-bg);
@@ -567,28 +637,45 @@
     font-size: 0.88rem;
   }
   .emergency-banner .eb-icon { font-size: 1.2rem; flex-shrink: 0; }
-  .emergency-banner strong { color: var(--emergency); }
+  .emergency-banner strong   { color: var(--emergency); }
 
-  /* ===================== MATCH PLANNER ===================== */
-  .depart-rec {
-    display: flex;
-    align-items: center;
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     MATCH DAY HUB
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  .match-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 12px;
-    background: rgba(46,158,99,0.12);
-    border: 1px solid var(--turf-bright);
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-top: 12px;
-    font-size: 0.9rem;
+    margin-bottom: 16px;
   }
-  .depart-rec .dr-time { font-family: var(--mono); font-size: 1.4rem; color: var(--turf-bright); }
-  .depart-rec .dr-label { color: var(--muted); font-size: 0.8rem; }
+  .match-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+    contain: layout style;
+  }
+  .match-card .mc-label  { font-family: var(--mono); font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .match-card .mc-title  { font-family: var(--display); font-size: 1.15rem; text-transform: uppercase; color: var(--chalk); }
+  .match-card .mc-detail { font-size: 0.83rem; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+  .match-card .mc-tag    { display: inline-block; font-family: var(--mono); font-size: 0.68rem; padding: 2px 8px; border-radius: 20px; border: 1px solid var(--line); color: var(--muted); margin-top: 8px; }
+  .match-card.featured   { border-color: var(--gold); }
+  .match-card.featured .mc-label { color: var(--gold); }
 
-  /* ===================== STATUS LINES ===================== */
+  .rules-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .rules-list li { display: flex; align-items: flex-start; gap: 8px; font-size: 0.88rem; color: var(--muted); }
+  .rules-list li .rule-icon { flex-shrink: 0; font-size: 1rem; }
+  .rules-list li strong { color: var(--chalk); }
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     STATUS & ERRORS
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   .status-line { font-size: 0.78rem; color: var(--muted); margin-top: 8px; }
   .error-text  { color: var(--coral); font-size: 0.85rem; margin-top: 8px; }
 
-  /* ===================== FOOTER ===================== */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     FOOTER
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   footer {
     border-top: 1px solid var(--line);
     padding: 30px 20px;
@@ -598,100 +685,97 @@
   }
   footer strong { color: var(--chalk); }
   .footer-badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
-  .footer-badge {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    padding: 3px 10px;
-    border-radius: 20px;
-    border: 1px solid var(--line);
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
+  .footer-badge  { font-family: var(--mono); font-size: 0.68rem; padding: 3px 10px; border-radius: 20px; border: 1px solid var(--line); color: var(--muted); letter-spacing: 0.05em; }
 </style>
 </head>
 <body>
+
 <a class="skip-link" href="#main">Skip to main content</a>
 
-<!-- ===================== HEADER ===================== -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     HEADER
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <header class="top">
   <div class="brand">
     <div class="brand-mark" aria-hidden="true">FP</div>
     <div>
       <h1>FanPulse AI</h1>
-      <p>Stadium Operations &amp; Fan Experience — FIFA World Cup 2026</p>
+      <p>Stadium Operations &amp; Fan Experience â€” FIFA World Cup 2026</p>
     </div>
   </div>
   <nav class="toolbar" role="toolbar" aria-label="Accessibility and language controls">
-    <label for="lang-select" class="visually-hidden">Assistant reply language</label>
-    <select id="lang-select" aria-label="Select assistant reply language">
+    <label for="lang-select" class="visually-hidden">Select assistant reply language</label>
+    <select id="lang-select" aria-label="Assistant reply language">
       <option value="English">English</option>
-      <option value="Spanish">Español</option>
-      <option value="French">Français</option>
-      <option value="Portuguese">Português</option>
-      <option value="Arabic">العربية</option>
-      <option value="Japanese">日本語</option>
-      <option value="Hindi">हिन्दी</option>
+      <option value="Spanish">EspaÃ±ol</option>
+      <option value="French">FranÃ§ais</option>
+      <option value="Portuguese">PortuguÃªs</option>
+      <option value="Arabic">Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©</option>
+      <option value="Japanese">æ--¥æœ¬èªž</option>
+      <option value="Hindi">à¤¹à¤¿à¤¨à¥à¤¦à¥€</option>
       <option value="German">Deutsch</option>
-      <option value="Mandarin">中文</option>
+      <option value="Mandarin">ä¸­æ-‡</option>
     </select>
-    <button id="btn-contrast" type="button" aria-pressed="false">High contrast</button>
-    <button id="btn-fontdown" type="button" aria-label="Decrease text size">A−</button>
-    <button id="btn-fontup"   type="button" aria-label="Increase text size">A+</button>
+    <button id="btn-contrast"  type="button" aria-pressed="false">High contrast</button>
+    <button id="btn-fontdown"  type="button" aria-label="Decrease text size">Aâˆ’</button>
+    <button id="btn-fontup"    type="button" aria-label="Increase text size">A+</button>
   </nav>
 </header>
 
-<!-- ===================== MAIN ===================== -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     MAIN CONTENT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <main id="main">
 
-  <!-- HERO -->
+  <!-- HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
   <div class="hero">
-    <p class="eyebrow">Generative AI · Real-time stadium intelligence · FIFA World Cup 2026</p>
+    <p class="eyebrow">Generative AI Â· Real-time stadium intelligence Â· FIFA World Cup 2026</p>
     <h2>One assistant. Every fan, volunteer, and gate.</h2>
     <p class="lede">
       FanPulse AI combines a multilingual GenAI concierge with live crowd, navigation, transport,
-      emergency safety, and sustainability intelligence — built for fans, organizers, volunteers and venue staff
-      across all 16 host stadiums in the United States, Canada, and Mexico.
+      emergency safety, and sustainability intelligence â€” serving fans, organizers, volunteers and venue
+      staff across all 16 host stadiums in the United States, Canada, and Mexico.
     </p>
-    <div class="venue-badges" aria-label="Active host venues">
-      <span class="venue-badge active">🏟 MetLife Stadium, NJ</span>
-      <span class="venue-badge">🏟 AT&amp;T Stadium, TX</span>
-      <span class="venue-badge">🏟 SoFi Stadium, CA</span>
-      <span class="venue-badge">🏟 Estadio Azteca, MX</span>
-      <span class="venue-badge">🏟 BC Place, Vancouver</span>
+    <div class="venue-badges" aria-label="Host venues">
+      <span class="venue-badge active">ðŸŸ MetLife Stadium, NJ</span>
+      <span class="venue-badge">ðŸŸ AT&amp;T Stadium, TX</span>
+      <span class="venue-badge">ðŸŸ SoFi Stadium, CA</span>
+      <span class="venue-badge">ðŸŸ Estadio Azteca, MX</span>
+      <span class="venue-badge">ðŸŸ BC Place, Vancouver</span>
     </div>
 
     <!-- Live scoreboard -->
     <div class="scoreboard" role="region" aria-label="Live stadium snapshot">
       <div class="score-tile">
-        <div class="label" id="tile-kickoff-label">Kickoff in</div>
-        <div class="value" id="tile-kickoff" aria-labelledby="tile-kickoff-label" aria-live="off" role="timer">--:--</div>
-        <div class="tile-sub" aria-hidden="true">mm:ss</div>
+        <div class="label" id="lbl-kickoff">Kickoff in</div>
+        <div class="value" id="tile-kickoff" role="timer" aria-labelledby="lbl-kickoff" aria-live="off">--:--</div>
+        <div class="tile-sub" aria-hidden="true">mm : ss</div>
       </div>
       <div class="score-tile">
-        <div class="label" id="tile-wait-label">Avg. gate wait</div>
-        <div class="value small" id="tile-wait" aria-labelledby="tile-wait-label">-- min</div>
+        <div class="label" id="lbl-wait">Avg. gate wait</div>
+        <div class="value small" id="tile-wait" aria-labelledby="lbl-wait">-- min</div>
       </div>
       <div class="score-tile">
-        <div class="label" id="tile-busy-label">Busiest zone</div>
-        <div class="value small" id="tile-busy" aria-labelledby="tile-busy-label">—</div>
+        <div class="label" id="lbl-busy">Busiest zone</div>
+        <div class="value small" id="tile-busy" aria-labelledby="lbl-busy">â€”</div>
       </div>
       <div class="score-tile">
-        <div class="label" id="tile-alerts-label">Active alerts</div>
-        <div class="value" id="tile-alerts" aria-labelledby="tile-alerts-label" aria-live="polite">0</div>
+        <div class="label" id="lbl-alerts">Active alerts</div>
+        <div class="value" id="tile-alerts" aria-labelledby="lbl-alerts" aria-live="polite">0</div>
       </div>
     </div>
   </div>
 
-  <!-- ==================== SECTION 01: AI CONCIERGE ==================== -->
+  <!-- â•â• SECTION 01: MULTILINGUAL AI CONCIERGE â•â•â•â•â•â•â•â•â•â• -->
   <section aria-labelledby="concierge-title">
     <div class="section-head">
       <span class="section-num" aria-hidden="true">01</span>
       <h3 class="section-title" id="concierge-title">Multilingual AI Concierge</h3>
     </div>
     <p class="section-desc">
-      Ask about gates, schedules, accessibility services, lost &amp; found, food or stadium rules.
-      Answers are generated live in your selected language. Supports English, Spanish, French, Portuguese,
-      Arabic, Japanese, Hindi, German and Mandarin.
+      Ask about gates, schedules, accessibility services, lost &amp; found, food, or stadium rules.
+      Answers generated live in your selected language â€” English, Spanish, French, Portuguese, Arabic,
+      Japanese, Hindi, German or Mandarin.
     </p>
     <div class="card">
       <div
@@ -700,68 +784,54 @@
         role="log"
         aria-live="polite"
         aria-atomic="false"
-        aria-label="Conversation with FanPulse concierge"
         aria-relevant="additions"
+        aria-label="Conversation with FanPulse AI concierge"
       >
-        <div class="msg system">FanPulse concierge is ready. Try: "Where is the nearest accessible restroom to Gate C?"</div>
+        <div class="msg system">
+          FanPulse concierge is ready. Try: "Where is the nearest accessible restroom to Gate C?"
+        </div>
       </div>
       <form id="chat-form" class="chat-input-row" novalidate>
-        <label for="chat-input" class="visually-hidden">Message the concierge (max 400 characters)</label>
+        <label for="chat-input" class="visually-hidden">Message the concierge (maximum 400 characters)</label>
         <input
           type="text"
           id="chat-input"
           maxlength="400"
-          placeholder="Ask the concierge…"
+          placeholder="Ask the conciergeâ€¦"
           autocomplete="off"
-          aria-describedby="chat-count chat-status"
           aria-required="true"
+          aria-describedby="chat-count chat-status"
         />
         <button class="primary" type="submit" id="chat-send">Send</button>
       </form>
-      <div
-        class="char-count"
-        id="chat-count"
-        role="status"
-        aria-live="polite"
-        aria-label="Character count"
-      >0 / 400</div>
-      <div class="status-line" id="chat-status" role="status" aria-live="polite"></div>
+      <div class="char-count" id="chat-count" role="status" aria-live="polite" aria-label="Character count">0 / 400</div>
+      <div class="status-line"  id="chat-status" role="status" aria-live="polite"></div>
     </div>
   </section>
 
-  <!-- ==================== SECTION 02: NAVIGATION ==================== -->
+  <!-- â•â• SECTION 02: SMART NAVIGATION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
   <section aria-labelledby="nav-title">
     <div class="section-head">
       <span class="section-num" aria-hidden="true">02</span>
       <h3 class="section-title" id="nav-title">Smart &amp; Accessible Navigation</h3>
     </div>
     <p class="section-desc">
-      Get a walking route between any two stadium points, with an accessible-route option for
-      wheelchair users, step-free paths, or families with strollers.
+      Get a walking route between any two stadium points with an accessible-route option for wheelchair
+      users, step-free paths, or families with strollers. Estimated walk times adjust for accessible routes.
     </p>
     <div class="card">
       <form id="nav-form" novalidate>
         <div class="field-row">
           <div>
             <label for="nav-from">Starting point</label>
-            <input
-              type="text"
-              id="nav-from"
-              placeholder="e.g. Gate C, Main Concourse"
-              aria-required="true"
-              aria-describedby="nav-from-hint"
-            />
+            <input type="text" id="nav-from" placeholder="e.g. Gate C, Main Concourse"
+              aria-required="true" aria-describedby="nav-from-hint" />
             <span id="nav-from-hint" class="visually-hidden">Enter where you currently are in the stadium</span>
           </div>
           <div>
             <label for="nav-to">Destination</label>
-            <input
-              type="text"
-              id="nav-to"
-              placeholder="e.g. Section 114, Row 22"
-              aria-required="true"
-              aria-describedby="nav-to-hint"
-            />
+            <input type="text" id="nav-to" placeholder="e.g. Section 114, Row 22"
+              aria-required="true" aria-describedby="nav-to-hint" />
             <span id="nav-to-hint" class="visually-hidden">Enter where you want to go in the stadium</span>
           </div>
           <div>
@@ -770,24 +840,27 @@
               <option value="standard">Standard route</option>
               <option value="accessible">Step-free / accessible route</option>
             </select>
-            <span id="nav-mode-hint" class="visually-hidden">Accessible route adds ramps and elevators, avoiding stairs</span>
+            <span id="nav-mode-hint" class="visually-hidden">Accessible route avoids stairs, using ramps and lifts</span>
           </div>
         </div>
         <button class="primary" type="submit" id="nav-submit">Get directions</button>
       </form>
-      <div class="ai-output empty" id="nav-output" role="status" aria-live="polite" aria-atomic="true">Directions will appear here.</div>
+      <div class="ai-output empty" id="nav-output" role="status" aria-live="polite" aria-atomic="true">
+        Directions will appear here.
+      </div>
     </div>
   </section>
 
-  <!-- ==================== SECTION 03: CROWD DASHBOARD ==================== -->
+  <!-- â•â• SECTION 03: LIVE CROWD PULSE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
   <section aria-labelledby="crowd-title">
     <div class="section-head">
       <span class="section-num" aria-hidden="true">03</span>
       <h3 class="section-title" id="crowd-title">Live Crowd Pulse</h3>
     </div>
     <p class="section-desc">
-      Simulated real-time density per gate zone. Volunteers and organizers can request an
-      AI-generated crowd-management recommendation for the current snapshot.
+      Simulated real-time density per gate zone, classified as Low / Moderate / High / Critical.
+      Volunteers and organizers can request an AI-generated crowd-management recommendation for the
+      current snapshot.
     </p>
     <div class="card">
       <div class="zone-grid" id="zone-grid" role="list" aria-label="Crowd density by zone"></div>
@@ -795,139 +868,125 @@
         <button class="primary"   id="btn-crowd-ai"      type="button">Get AI recommendation</button>
         <button class="secondary" id="btn-refresh-zones" type="button">Refresh snapshot</button>
       </div>
-      <div class="ai-output empty" id="crowd-output" role="status" aria-live="polite" aria-atomic="true">Recommendations will appear here.</div>
+      <div class="ai-output empty" id="crowd-output" role="status" aria-live="polite" aria-atomic="true">
+        Recommendations will appear here.
+      </div>
     </div>
   </section>
 
-  <!-- ==================== SECTION 04: TRANSPORT & SUSTAINABILITY ==================== -->
+  <!-- â•â• SECTION 04: TRANSPORT & SUSTAINABILITY â•â•â•â•â•â•â•â• -->
   <section aria-labelledby="transport-title">
     <div class="section-head">
       <span class="section-num" aria-hidden="true">04</span>
       <h3 class="section-title" id="transport-title">Transport &amp; Sustainability Advisor</h3>
     </div>
     <p class="section-desc">
-      Compare travel modes to the stadium by time-to-kickoff and estimated carbon footprint,
-      with an AI-personalized recommendation and optimal departure time calculation.
+      Compare travel modes by estimated carbon footprint, aligned with FIFA's Green Goal 2026 programme.
+      Get an AI-personalized recommendation and your optimal departure time with queue buffer included.
     </p>
     <div class="card">
       <div class="field-row">
         <div>
           <label for="t-distance">Distance to stadium (km)</label>
-          <input
-            type="number"
-            id="t-distance"
-            min="0.5"
-            max="60"
-            value="6"
-            step="0.5"
-            aria-describedby="t-distance-hint"
-          />
+          <input type="number" id="t-distance" min="0.5" max="60"  step="0.5" value="6"
+            aria-describedby="t-distance-hint" />
           <span id="t-distance-hint" class="visually-hidden">Enter distance between 0.5 and 60 kilometres</span>
         </div>
         <div>
           <label for="t-time">Minutes until kickoff</label>
-          <input
-            type="number"
-            id="t-time"
-            min="10"
-            max="240"
-            value="45"
-            aria-describedby="t-time-hint"
-          />
+          <input type="number" id="t-time"     min="10"  max="240" step="5"   value="45"
+            aria-describedby="t-time-hint" />
           <span id="t-time-hint" class="visually-hidden">Enter minutes remaining until kickoff, between 10 and 240</span>
         </div>
         <div>
           <label for="t-party">Party size</label>
-          <input
-            type="number"
-            id="t-party"
-            min="1"
-            max="10"
-            value="2"
-            aria-describedby="t-party-hint"
-          />
+          <input type="number" id="t-party"    min="1"   max="10"  step="1"   value="2"
+            aria-describedby="t-party-hint" />
           <span id="t-party-hint" class="visually-hidden">Enter number of people travelling, between 1 and 10</span>
         </div>
       </div>
-      <button class="primary" type="button" id="btn-transport">Compare options</button>
+      <button class="primary" type="button" id="btn-transport">Compare options &amp; get departure time</button>
 
-      <!-- Pre-computed emission cards: populated by JS -->
-      <div class="transport-grid" id="transport-grid" aria-label="Emissions by transport mode" role="list"></div>
+      <!-- Emission cards populated by JS -->
+      <div class="transport-grid" id="transport-grid" role="list" aria-label="COâ‚‚ emissions by transport mode"></div>
 
-      <!-- Optimal departure recommendation -->
-      <div id="depart-rec" class="depart-rec" style="display:none" role="status">
+      <!-- Optimal departure time -->
+      <div id="depart-rec" class="depart-rec" style="display:none;" role="status">
         <div>
           <div class="dr-label">Recommended departure</div>
           <div class="dr-time" id="depart-time">--:--</div>
         </div>
-        <div style="color:var(--muted);font-size:0.85rem;" id="depart-detail"></div>
+        <div style="color:var(--muted); font-size:0.85rem;" id="depart-detail"></div>
       </div>
 
-      <div class="ai-output empty" id="transport-output" role="status" aria-live="polite" aria-atomic="true">Comparison will appear here.</div>
+      <div class="ai-output empty" id="transport-output" role="status" aria-live="polite" aria-atomic="true">
+        Comparison will appear here.
+      </div>
     </div>
   </section>
 
-  <!-- ==================== SECTION 05: VOLUNTEER / STAFF OPS ==================== -->
+  <!-- â•â• SECTION 05: VOLUNTEER & STAFF OPERATIONS â•â•â•â•â•â• -->
   <section aria-labelledby="ops-title">
     <div class="section-head">
       <span class="section-num" aria-hidden="true">05</span>
       <h3 class="section-title" id="ops-title">Volunteer &amp; Staff Operations Feed</h3>
     </div>
     <p class="section-desc">
-      Live incident feed with AI-generated shift briefings, so staff coming on duty get a fast,
-      prioritized summary of active issues — ranked by severity.
+      Live incident feed ranked by severity, with an AI-generated shift-handoff briefing so incoming
+      staff immediately understand priorities without sifting through raw reports.
     </p>
     <div class="card">
-      <ul class="alert-list" id="alert-list" aria-label="Current incident alerts, sorted by severity"></ul>
+      <ul class="alert-list" id="alert-list" aria-label="Current incidents ranked by severity"></ul>
       <div style="margin-top:14px;">
         <button class="primary" id="btn-briefing" type="button">Generate shift briefing</button>
       </div>
-      <div class="ai-output empty" id="briefing-output" role="status" aria-live="polite" aria-atomic="true">Briefing will appear here.</div>
+      <div class="ai-output empty" id="briefing-output" role="status" aria-live="polite" aria-atomic="true">
+        Briefing will appear here.
+      </div>
     </div>
   </section>
 
-  <!-- ==================== SECTION 06: EMERGENCY & SAFETY ==================== -->
+  <!-- â•â• SECTION 06: EMERGENCY & SAFETY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
   <section aria-labelledby="emergency-title">
     <div class="section-head">
       <span class="section-num" aria-hidden="true">06</span>
       <h3 class="section-title" id="emergency-title">Emergency &amp; Safety Assistant</h3>
     </div>
     <p class="section-desc">
-      Instant AI-generated guidance for medical emergencies, fire evacuation, lost children,
-      and security incidents at FIFA World Cup 2026 venues. Compliant with FIFA Stadium Safety
-      and Security Regulations 2026.
+      Immediate AI-guided response steps for medical emergencies, fire, crowd surge, lost children and
+      security incidents. Aligned with FIFA Stadium Safety and Security Regulations 2026.
     </p>
 
-    <!-- Static emergency resources (always visible, no AI required) -->
+    <!-- Always-visible static emergency resources -->
     <div class="emergency-banner" role="alert" aria-label="Emergency services notice">
-      <span class="eb-icon" aria-hidden="true">🚨</span>
+      <span class="eb-icon" aria-hidden="true">ðŸš¨</span>
       <div>
-        <strong>Life-threatening emergency?</strong> Call <strong>911</strong> (US) · <strong>999</strong> (Canada) · <strong>911</strong> (Mexico) immediately.
-        Stadium medical staff are stationed at Gates A, B, C and D.
+        <strong>Life-threatening emergency?</strong> Call <strong>911</strong> (USA / Mexico) or
+        <strong>911</strong> (Canada) immediately. Stadium medical staff are at all gate zones.
       </div>
     </div>
 
-    <div class="emergency-grid" role="list" aria-label="Emergency resource locations">
-      <div class="emergency-tile" role="listitem">
-        <div class="et-icon" aria-hidden="true">🏥</div>
+    <div class="emergency-grid" role="list" aria-label="Emergency resources by location">
+      <div class="emergency-tile" role="listitem" tabindex="0">
+        <div class="et-icon" aria-hidden="true">ðŸ¥</div>
         <div class="et-label">Medical stations</div>
-        <div class="et-value">Gates A · B · C · D</div>
+        <div class="et-value">Gates A Â· B Â· C Â· D</div>
         <div class="et-detail">First aid kits at every concourse pillar</div>
       </div>
-      <div class="emergency-tile" role="listitem">
-        <div class="et-icon" aria-hidden="true">🚪</div>
+      <div class="emergency-tile" role="listitem" tabindex="0">
+        <div class="et-icon" aria-hidden="true">ðŸšª</div>
         <div class="et-label">Evacuation exits</div>
         <div class="et-value">8 primary exits</div>
         <div class="et-detail">Follow green illuminated signs. Do not use lifts.</div>
       </div>
-      <div class="emergency-tile" role="listitem">
-        <div class="et-icon" aria-hidden="true">👶</div>
+      <div class="emergency-tile" role="listitem" tabindex="0">
+        <div class="et-icon" aria-hidden="true">ðŸ‘¶</div>
         <div class="et-label">Lost child point</div>
         <div class="et-value">Family Zone, Gate B</div>
-        <div class="et-detail">Staff available 3 hours before kickoff</div>
+        <div class="et-detail">Staffed from 3 hours before kickoff</div>
       </div>
-      <div class="emergency-tile" role="listitem">
-        <div class="et-icon" aria-hidden="true">🔒</div>
+      <div class="emergency-tile" role="listitem" tabindex="0">
+        <div class="et-icon" aria-hidden="true">ðŸ”’</div>
         <div class="et-label">Security command</div>
         <div class="et-value">Concourse North Hub</div>
         <div class="et-detail">Report suspicious activity immediately</div>
@@ -935,7 +994,7 @@
     </div>
 
     <div class="card">
-      <div class="field-row" style="grid-template-columns: 1fr auto; align-items: end;">
+      <div class="field-row" style="grid-template-columns: 1fr 1fr; align-items: end;">
         <div>
           <label for="emergency-type">Situation type</label>
           <select id="emergency-type" aria-describedby="emergency-type-hint">
@@ -951,76 +1010,173 @@
         </div>
         <div>
           <label for="emergency-zone">Zone / location</label>
-          <input
-            type="text"
-            id="emergency-zone"
-            placeholder="e.g. Section 114, Gate C"
-            aria-describedby="emergency-zone-hint"
-          />
-          <span id="emergency-zone-hint" class="visually-hidden">Enter the specific location of the emergency</span>
+          <input type="text" id="emergency-zone" placeholder="e.g. Section 114, Gate C"
+            aria-describedby="emergency-zone-hint" />
+          <span id="emergency-zone-hint" class="visually-hidden">Enter the location of the emergency within the stadium</span>
         </div>
       </div>
       <button class="danger" type="button" id="btn-emergency">Get emergency guidance</button>
-      <div class="ai-output empty emergency" id="emergency-output" role="alert" aria-live="assertive" aria-atomic="true">Emergency guidance will appear here.</div>
+      <div class="ai-output empty emergency" id="emergency-output"
+        role="alert" aria-live="assertive" aria-atomic="true">
+        Emergency guidance will appear here.
+      </div>
+    </div>
+  </section>
+
+  <!-- â•â• SECTION 07: MATCH DAY HUB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+  <section aria-labelledby="matchday-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">07</span>
+      <h3 class="section-title" id="matchday-title">Match Day Hub</h3>
+    </div>
+    <p class="section-desc">
+      Key FIFA World Cup 2026 match information, stadium rules, host city highlights, and
+      AI-generated personalised fan tips to make the most of your tournament experience.
+    </p>
+
+    <!-- Featured matches grid -->
+    <div class="match-grid" role="list" aria-label="Featured FIFA World Cup 2026 matches">
+      <div class="match-card featured" role="listitem">
+        <div class="mc-label">Opening Match Â· 11 Jun 2026</div>
+        <div class="mc-title">Mexico vs. TBD</div>
+        <div class="mc-detail">Estadio Azteca, Mexico City Â· Capacity: 87,523<br>Kickoff: 20:00 CST</div>
+        <span class="mc-tag">Group Stage</span>
+      </div>
+      <div class="match-card" role="listitem">
+        <div class="mc-label">Final Â· 19 Jul 2026</div>
+        <div class="mc-title">Final Match</div>
+        <div class="mc-detail">MetLife Stadium, New Jersey Â· Capacity: 82,500<br>Kickoff: 18:00 EDT</div>
+        <span class="mc-tag">Final</span>
+      </div>
+      <div class="match-card" role="listitem">
+        <div class="mc-label">Host Nations</div>
+        <div class="mc-title">USA Â· Canada Â· Mexico</div>
+        <div class="mc-detail">16 venues Â· 48 teams Â· 104 matches<br>First tri-nation World Cup in history</div>
+        <span class="mc-tag">Tournament Overview</span>
+      </div>
+    </div>
+
+    <!-- FIFA stadium rules -->
+    <div class="card" style="margin-bottom:16px;">
+      <p style="font-family:var(--mono);font-size:0.78rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;">
+        FIFA Stadium Rules &amp; Fan Guidelines
+      </p>
+      <ul class="rules-list" aria-label="FIFA 2026 stadium rules">
+        <li><span class="rule-icon" aria-hidden="true">âœ...</span><div><strong>Allowed:</strong> Sealed water bottles (500ml max), flags &amp; banners (no poles), official merchandise, wheelchairs &amp; mobility aids</div></li>
+        <li><span class="rule-icon" aria-hidden="true">ðŸš«</span><div><strong>Prohibited:</strong> Outside food &amp; alcohol, laser pointers, drones, large umbrellas, professional cameras with detachable lenses</div></li>
+        <li><span class="rule-icon" aria-hidden="true">ðŸŽŸ</span><div><strong>Tickets:</strong> Digital only via FIFA app. Have your QR code ready 30 minutes before kickoff to avoid gate queues</div></li>
+        <li><span class="rule-icon" aria-hidden="true">ðŸŒ±</span><div><strong>Sustainability:</strong> FIFA Green Goal 2026 â€” use public transit, recycle at marked bins, choose plant-based menu options</div></li>
+        <li><span class="rule-icon" aria-hidden="true">â™¿</span><div><strong>Accessibility:</strong> Dedicated accessible entrances at every gate. Companion passes available. Contact staff for any assistance</div></li>
+        <li><span class="rule-icon" aria-hidden="true">ðŸŒ</span><div><strong>Etiquette:</strong> Respect all cultures and languages. FIFA's Code of Conduct applies to all fans at all venues</div></li>
+      </ul>
+    </div>
+
+    <!-- AI Fan Tips generator -->
+    <div class="card">
+      <div class="field-row" style="grid-template-columns: 1fr 1fr; align-items: end;">
+        <div>
+          <label for="fan-venue">Your venue</label>
+          <select id="fan-venue" aria-describedby="fan-venue-hint">
+            <option value="MetLife Stadium, New Jersey">MetLife Stadium, NJ (USA)</option>
+            <option value="AT&T Stadium, Texas">AT&amp;T Stadium, TX (USA)</option>
+            <option value="SoFi Stadium, California">SoFi Stadium, CA (USA)</option>
+            <option value="Estadio Azteca, Mexico City">Estadio Azteca, Mexico City</option>
+            <option value="BC Place, Vancouver">BC Place, Vancouver (Canada)</option>
+            <option value="Levi's Stadium, California">Levi's Stadium, CA (USA)</option>
+            <option value="Mercedes-Benz Stadium, Georgia">Mercedes-Benz Stadium, GA (USA)</option>
+            <option value="Arrowhead Stadium, Kansas City">Arrowhead Stadium, MO (USA)</option>
+          </select>
+          <span id="fan-venue-hint" class="visually-hidden">Select the stadium you are attending</span>
+        </div>
+        <div>
+          <label for="fan-role">Your role</label>
+          <select id="fan-role" aria-describedby="fan-role-hint">
+            <option value="fan">Fan attending a match</option>
+            <option value="family">Family with young children</option>
+            <option value="accessibility">Fan with accessibility needs</option>
+            <option value="international">International visitor</option>
+            <option value="volunteer">FIFA volunteer</option>
+            <option value="media">Media / press</option>
+          </select>
+          <span id="fan-role-hint" class="visually-hidden">Select your role at the tournament</span>
+        </div>
+      </div>
+      <button class="primary" type="button" id="btn-fan-tips">Get personalised match day tips</button>
+      <div class="ai-output empty" id="fan-tips-output" role="status" aria-live="polite" aria-atomic="true">
+        Personalised tips will appear here.
+      </div>
     </div>
   </section>
 
 </main>
 
-<!-- ===================== FOOTER ===================== -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     FOOTER
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <footer role="contentinfo">
   <p>
-    <strong>Privacy &amp; security:</strong> Chat and requests are processed for this session only —
-    nothing you type is stored, transmitted beyond the AI API, or retained after you close this tab.
-    All crowd and alert data shown is simulated for demonstration purposes.
+    <strong>Privacy &amp; security:</strong> Chat and requests are processed for this session only â€”
+    nothing you type is stored beyond the AI API call or retained after you close this tab.
+    All crowd and alert data shown is simulated for demonstration purposes only.
   </p>
-  <p>FanPulse AI — a concept built for stadium operations at the FIFA World Cup 2026.</p>
-  <div class="footer-badges" aria-label="Compliance and standards badges">
-    <span class="footer-badge">♿ WCAG 2.1 AA</span>
-    <span class="footer-badge">🛡 FIFA Stadium Safety Regs 2026</span>
-    <span class="footer-badge">🌱 FIFA Sustainability Strategy</span>
-    <span class="footer-badge">🔒 CSP Secured</span>
+  <p>FanPulse AI â€” a concept built for the Virtual Prompt Wars hackathon Â· FIFA World Cup 2026.</p>
+  <div class="footer-badges" aria-label="Compliance and standards">
+    <span class="footer-badge">â™¿ WCAG 2.1 AA</span>
+    <span class="footer-badge">ðŸ›¡ FIFA Safety Regs 2026</span>
+    <span class="footer-badge">ðŸŒ± FIFA Green Goal 2026</span>
+    <span class="footer-badge">ðŸ”’ CSP Secured</span>
+    <span class="footer-badge">ðŸ“± PWA Ready</span>
   </div>
   <p style="margin-top:12px;">
-    <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicous2026" target="_blank" rel="noopener noreferrer">
+    <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicous2026"
+       target="_blank" rel="noopener noreferrer">
       Learn more about FIFA World Cup 2026
     </a>
   </p>
 </footer>
 
-<!-- =========================================================================================
-     CORE LOGIC — pure functions only, zero DOM access.
-     Isolated in this <script id="core-logic"> block so the Node-based unit-test suite
-     (fanpulse-core.test.js) can extract and run this exact production code inside a vm
-     context without needing a browser. Never import browser globals here.
-     ========================================================================================= -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     CORE LOGIC â€” Pure functions only. Zero DOM access. Zero network calls.
+     Isolated in this <script id="core-logic"> block so fanpulse-core.test.js
+     can extract and evaluate it inside a Node vm sandbox, ensuring tests
+     always run against real production code â€” never a hand-copied duplicate.
+
+     IMPORTANT: Do NOT reference `document`, `window` (beyond the export line),
+     `fetch`, or any browser API inside this block. It must be vm-safe.
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <script id="core-logic">
   window.FanPulseCore = (function () {
     "use strict";
 
-    /* ------------------------------------------------------------------ */
-    /*  CONSTANTS                                                           */
-    /* ------------------------------------------------------------------ */
+    /* CONSTANTS -- all magic values extracted for maintainability and testing */
 
-    /** Maximum allowed density percentage for a single zone (0–100 scale). */
+    /** @constant {number} Maximum crowd density percentage (inclusive). */
     var MAX_DENSITY_PCT = 100;
 
-    /** Maximum allowed walking time in minutes for estimateWalkTime. */
+    /** @constant {number} Maximum walking time in minutes before clamping. */
     var MAX_WALK_MINUTES = 60;
 
-    /** Minimum allowed walking time in minutes (ensures we never return 0). */
+    /** @constant {number} Minimum walking time in minutes (prevents zero return). */
     var MIN_WALK_MINUTES = 1;
 
-    /** Multiplier applied to base walk time for accessible routes (ramps/elevators). */
+    /** @constant {number} Accessible route time multiplier (ramps/elevators add ~25%). */
     var ACCESSIBLE_ROUTE_MULTIPLIER = 1.25;
 
-    /** Maximum allowed one-way travel distance in kilometres. */
+    /** @constant {number} Maximum travel distance in kilometres for carbon estimates. */
     var MAX_DISTANCE_KM = 500;
 
-    /** Default maximum text length for sanitizeText when no maxLen is provided. */
+    /** @constant {number} Default character limit for sanitizeText when not specified. */
     var DEFAULT_MAX_TEXT_LEN = 400;
 
-    /** Rough per-person CO₂ emission factors (kg per km) by transport mode. */
+    /** @constant {number} Queue buffer added to departure time recommendation (minutes). */
+    var QUEUE_BUFFER_MINUTES = 15;
+
+    /**
+     * Per-person CO2 emission factors in kg per kilometre by transport mode.
+     * Sources: IPCC, Our World in Data transport emissions data (2023).
+     * Frozen to prevent accidental mutation across test and application code.
+     * @constant {Object}
+     */
     var EMISSION_FACTORS_KG_PER_KM = Object.freeze({
       walk:      0,
       bike:      0,
@@ -1029,65 +1185,170 @@
       car:       0.19
     });
 
-    /** Ordered list of languages the AI concierge can respond in. */
+    /**
+     * Languages supported by the AI concierge.
+     * Covers FIFA's official languages plus key World Cup 2026 market languages.
+     * Frozen to prevent mutation; tests verify length and specific entries.
+     * @constant {string[]}
+     */
     var SUPPORTED_LANGUAGES = Object.freeze([
       "English", "Spanish", "French", "Portuguese",
       "Arabic", "Japanese", "Hindi", "German", "Mandarin"
     ]);
 
-    /** Numeric ordering for alert severity levels (lower = more severe). */
+    /**
+     * Numeric sort order for alert severity levels.
+     * Lower numbers sort first (more critical). Alerts with unknown severities get 99.
+     * @constant {Object}
+     */
     var SEVERITY_ORDER = Object.freeze({ critical: 0, high: 1, medium: 2, low: 3 });
 
-    /* ------------------------------------------------------------------ */
-    /*  clampNumber                                                         */
-    /* ------------------------------------------------------------------ */
-
-    /**
-     * Clamp a numeric value between an inclusive minimum and maximum.
-     * Non-numeric or NaN inputs fall back to the minimum value.
-     *
-     * @param {*}      n   - Value to clamp.
-     * @param {number} min - Lower bound (inclusive).
-     * @param {number} max - Upper bound (inclusive).
-     * @returns {number}
-     */
+    /* clampNumber
+       Clamp a numeric value to an inclusive [min, max] range.
+       Non-numeric values (NaN, strings, null, undefined, Infinity) fall
+       back to min rather than throwing, keeping all callers exception-safe.
+       @param   {*}      n   - Value to clamp (any type).
+       @param   {number} min - Lower bound (inclusive).
+       @param   {number} max - Upper bound (inclusive).
+       @returns {number}     Clamped numeric value. */
     function clampNumber(n, min, max) {
       if (typeof n !== "number" || Number.isNaN(n)) return min;
       return Math.min(max, Math.max(min, n));
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  classifyCrowd                                                       */
-    /* ------------------------------------------------------------------ */
-
-    /**
-     * Classify a 0–100 crowd-density percentage into a severity level,
-     * a display string, and actionable guidance for venue staff.
-     * Input is clamped so out-of-range values never throw.
-     *
-     * @param {number} density - Crowd density percentage (0–100).
-     * @returns {{ level: string, key: string, advice: string }}
-     */
+    /* classifyCrowd
+       Classify a 0-100 crowd-density percentage into an operational severity level
+       with actionable guidance for venue staff. Input is clamped so out-of-range
+       values never cause an error.
+       Thresholds based on FIFA crowd safety guidelines:
+         0-34   -> Low      (normal flow)
+         35-64  -> Moderate (monitor closely)
+         65-87  -> High     (deploy stewards)
+         88-100 -> Critical (pause entry)
+       @param   {number} density - Crowd density percentage (0-100).
+       @returns {{ level: string, key: string, advice: string }} */
     function classifyCrowd(density) {
       var d = clampNumber(density, 0, MAX_DENSITY_PCT);
-      if (d < 35) return { level: "Low",      key: "low",      advice: "Flowing normally — no action needed." };
+      if (d < 35) return { level: "Low",      key: "low",      advice: "Flowing normally -- no action needed." };
       if (d < 65) return { level: "Moderate", key: "moderate", advice: "Monitor closely; consider opening a second scanner lane." };
       if (d < 88) return { level: "High",     key: "high",     advice: "Open overflow queue and deploy stewards to the gate." };
-      return           { level: "Critical",  key: "critical",  advice: "Pause entry immediately and redirect fans to the nearest low-density gate." };
+      return             { level: "Critical", key: "critical", advice: "Pause entry immediately; redirect fans to the nearest low-density gate." };
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  sanitizeText                                                        */
-    /* ------------------------------------------------------------------ */
+    /* sanitizeText
+       Escape HTML-significant characters and cap string length.
+       Must be called before any user-supplied or AI-generated text is used in
+       a context that could reach the DOM, preventing XSS injection.
+       Characters escaped: & < > " '
+       @param   {*}      input          - Raw value (any type; non-strings are coerced).
+       @param   {number} [maxLen=400]   - Maximum character count before escaping.
+       @returns {string} HTML-safe string of at most maxLen characters. */
+    function sanitizeText(input, maxLen) {
+      var max = (typeof maxLen === "number" && !Number.isNaN(maxLen)) ? maxLen : DEFAULT_MAX_TEXT_LEN;
+      var str = (input === null || input === undefined) ? "" : String(input);
+      return str
+        .slice(0, max)
+        .replace(/&/g,  "&amp;")
+        .replace(/</g,  "&lt;")
+        .replace(/>/g,  "&gt;")
+        .replace(/"/g,  "&quot;")
+        .replace(/'/g,  "&#39;");
+    }
 
-    /**
-     * Escape HTML-significant characters in a string and cap its length.
-     * Called before any user-supplied or AI-generated text is inserted into
-     * the DOM via innerHTML to eliminate XSS vectors.
-     *
-     * @param {*}      input  - Raw input value (any type).
-     * @param {number} [maxLen=400] - Maximum character length before escaping.
-     * @returns {string} HTML-safe string, at most maxLen characters.
+    /* estimateWalkTime
+       Estimate the walking time in minutes between two stadium points.
+       Accessible routes via ramps and lifts incur a 25% time overhead.
+       Base time is clamped to [1, 60] minutes to prevent unrealistic output.
+       @param   {number}  baseMinutes - Unadjusted walking duration in minutes.
+       @param   {boolean} accessible  - true to apply accessible-route overhead.
+       @returns {number}  Rounded integer walk time in minutes. */
+    function estimateWalkTime(baseMinutes, accessible) {
+      var clamped    = clampNumber(baseMinutes, MIN_WALK_MINUTES, MAX_WALK_MINUTES);
+      var multiplier = accessible ? ACCESSIBLE_ROUTE_MULTIPLIER : 1;
+      return Math.round(clamped * multiplier);
+    }
+
+    /* estimateCarbonKg
+       Estimate per-person CO2 emissions in kilograms for a one-way trip to the stadium.
+       Unknown transport modes fall back to the car factor as a conservative estimate.
+       Negative distances are clamped to zero.
+       @param   {string} mode       - Transport mode key: walk|bike|transit|rideshare|car.
+       @param   {number} distanceKm - One-way journey distance in kilometres.
+       @returns {number} CO2 emissions in kg, rounded to 2 decimal places. */
+    function estimateCarbonKg(mode, distanceKm) {
+      var factor = Object.prototype.hasOwnProperty.call(EMISSION_FACTORS_KG_PER_KM, mode)
+        ? EMISSION_FACTORS_KG_PER_KM[mode]
+        : EMISSION_FACTORS_KG_PER_KM.car;
+      var dist = clampNumber(distanceKm, 0, MAX_DISTANCE_KM);
+      return Math.round(factor * dist * 100) / 100;
+    }
+
+    /* isSupportedLanguage
+       Return whether a language name is in the supported-languages list.
+       Comparison is case-sensitive: "english" is NOT equal to "English".
+       @param   {string}  lang - Language name to validate.
+       @returns {boolean} true if the language is supported by the concierge. */
+    function isSupportedLanguage(lang) {
+      return SUPPORTED_LANGUAGES.indexOf(lang) !== -1;
+    }
+
+    /* rankAlertsBySeverity
+       Return a NEW array of alert objects sorted by descending severity
+       (critical -> high -> medium -> low). Alerts with unrecognised severity strings
+       sort to the end. The original input array is never mutated.
+       Non-array inputs return an empty array (graceful degradation).
+       @param   {Array<{text: string, severity: string}>} alerts - Input alert list.
+       @returns {Array<{text: string, severity: string}>}         Sorted copy. */
+    function rankAlertsBySeverity(alerts) {
+      if (!Array.isArray(alerts)) return [];
+      return alerts.slice().sort(function (alertA, alertB) {
+        var orderA = Object.prototype.hasOwnProperty.call(SEVERITY_ORDER, alertA.severity)
+          ? SEVERITY_ORDER[alertA.severity] : 99;
+        var orderB = Object.prototype.hasOwnProperty.call(SEVERITY_ORDER, alertB.severity)
+          ? SEVERITY_ORDER[alertB.severity] : 99;
+        return orderA - orderB;
+      });
+    }
+
+    /* computeDepartureTime
+       Calculate the recommended departure time as a local HH:MM string,
+       accounting for travel duration and a fixed entry-queue buffer.
+       @param   {number} travelMinutes - Estimated travel time to stadium in minutes.
+       @param   {number} minutesLeft   - Minutes remaining until kickoff from now.
+       @returns {{ depart: string, bufferMinutes: number }}
+         depart is a zero-padded HH:MM string in local time.
+         bufferMinutes is the fixed queue buffer applied (always 15). */
+    function computeDepartureTime(travelMinutes, minutesLeft) {
+      var totalMinutesNeeded = clampNumber(travelMinutes, 0, 300) + QUEUE_BUFFER_MINUTES;
+      var minutesFromNow     = minutesLeft - totalMinutesNeeded;
+      var now                = new Date();
+      var departDate         = new Date(now.getTime() + minutesFromNow * 60 * 1000);
+      var hh                 = String(departDate.getHours()).padStart(2, "0");
+      var mm                 = String(departDate.getMinutes()).padStart(2, "0");
+      return { depart: hh + ":" + mm, bufferMinutes: QUEUE_BUFFER_MINUTES };
+    }
+
+    /* PUBLIC API */
+    return {
+      clampNumber:                clampNumber,
+      classifyCrowd:              classifyCrowd,
+      sanitizeText:               sanitizeText,
+      estimateWalkTime:           estimateWalkTime,
+      estimateCarbonKg:           estimateCarbonKg,
+      isSupportedLanguage:        isSupportedLanguage,
+      rankAlertsBySeverity:       rankAlertsBySeverity,
+      computeDepartureTime:       computeDepartureTime,
+      SUPPORTED_LANGUAGES:        SUPPORTED_LANGUAGES,
+      EMISSION_FACTORS_KG_PER_KM: EMISSION_FACTORS_KG_PER_KM
+    };
+  })();
+
+  // Expose for Node vm-based unit tests (fanpulse-core.test.js extracts this block).
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = window.FanPulseCore;
+  }
+</script>');
+     * // '&lt;script&gt;alert(1)&lt;/script&gt;'
      */
     function sanitizeText(input, maxLen) {
       var max = (typeof maxLen === "number" && !Number.isNaN(maxLen)) ? maxLen : DEFAULT_MAX_TEXT_LEN;
@@ -1101,37 +1362,46 @@
         .replace(/'/g,  "&#39;");
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  estimateWalkTime                                                    */
-    /* ------------------------------------------------------------------ */
+    /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+       estimateWalkTime
+    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
     /**
      * Estimate the walking time in minutes between two stadium points.
-     * Accessible routes (ramps, elevators) increase the estimate by 25%
-     * to account for detours. The base is clamped to [1, 60] minutes.
+     * Accessible routes via ramps and lifts incur a 25% time overhead.
+     * Base time is clamped to [1, 60] minutes to prevent unrealistic output.
      *
-     * @param {number}  baseMinutes - Unadjusted walking duration.
-     * @param {boolean} accessible  - True for step-free / wheelchair route.
-     * @returns {number} Rounded walking time in minutes.
+     * @param   {number}  baseMinutes - Unadjusted walking duration in minutes.
+     * @param   {boolean} accessible  - true to apply accessible-route overhead.
+     * @returns {number}  Rounded integer walk time in minutes.
+     *
+     * @example
+     * estimateWalkTime(10, false); // 10
+     * estimateWalkTime(10, true);  // 13  (10 Ã-- 1.25 = 12.5 â†’ rounded to 13)
      */
     function estimateWalkTime(baseMinutes, accessible) {
-      var clamped = clampNumber(baseMinutes, MIN_WALK_MINUTES, MAX_WALK_MINUTES);
+      var clamped    = clampNumber(baseMinutes, MIN_WALK_MINUTES, MAX_WALK_MINUTES);
       var multiplier = accessible ? ACCESSIBLE_ROUTE_MULTIPLIER : 1;
       return Math.round(clamped * multiplier);
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  estimateCarbonKg                                                    */
-    /* ------------------------------------------------------------------ */
+    /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+       estimateCarbonKg
+    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
     /**
-     * Estimate per-person CO₂ emissions (kilograms) for a one-way journey
-     * to the stadium. Unknown transport modes fall back to the car factor
-     * as a conservative estimate.
+     * Estimate per-person COâ‚‚ emissions in kilograms for a one-way trip to the stadium.
+     * Unknown transport modes fall back to the car factor as a conservative estimate.
+     * Negative distances are clamped to zero (zero emissions).
      *
-     * @param {string} mode       - Transport mode key (walk/bike/transit/rideshare/car).
-     * @param {number} distanceKm - Journey distance in kilometres.
-     * @returns {number} CO₂ in kg, rounded to two decimal places.
+     * @param   {string} mode       - Transport mode key: walk | bike | transit | rideshare | car.
+     * @param   {number} distanceKm - One-way journey distance in kilometres.
+     * @returns {number} COâ‚‚ emissions in kg, rounded to 2 decimal places.
+     *
+     * @example
+     * estimateCarbonKg('transit', 10); // 0.4   (0.04 kg/km Ã-- 10 km)
+     * estimateCarbonKg('walk',    10); // 0
+     * estimateCarbonKg('unknown', 10); // 1.9  (falls back to car factor)
      */
     function estimateCarbonKg(mode, distanceKm) {
       var factor = Object.prototype.hasOwnProperty.call(EMISSION_FACTORS_KG_PER_KM, mode)
@@ -1141,32 +1411,44 @@
       return Math.round(factor * dist * 100) / 100;
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  isSupportedLanguage                                                 */
-    /* ------------------------------------------------------------------ */
+    /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+       isSupportedLanguage
+    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
     /**
-     * Check whether a language string is in the supported-languages list.
-     * Comparison is case-sensitive: "english" is NOT the same as "English".
+     * Return whether a language name is in the supported-languages list.
+     * Comparison is case-sensitive: "english" â‰  "English".
      *
-     * @param {string} lang - Language name to test.
-     * @returns {boolean}
+     * @param   {string}  lang - Language name to validate.
+     * @returns {boolean} true if the language is supported by the concierge.
+     *
+     * @example
+     * isSupportedLanguage('German');  // true
+     * isSupportedLanguage('english'); // false  (case-sensitive)
      */
     function isSupportedLanguage(lang) {
       return SUPPORTED_LANGUAGES.indexOf(lang) !== -1;
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  rankAlertsBySeverity                                                */
-    /* ------------------------------------------------------------------ */
+    /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+       rankAlertsBySeverity
+    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
     /**
-     * Return a new array of alert objects sorted by descending severity
-     * (critical → high → medium → low). Alerts with unknown severity keys
+     * Return a NEW array of alert objects sorted by descending severity
+     * (critical â†’ high â†’ medium â†’ low). Alerts with unrecognised severity strings
      * sort to the end. The original input array is never mutated.
+     * Non-array inputs return an empty array (graceful degradation).
      *
-     * @param {Array<{text: string, severity: string}>} alerts
-     * @returns {Array<{text: string, severity: string}>}
+     * @param   {Array<{text: string, severity: string}>} alerts - Input alert list.
+     * @returns {Array<{text: string, severity: string}>}         Sorted copy.
+     *
+     * @example
+     * rankAlertsBySeverity([
+     *   { text: 'Queue', severity: 'high'     },
+     *   { text: 'Fire',  severity: 'critical' }
+     * ]);
+     * // [{ text: 'Fire', severity: 'critical' }, { text: 'Queue', severity: 'high' }]
      */
     function rankAlertsBySeverity(alerts) {
       if (!Array.isArray(alerts)) return [];
@@ -1179,163 +1461,203 @@
       });
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  computeDepartureTime                                                */
-    /* ------------------------------------------------------------------ */
+    /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+       computeDepartureTime
+    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
     /**
-     * Calculate the recommended departure time (as a local HH:MM string)
-     * given travel duration and minutes remaining until kickoff.
-     * Adds a 15-minute buffer for entry queues.
+     * Calculate the recommended departure time as a local HH:MM string,
+     * accounting for travel duration and a fixed entry-queue buffer.
+     * If the recommended departure is in the past, the buffer absorbs the slip.
      *
-     * @param {number} travelMinutes  - Estimated travel time to stadium.
-     * @param {number} minutesLeft    - Minutes until kickoff from now.
+     * @param   {number} travelMinutes - Estimated door-to-gate travel time in minutes.
+     * @param   {number} minutesLeft   - Minutes remaining until kickoff from now.
      * @returns {{ depart: string, bufferMinutes: number }}
+     *   `depart` is a zero-padded HH:MM string in local time.
+     *   `bufferMinutes` is the fixed queue buffer applied (always 15).
+     *
+     * @example
+     * // With 60 min to kickoff and 20 min travel: depart in 60 - (20 + 15) = 25 min
+     * computeDepartureTime(20, 60); // { depart: '14:25', bufferMinutes: 15 }
      */
     function computeDepartureTime(travelMinutes, minutesLeft) {
-      var QUEUE_BUFFER_MINUTES = 15;
-      var totalBuffer = clampNumber(travelMinutes + QUEUE_BUFFER_MINUTES, 1, 300);
-      var now = new Date();
-      var departMs = now.getTime() + (minutesLeft - totalBuffer) * 60 * 1000;
-      var departDate = new Date(departMs);
-      var hh = String(departDate.getHours()).padStart(2, "0");
-      var mm = String(departDate.getMinutes()).padStart(2, "0");
-      return {
-        depart: hh + ":" + mm,
-        bufferMinutes: QUEUE_BUFFER_MINUTES
-      };
+      var totalMinutesNeeded = clampNumber(travelMinutes, 0, 300) + QUEUE_BUFFER_MINUTES;
+      var minutesFromNow     = minutesLeft - totalMinutesNeeded;
+      var now                = new Date();
+      var departDate         = new Date(now.getTime() + minutesFromNow * 60 * 1000);
+      var hh                 = String(departDate.getHours()).padStart(2, "0");
+      var mm                 = String(departDate.getMinutes()).padStart(2, "0");
+      return { depart: hh + ":" + mm, bufferMinutes: QUEUE_BUFFER_MINUTES };
     }
 
-    /* ------------------------------------------------------------------ */
-    /*  Public API                                                          */
-    /* ------------------------------------------------------------------ */
+    /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+       PUBLIC API
+    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     return {
-      clampNumber:          clampNumber,
-      classifyCrowd:        classifyCrowd,
-      sanitizeText:         sanitizeText,
-      estimateWalkTime:     estimateWalkTime,
-      estimateCarbonKg:     estimateCarbonKg,
-      isSupportedLanguage:  isSupportedLanguage,
-      rankAlertsBySeverity: rankAlertsBySeverity,
-      computeDepartureTime: computeDepartureTime,
-      SUPPORTED_LANGUAGES:  SUPPORTED_LANGUAGES,
+      clampNumber:                clampNumber,
+      classifyCrowd:              classifyCrowd,
+      sanitizeText:               sanitizeText,
+      estimateWalkTime:           estimateWalkTime,
+      estimateCarbonKg:           estimateCarbonKg,
+      isSupportedLanguage:        isSupportedLanguage,
+      rankAlertsBySeverity:       rankAlertsBySeverity,
+      computeDepartureTime:       computeDepartureTime,
+      SUPPORTED_LANGUAGES:        SUPPORTED_LANGUAGES,
       EMISSION_FACTORS_KG_PER_KM: EMISSION_FACTORS_KG_PER_KM
     };
   })();
 
-  // Expose for Node-based unit tests (extracted and run in a vm context — see fanpulse-core.test.js).
+  // Expose for Node vm-based unit tests (fanpulse-core.test.js extracts this block).
   if (typeof module !== "undefined" && module.exports) {
     module.exports = window.FanPulseCore;
   }
 </script>
 
-<!-- =========================================================================================
-     APPLICATION LOGIC — DOM wiring, GenAI calls, and UI rendering.
-     All pure logic is delegated to FanPulseCore (above).
-     ========================================================================================= -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     APPLICATION LOGIC
+     DOM wiring, AI calls, and UI rendering.
+     All business logic is delegated to window.FanPulseCore.
+     All DOM references are cached at init to minimise repeated lookups.
+     All batch DOM insertions use DocumentFragment to trigger a single reflow.
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <script>
 (function () {
   "use strict";
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     CONSTANTS
-  ═══════════════════════════════════════════════════════════════════════ */
+  /* â”€â”€ CONSTANTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /** Reference to the FanPulseCore pure-logic module. */
   var Core = window.FanPulseCore;
 
-  /** Character limit for chat messages — must match input[maxlength]. */
+  /** Maximum chat message length â€” must match the input[maxlength] attribute. */
   var MAX_CHAT_LENGTH = 400;
 
-  /** AI request timeout in milliseconds. */
-  var AI_TIMEOUT_MS = 20000;
-
-  /** Interval between clock ticks (respects prefers-reduced-motion). */
-  var CLOCK_INTERVAL_MS = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 5000 : 1000;
-
-  /** Cooldown between chat submissions (ms) to prevent API spam. */
+  /** Minimum milliseconds between consecutive chat submissions (rate-limit). */
   var CHAT_COOLDOWN_MS = 2000;
 
-  /** Font-size levels: null = default, "lg", "xl". */
+  /** Milliseconds before an AI fetch request is aborted. */
+  var AI_TIMEOUT_MS = 20000;
+
+  /** Debounce delay for the character counter (ms). */
+  var CHAR_COUNT_DEBOUNCE_MS = 50;
+
+  /**
+   * Clock tick interval in ms. Respects prefers-reduced-motion:
+   * slower updates avoid animation-like repaints for sensitive users.
+   */
+  var CLOCK_INTERVAL_MS = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? 5000 : 1000;
+
+  /** Font-size level labels indexed by fontLevel integer. */
   var FONT_STEPS = [null, "lg", "xl"];
 
-  /** Simulated zone names for the crowd dashboard. */
-  var ZONE_NAMES = ["Gate A", "Gate B", "Gate C", "Gate D", "Concourse North", "Concourse South"];
-
-  /** Transport modes with display labels for the emission cards. */
-  var TRANSPORT_MODES = [
-    { key: "walk",      label: "🚶 Walk" },
-    { key: "bike",      label: "🚲 Bike" },
-    { key: "transit",   label: "🚌 Transit" },
-    { key: "rideshare", label: "🚗 Rideshare" },
-    { key: "car",       label: "🚙 Private Car" }
-  ];
-
-  /** Incident feed for the volunteer/staff panel. */
-  var ALERT_DATA = Object.freeze([
-    { text: "Long queue building at Gate C, east scanners",   severity: "high"     },
-    { text: "First aid requested — Section 114 concourse",    severity: "critical" },
-    { text: "Lost child reported near Family Zone, Gate B",   severity: "critical" },
-    { text: "Merchandise stand low on stock, Concourse North",severity: "low"      },
-    { text: "Wheelchair lift temporarily slow, Gate D",       severity: "medium"   }
+  /** Zone names for the simulated crowd dashboard. */
+  var ZONE_NAMES = Object.freeze([
+    "Gate A", "Gate B", "Gate C", "Gate D", "Concourse North", "Concourse South"
   ]);
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     CACHED DOM REFERENCES (query once at init — avoids repeated reflows)
-  ═══════════════════════════════════════════════════════════════════════ */
-  var htmlEl          = document.documentElement;
-  var btnContrast     = document.getElementById("btn-contrast");
-  var btnFontUp       = document.getElementById("btn-fontup");
-  var btnFontDown     = document.getElementById("btn-fontdown");
-  var langSelect      = document.getElementById("lang-select");
+  /** Transport modes with display labels for emission cards. */
+  var TRANSPORT_MODES = Object.freeze([
+    { key: "walk",      label: "ðŸš¶ Walk"        },
+    { key: "bike",      label: "ðŸš² Bike"        },
+    { key: "transit",   label: "ðŸšŒ Transit"     },
+    { key: "rideshare", label: "ðŸš-- Rideshare"   },
+    { key: "car",       label: "ðŸš™ Private Car" }
+  ]);
 
-  var chatLog         = document.getElementById("chat-log");
-  var chatForm        = document.getElementById("chat-form");
-  var chatInput       = document.getElementById("chat-input");
-  var chatSend        = document.getElementById("chat-send");
-  var chatStatus      = document.getElementById("chat-status");
-  var chatCount       = document.getElementById("chat-count");
+  /**
+   * Live incident feed for the volunteer operations panel.
+   * Frozen to prevent accidental mutation; rendering always uses rankAlertsBySeverity.
+   */
+  var ALERT_DATA = Object.freeze([
+    { text: "Long queue building at Gate C, east scanners",    severity: "high"     },
+    { text: "First aid requested â€” Section 114 concourse",     severity: "critical" },
+    { text: "Lost child reported near Family Zone, Gate B",    severity: "critical" },
+    { text: "Merchandise stand low on stock, Concourse North", severity: "low"      },
+    { text: "Wheelchair lift temporarily slow, Gate D",        severity: "medium"   }
+  ]);
 
-  var navForm         = document.getElementById("nav-form");
-  var navFrom         = document.getElementById("nav-from");
-  var navTo           = document.getElementById("nav-to");
-  var navMode         = document.getElementById("nav-mode");
-  var navSubmit       = document.getElementById("nav-submit");
-  var navOutput       = document.getElementById("nav-output");
+  /* â”€â”€ CACHED DOM REFERENCES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+     All getElementById calls happen once at startup.
+     This prevents repeated DOM traversal in hot-path event handlers.
+  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  var htmlEl           = document.documentElement;
+  var btnContrast      = document.getElementById("btn-contrast");
+  var btnFontUp        = document.getElementById("btn-fontup");
+  var btnFontDown      = document.getElementById("btn-fontdown");
+  var langSelect       = document.getElementById("lang-select");
 
-  var zoneGrid        = document.getElementById("zone-grid");
-  var btnCrowdAI      = document.getElementById("btn-crowd-ai");
-  var btnRefreshZones = document.getElementById("btn-refresh-zones");
-  var crowdOutput     = document.getElementById("crowd-output");
+  var chatLog          = document.getElementById("chat-log");
+  var chatForm         = document.getElementById("chat-form");
+  var chatInput        = document.getElementById("chat-input");
+  var chatSend         = document.getElementById("chat-send");
+  var chatStatus       = document.getElementById("chat-status");
+  var chatCount        = document.getElementById("chat-count");
 
-  var tDistance       = document.getElementById("t-distance");
-  var tTime           = document.getElementById("t-time");
-  var tParty          = document.getElementById("t-party");
-  var btnTransport    = document.getElementById("btn-transport");
-  var transportGrid   = document.getElementById("transport-grid");
-  var departRec       = document.getElementById("depart-rec");
-  var departTime      = document.getElementById("depart-time");
-  var departDetail    = document.getElementById("depart-detail");
-  var transportOutput = document.getElementById("transport-output");
+  var navForm          = document.getElementById("nav-form");
+  var navFrom          = document.getElementById("nav-from");
+  var navTo            = document.getElementById("nav-to");
+  var navMode          = document.getElementById("nav-mode");
+  var navSubmit        = document.getElementById("nav-submit");
+  var navOutput        = document.getElementById("nav-output");
 
-  var alertList       = document.getElementById("alert-list");
-  var btnBriefing     = document.getElementById("btn-briefing");
-  var briefingOutput  = document.getElementById("briefing-output");
+  var zoneGrid         = document.getElementById("zone-grid");
+  var btnCrowdAI       = document.getElementById("btn-crowd-ai");
+  var btnRefreshZones  = document.getElementById("btn-refresh-zones");
+  var crowdOutput      = document.getElementById("crowd-output");
 
-  var emergencyType   = document.getElementById("emergency-type");
-  var emergencyZone   = document.getElementById("emergency-zone");
-  var btnEmergency    = document.getElementById("btn-emergency");
-  var emergencyOutput = document.getElementById("emergency-output");
+  var tDistance        = document.getElementById("t-distance");
+  var tTime            = document.getElementById("t-time");
+  var tParty           = document.getElementById("t-party");
+  var btnTransport     = document.getElementById("btn-transport");
+  var transportGrid    = document.getElementById("transport-grid");
+  var departRec        = document.getElementById("depart-rec");
+  var departTime       = document.getElementById("depart-time");
+  var departDetail     = document.getElementById("depart-detail");
+  var transportOutput  = document.getElementById("transport-output");
 
-  var tileKickoff     = document.getElementById("tile-kickoff");
-  var tileWait        = document.getElementById("tile-wait");
-  var tileBusy        = document.getElementById("tile-busy");
-  var tileAlerts      = document.getElementById("tile-alerts");
+  var alertList        = document.getElementById("alert-list");
+  var btnBriefing      = document.getElementById("btn-briefing");
+  var briefingOutput   = document.getElementById("briefing-output");
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     ACCESSIBILITY TOOLBAR
-  ═══════════════════════════════════════════════════════════════════════ */
-  var fontLevel = 0; // 0 = default, 1 = lg, 2 = xl
+  var emergencyType    = document.getElementById("emergency-type");
+  var emergencyZone    = document.getElementById("emergency-zone");
+  var btnEmergency     = document.getElementById("btn-emergency");
+  var emergencyOutput  = document.getElementById("emergency-output");
 
-  /** Apply the current font-size level to the root element. */
+  var fanVenue         = document.getElementById("fan-venue");
+  var fanRole          = document.getElementById("fan-role");
+  var btnFanTips       = document.getElementById("btn-fan-tips");
+  var fanTipsOutput    = document.getElementById("fan-tips-output");
+
+  var tileKickoff      = document.getElementById("tile-kickoff");
+  var tileWait         = document.getElementById("tile-wait");
+  var tileBusy         = document.getElementById("tile-busy");
+  var tileAlerts       = document.getElementById("tile-alerts");
+
+  /* â”€â”€ STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /** Current font-size level: 0 = default, 1 = lg, 2 = xl. */
+  var fontLevel = 0;
+
+  /** Timestamp (ms) of the last chat submission, used for rate-limiting. */
+  var lastChatSubmit = 0;
+
+  /** Simulated zone density snapshot populated by generateZoneSnapshot(). */
+  var zoneState = [];
+
+  /** Reference to the kickoff clock interval (stored for potential cleanup). */
+  var clockIntervalId = null;
+
+  /** Countdown timer (seconds to kickoff). */
+  var secondsToKickoff = 47 * 60 + 12;
+
+  /* â”€â”€ ACCESSIBILITY TOOLBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /**
+   * Apply the current fontLevel to the root element via data attribute.
+   * Null step removes the attribute, restoring the base font size.
+   */
   function applyFont() {
     var step = FONT_STEPS[fontLevel];
     if (step) {
@@ -1345,7 +1667,8 @@
     }
   }
 
-  btnContrast.addEventListener("click", function () {
+  /** Toggle high-contrast mode and update the button's pressed state. */
+  function handleContrastToggle() {
     var isOn = htmlEl.getAttribute("data-contrast") === "high";
     if (isOn) {
       htmlEl.removeAttribute("data-contrast");
@@ -1354,27 +1677,31 @@
       htmlEl.setAttribute("data-contrast", "high");
       btnContrast.setAttribute("aria-pressed", "true");
     }
-  });
+  }
 
-  btnFontUp.addEventListener("click", function () {
+  /** Increase font size by one level (clamped to maximum). */
+  function handleFontUp() {
     fontLevel = Core.clampNumber(fontLevel + 1, 0, 2);
     applyFont();
-  });
+  }
 
-  btnFontDown.addEventListener("click", function () {
+  /** Decrease font size by one level (clamped to minimum). */
+  function handleFontDown() {
     fontLevel = Core.clampNumber(fontLevel - 1, 0, 2);
     applyFont();
-  });
+  }
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     UTILITIES
-  ═══════════════════════════════════════════════════════════════════════ */
+  btnContrast.addEventListener("click", handleContrastToggle);
+  btnFontUp.addEventListener("click",   handleFontUp);
+  btnFontDown.addEventListener("click", handleFontDown);
+
+  /* â”€â”€ UTILITIES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
   /**
    * Return the currently selected AI reply language, validated against
-   * the supported list. Falls back to English for unknown selections.
+   * the supported list. Falls back to English for unknown values.
    *
-   * @returns {string}
+   * @returns {string} A language name from SUPPORTED_LANGUAGES.
    */
   function currentLanguage() {
     var val = langSelect.value;
@@ -1382,11 +1709,11 @@
   }
 
   /**
-   * Set a button's disabled state with both the native attribute and
-   * aria-disabled for maximum AT compatibility.
+   * Set a button's disabled state using both the native `disabled` attribute
+   * and `aria-disabled` for maximum assistive technology compatibility.
    *
-   * @param {HTMLButtonElement} btn
-   * @param {boolean}           disabled
+   * @param {HTMLButtonElement} btn      - The button to update.
+   * @param {boolean}           disabled - true to disable, false to enable.
    */
   function setButtonDisabled(btn, disabled) {
     btn.disabled = disabled;
@@ -1394,74 +1721,83 @@
   }
 
   /**
-   * Validate that a number-input value is a finite number within the
-   * given range. Returns a clamped numeric value.
+   * Read a number input's value, parse it as a float, validate it is
+   * a finite number, and clamp it to [min, max]. Returns `fallback` on
+   * invalid input rather than NaN.
    *
-   * @param {HTMLInputElement} el
-   * @param {number}           min
-   * @param {number}           max
-   * @param {number}           fallback
-   * @returns {number}
+   * @param {HTMLInputElement} el       - The number input element.
+   * @param {number}           min      - Minimum accepted value.
+   * @param {number}           max      - Maximum accepted value.
+   * @param {number}           fallback - Value returned if input is invalid.
+   * @returns {number} A finite, clamped numeric value.
    */
   function getValidNumber(el, min, max, fallback) {
     var parsed = parseFloat(el.value);
-    if (!Number.isFinite(parsed)) return fallback;
-    return Core.clampNumber(parsed, min, max);
+    return Number.isFinite(parsed) ? Core.clampNumber(parsed, min, max) : fallback;
   }
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     GENAI CALL HELPER
-     Builds the request, enforces a timeout, disables the trigger control
-     while in-flight to prevent duplicate/spammed calls, and never leaks
-     raw error details to the UI.
-  ═══════════════════════════════════════════════════════════════════════ */
+  /**
+   * Mark an ai-output panel as active (removes the empty/italic style).
+   *
+   * @param {HTMLElement} el - The output panel element.
+   */
+  function activateOutput(el) {
+    el.classList.remove("empty");
+  }
+
+  /* â”€â”€ GENAI CALL HELPER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
   /**
    * Send a prompt to the Claude API and return the text response.
-   * Returns the sentinel string "__ERROR__" on any failure.
+   * Disables the trigger button during the in-flight request to prevent
+   * duplicate submissions. Validates the response Content-Type before
+   * attempting JSON parsing. Returns "__ERROR__" on any failure so callers
+   * can show a graceful fallback without exposing internal error details.
    *
-   * @param {string}          systemPrompt  - System-level instructions.
-   * @param {string}          userPrompt    - User-facing message.
-   * @param {HTMLButtonElement|null} triggerButton - Button to disable during request.
-   * @returns {Promise<string>}
+   * @param   {string}               systemPrompt  - System-level instructions for Claude.
+   * @param   {string}               userPrompt    - User message content.
+   * @param   {HTMLButtonElement|null} triggerBtn  - Button to disable during request.
+   * @returns {Promise<string>} Response text, or "__ERROR__" on failure.
    */
-  async function askAI(systemPrompt, userPrompt, triggerButton) {
-    if (triggerButton) setButtonDisabled(triggerButton, true);
+  async function askAI(systemPrompt, userPrompt, triggerBtn) {
+    if (triggerBtn) setButtonDisabled(triggerBtn, true);
     var controller = new AbortController();
     var timeoutId  = setTimeout(function () { controller.abort(); }, AI_TIMEOUT_MS);
     try {
       var response = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
+        method:  "POST",
         headers: { "Content-Type": "application/json" },
-        signal: controller.signal,
-        body: JSON.stringify({
+        signal:  controller.signal,
+        body:    JSON.stringify({
           model:      "claude-sonnet-4-6",
           max_tokens: 1000,
           system:     systemPrompt,
           messages:   [{ role: "user", content: userPrompt }]
         })
       });
-      if (!response.ok) throw new Error("request_failed");
-      // Verify content type before parsing to avoid silent JSON errors
+      if (!response.ok) throw new Error("HTTP " + response.status);
       var contentType = response.headers.get("content-type") || "";
-      if (!contentType.includes("application/json")) throw new Error("unexpected_content_type");
+      if (!contentType.includes("application/json")) throw new Error("Unexpected content-type: " + contentType);
       var data      = await response.json();
       var textBlock = (data.content || []).find(function (block) { return block.type === "text"; });
-      return textBlock ? textBlock.text : "I couldn't generate a response just now — please try again.";
+      return textBlock
+        ? textBlock.text
+        : "I couldn't generate a response just now â€” please try again.";
     } catch (_err) {
+      // Never expose raw error details to the UI
       return "__ERROR__";
     } finally {
       clearTimeout(timeoutId);
-      if (triggerButton) setButtonDisabled(triggerButton, false);
+      if (triggerBtn) setButtonDisabled(triggerBtn, false);
     }
   }
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     SCOREBOARD CLOCK
-  ═══════════════════════════════════════════════════════════════════════ */
-  var secondsToKickoff = 47 * 60 + 12;
+  /* â”€â”€ KICKOFF CLOCK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
-  /** Decrement and display the kickoff countdown. */
+  /**
+   * Decrement the countdown by one second and update the scoreboard tile.
+   * Stops decrementing at zero (match has started).
+   */
   function tickClock() {
     if (secondsToKickoff > 0) secondsToKickoff -= 1;
     var minutes = Math.floor(secondsToKickoff / 60);
@@ -1470,410 +1806,480 @@
       String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
   }
 
-  tickClock();
-  setInterval(tickClock, CLOCK_INTERVAL_MS);
+  tickClock(); // render immediately without waiting for the first interval
+  clockIntervalId = setInterval(tickClock, CLOCK_INTERVAL_MS); // store ID for cleanup
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     CONCIERGE CHAT
-  ═══════════════════════════════════════════════════════════════════════ */
-  var lastChatSubmit = 0; // timestamp of last submission (rate-limiting)
+  /* â”€â”€ CONCIERGE CHAT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
-  /** Debounced handler for character counter updates. */
-  var charCountTimer = null;
+  /** Timer handle for the debounced character counter update. */
+  var charCountDebounceTimer = null;
+
+  /**
+   * Update the character counter display. Colour-codes near-limit and at-limit states.
+   * Called via debounce to prevent per-keystroke layout thrashing.
+   */
+  function updateCharCount() {
+    var len = chatInput.value.length;
+    chatCount.textContent = len + " / " + MAX_CHAT_LENGTH;
+    chatCount.classList.toggle("near-limit", len >= 300 && len < MAX_CHAT_LENGTH);
+    chatCount.classList.toggle("at-limit",   len >= MAX_CHAT_LENGTH);
+  }
+
   chatInput.addEventListener("input", function () {
-    if (charCountTimer) clearTimeout(charCountTimer);
-    charCountTimer = setTimeout(function () {
-      var len = chatInput.value.length;
-      chatCount.textContent = len + " / " + MAX_CHAT_LENGTH;
-      // Colour-code the counter as the limit approaches
-      chatCount.classList.toggle("near-limit", len >= 300 && len < MAX_CHAT_LENGTH);
-      chatCount.classList.toggle("at-limit",   len >= MAX_CHAT_LENGTH);
-    }, 50);
+    clearTimeout(charCountDebounceTimer);
+    charCountDebounceTimer = setTimeout(updateCharCount, CHAR_COUNT_DEBOUNCE_MS);
   });
 
   /**
-   * Append a message bubble to the chat log.
-   * Uses textContent exclusively — never innerHTML — to prevent XSS.
+   * Append a chat message bubble to the log.
+   * Uses textContent exclusively â€” never innerHTML â€” to prevent XSS.
    *
-   * @param {"user"|"ai"|"system"} role
-   * @param {string}               text
+   * @param {"user"|"ai"|"system"} role - Determines the visual style.
+   * @param {string}               text - Message content (displayed as-is).
    */
   function appendMessage(role, text) {
     var div       = document.createElement("div");
     div.className = "msg " + role;
-    div.textContent = text; // textContent only — safe from XSS
+    div.textContent = text; // textContent: safe from XSS; no HTML entities needed
     chatLog.appendChild(div);
     chatLog.scrollTop = chatLog.scrollHeight;
   }
 
-  chatForm.addEventListener("submit", async function (e) {
+  /**
+   * Handle chat form submission: validate, rate-limit, sanitize, call AI, render reply.
+   *
+   * @param {SubmitEvent} e - The form submit event.
+   */
+  async function handleChatSubmit(e) {
     e.preventDefault();
     var now = Date.now();
-    // Rate-limit: reject submissions within cooldown period
-    if (now - lastChatSubmit < CHAT_COOLDOWN_MS) return;
+    if (now - lastChatSubmit < CHAT_COOLDOWN_MS) return; // rate limit
     lastChatSubmit = now;
 
     var rawInput = chatInput.value.trim();
     if (!rawInput) return;
 
-    // Sanitize before sending to AI; display raw (truncated) version to the user
     var safeInput = Core.sanitizeText(rawInput, MAX_CHAT_LENGTH);
-
     appendMessage("user", rawInput.slice(0, MAX_CHAT_LENGTH));
-    chatInput.value   = "";
+    chatInput.value = "";
     chatCount.textContent = "0 / " + MAX_CHAT_LENGTH;
     chatCount.classList.remove("near-limit", "at-limit");
-    chatStatus.textContent = "Concierge is thinking…";
+    chatStatus.textContent = "Concierge is thinkingâ€¦";
 
     var lang   = currentLanguage();
     var system =
       "You are FanPulse, an on-site concierge assistant for a FIFA World Cup 2026 host stadium. " +
-      "Answer ONLY questions related to stadium navigation, gates, seating, accessibility services, " +
-      "transport, schedules, safety, lost & found, food/amenities, or sustainability. " +
-      "If asked something unrelated or unsafe, politely redirect to stadium topics. " +
+      "Answer ONLY questions about: stadium navigation, gates, seating, accessibility services, transport, " +
+      "match schedules, safety, lost & found, food and amenities, or sustainability. " +
+      "If the question is unrelated or unsafe, politely redirect to stadium topics. " +
       "Reply ONLY in " + lang + ". Keep answers under 80 words, friendly and concrete.";
 
     var reply = await askAI(system, safeInput, chatSend);
     chatStatus.textContent = "";
-    if (reply === "__ERROR__") {
-      appendMessage("system", "The concierge is temporarily unavailable. Please try again in a moment.");
-    } else {
-      appendMessage("ai", reply);
-    }
-  });
+    appendMessage(reply === "__ERROR__" ? "system" : "ai",
+      reply === "__ERROR__"
+        ? "The concierge is temporarily unavailable. Please try again in a moment."
+        : reply
+    );
+  }
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     NAVIGATION
-  ═══════════════════════════════════════════════════════════════════════ */
-  navForm.addEventListener("submit", async function (e) {
+  chatForm.addEventListener("submit", handleChatSubmit);
+
+  /* â”€â”€ NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /**
+   * Handle navigation form submission: compute walk time estimate, call AI for
+   * step-by-step directions, and display the result.
+   *
+   * @param {SubmitEvent} e - The form submit event.
+   */
+  async function handleNavSubmit(e) {
     e.preventDefault();
-    var fromVal      = navFrom.value.trim();
-    var toVal        = navTo.value.trim();
+    var fromRaw      = navFrom.value.trim();
+    var toRaw        = navTo.value.trim();
     var isAccessible = navMode.value === "accessible";
+    if (!fromRaw || !toRaw) return;
 
-    if (!fromVal || !toVal) return;
+    var safeFrom    = Core.sanitizeText(fromRaw, 120);
+    var safeTo      = Core.sanitizeText(toRaw,   120);
+    var baseMinutes = 4 + Math.min(10, Math.floor((safeFrom.length + safeTo.length) / 6));
+    var eta         = Core.estimateWalkTime(baseMinutes, isAccessible);
 
-    var safeFrom     = Core.sanitizeText(fromVal, 120);
-    var safeTo       = Core.sanitizeText(toVal,   120);
-    var baseMinutes  = 4 + Math.min(10, Math.floor((safeFrom.length + safeTo.length) / 6));
-    var eta          = Core.estimateWalkTime(baseMinutes, isAccessible);
-
-    navOutput.classList.remove("empty");
-    navOutput.textContent = "Generating directions…";
+    activateOutput(navOutput);
+    navOutput.textContent = "Generating directionsâ€¦";
 
     var lang   = currentLanguage();
     var system =
       "You are a stadium wayfinding assistant for FIFA World Cup 2026. Reply in " + lang + ". " +
-      "Give 3–4 short numbered steps from the starting point to the destination inside a stadium concourse, " +
+      "Give 3â€“4 short numbered steps from the starting point to the destination inside a stadium concourse. " +
       (isAccessible
-        ? "using ONLY step-free / elevator / accessible paths. Mention accessible restrooms and lifts along the way. "
-        : "using the most direct route. ") +
-      "Keep the whole reply under 70 words. Do not invent an exact walk time beyond what is provided.";
+        ? "Use ONLY step-free / elevator / accessible paths. Mention accessible restrooms and lifts. "
+        : "Use the most direct route. ") +
+      "Keep the whole reply under 70 words. Do not state a walk time other than the one provided.";
     var userPrompt =
       "From: " + safeFrom + "\nTo: " + safeTo +
-      "\nEstimated walk time: " + eta + " minutes.\nRoute type: " + (isAccessible ? "accessible" : "standard");
+      "\nEstimated walk time: " + eta + " minutes.\nRoute type: " +
+      (isAccessible ? "accessible" : "standard");
 
     var reply = await askAI(system, userPrompt, navSubmit);
-    if (reply === "__ERROR__") {
-      navOutput.textContent = "Directions are temporarily unavailable. Estimated walk time: " + eta + " minutes.";
-    } else {
-      navOutput.textContent = reply + "\n\nEstimated walk time: " + eta + " minutes.";
-    }
-  });
-
-  /* ═══════════════════════════════════════════════════════════════════════
-     CROWD DASHBOARD
-  ═══════════════════════════════════════════════════════════════════════ */
-  var zoneState = [];
-
-  /** Generate a random crowd density percentage (15–100%). */
-  function randomDensity() {
-    return Math.round(15 + Math.random() * 85);
+    navOutput.textContent = (reply === "__ERROR__")
+      ? "Directions temporarily unavailable. Estimated walk time: " + eta + " minutes."
+      : reply + "\n\nEstimated walk time: " + eta + " minutes.";
   }
 
-  /** Rebuild zoneState with fresh random densities. */
+  navForm.addEventListener("submit", handleNavSubmit);
+
+  /* â”€â”€ CROWD DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /**
+   * Generate a fresh random crowd density snapshot for all zones.
+   * Densities are in the range [15, 100] to simulate realistic conditions.
+   */
   function generateZoneSnapshot() {
     zoneState = ZONE_NAMES.map(function (name) {
-      return { name: name, density: randomDensity() };
+      return { name: name, density: Math.round(15 + Math.random() * 85) };
     });
   }
 
   /**
-   * Render the zone grid using a DocumentFragment to batch all DOM insertions
-   * into a single reflow, then update the scoreboard tiles.
+   * Build a zone card DOM element for a single zone.
+   * Extracted as a named function to keep renderZones() under 30 lines.
+   *
+   * @param {{ name: string, density: number }} zone           - Zone data.
+   * @param {{ level: string, key: string, advice: string }} c - Classification result.
+   * @returns {HTMLElement} Fully constructed zone card.
+   */
+  function buildZoneCard(zone, c) {
+    var el = document.createElement("div");
+    el.className = "zone level-" + c.key;
+    el.setAttribute("role",       "listitem");
+    el.setAttribute("aria-label", zone.name + ": " + c.level + " density at " + zone.density + "%. Advice: " + c.advice);
+
+    var badge         = document.createElement("span");
+    badge.className   = "badge";
+    badge.textContent = zone.density + "%";
+    badge.setAttribute("aria-hidden", "true");
+
+    var nameEl         = document.createElement("div");
+    nameEl.className   = "zone-name";
+    nameEl.textContent = zone.name;
+
+    var levelEl         = document.createElement("div");
+    levelEl.className   = "zone-level";
+    levelEl.textContent = c.level;
+
+    var bar = document.createElement("div");
+    bar.className = "bar";
+    bar.setAttribute("role",          "progressbar");
+    bar.setAttribute("aria-valuenow",  String(zone.density));
+    bar.setAttribute("aria-valuemin",  "0");
+    bar.setAttribute("aria-valuemax",  "100");
+    bar.setAttribute("aria-label",     zone.name + " density: " + zone.density + "%");
+
+    var fill       = document.createElement("div");
+    fill.className = "bar-fill";
+    bar.appendChild(fill);
+
+    el.appendChild(badge);
+    el.appendChild(nameEl);
+    el.appendChild(levelEl);
+    el.appendChild(bar);
+    return el;
+  }
+
+  /**
+   * Render the zone grid using a DocumentFragment (single reflow) and
+   * update the scoreboard tiles with derived values.
    */
   function renderZones() {
-    var fragment   = document.createDocumentFragment();
-    var busiestIdx = 0;
-    var alertCount = 0;
+    var fragment    = document.createDocumentFragment();
+    var busiestIdx  = 0;
+    var alertCount  = 0;
 
     zoneState.forEach(function (zone, idx) {
-      var classification = Core.classifyCrowd(zone.density);
+      var c = Core.classifyCrowd(zone.density);
       if (zone.density > zoneState[busiestIdx].density) busiestIdx = idx;
-      if (classification.key === "high" || classification.key === "critical") alertCount += 1;
-
-      var el = document.createElement("div");
-      el.className = "zone level-" + classification.key;
-      el.setAttribute("role", "listitem");
-      el.setAttribute("aria-label",
-        zone.name + ": " + classification.level + " density at " + zone.density + "%. " +
-        "Advice: " + classification.advice);
-
-      var badge         = document.createElement("span");
-      badge.className   = "badge";
-      badge.textContent = zone.density + "%";
-      badge.setAttribute("aria-hidden", "true");
-
-      var nameEl         = document.createElement("div");
-      nameEl.className   = "zone-name";
-      nameEl.textContent = zone.name;
-
-      var levelEl         = document.createElement("div");
-      levelEl.className   = "zone-level";
-      levelEl.textContent = classification.level;
-
-      var bar  = document.createElement("div");
-      bar.className = "bar";
-      bar.setAttribute("role", "progressbar");
-      bar.setAttribute("aria-valuenow",  String(zone.density));
-      bar.setAttribute("aria-valuemin",  "0");
-      bar.setAttribute("aria-valuemax",  "100");
-      bar.setAttribute("aria-label",     zone.name + " density: " + zone.density + "%");
-
-      var fill         = document.createElement("div");
-      fill.className   = "bar-fill";
-      bar.appendChild(fill);
-
-      el.appendChild(badge);
-      el.appendChild(nameEl);
-      el.appendChild(levelEl);
-      el.appendChild(bar);
-      fragment.appendChild(el);
+      if (c.key === "high" || c.key === "critical") alertCount += 1;
+      fragment.appendChild(buildZoneCard(zone, c));
     });
 
-    // Single DOM write — replaceChildren avoids innerHTML clearing
-    zoneGrid.replaceChildren(fragment);
+    zoneGrid.replaceChildren(fragment); // single DOM mutation â€” no innerHTML
 
-    var busiest = zoneState[busiestIdx];
-    tileBusy.textContent   = busiest.name;
-    tileWait.textContent   = Math.max(2, Math.round(busiest.density / 10)) + " min";
+    tileWait.textContent   = Math.max(2, Math.round(zoneState[busiestIdx].density / 10)) + " min";
+    tileBusy.textContent   = zoneState[busiestIdx].name;
     tileAlerts.textContent = String(alertCount + ALERT_DATA.length);
   }
 
-  btnRefreshZones.addEventListener("click", function () {
+  /** Handle zone refresh button: regenerate snapshot and re-render. */
+  function handleRefreshZones() {
     generateZoneSnapshot();
     renderZones();
-  });
+  }
 
-  btnCrowdAI.addEventListener("click", async function () {
-    crowdOutput.classList.remove("empty");
-    crowdOutput.textContent = "Analyzing snapshot…";
+  /** Handle AI crowd recommendation button. */
+  async function handleCrowdAI() {
+    activateOutput(crowdOutput);
+    crowdOutput.textContent = "Analyzing snapshotâ€¦";
 
     var snapshot = zoneState.map(function (zone) {
-      var classification = Core.classifyCrowd(zone.density);
-      return zone.name + ": " + zone.density + "% (" + classification.level + ")";
+      return zone.name + ": " + zone.density + "% (" + Core.classifyCrowd(zone.density).level + ")";
     }).join("; ");
 
     var system =
-      "You are a crowd-management advisor for stadium operations staff at FIFA World Cup 2026. Reply in " + currentLanguage() + ". " +
-      "Given zone density data, produce a short prioritized action list (max 3 actions) for volunteers and organizers, " +
-      "naming the specific zones that need attention. Under 70 words. Be operational and specific, not generic.";
+      "You are a crowd-management advisor for FIFA World Cup 2026 stadium operations. Reply in " +
+      currentLanguage() + ". Given zone density data, produce a short prioritized action list " +
+      "(max 3 actions) naming the specific zones that need attention. Under 70 words. Be operational and specific.";
 
-    var reply = await askAI(system, "Current zone snapshot → " + snapshot, btnCrowdAI);
+    var reply = await askAI(system, "Zone snapshot â†’ " + snapshot, btnCrowdAI);
     crowdOutput.textContent = (reply === "__ERROR__")
-      ? "Recommendation engine is temporarily unavailable. Please try again."
+      ? "Recommendation engine temporarily unavailable. Please try again."
       : reply;
-  });
+  }
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     TRANSPORT & SUSTAINABILITY
-  ═══════════════════════════════════════════════════════════════════════ */
+  btnRefreshZones.addEventListener("click", handleRefreshZones);
+  btnCrowdAI.addEventListener("click",      handleCrowdAI);
+
+  /* â”€â”€ TRANSPORT & SUSTAINABILITY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
   /**
-   * Render per-mode emission cards and the optimal departure recommendation.
-   * Cards are built with a DocumentFragment for a single reflow.
+   * Build an individual transport emission card element.
+   *
+   * @param {{ key: string, label: string }} mode  - Transport mode descriptor.
+   * @param {number}                         co2   - Total group COâ‚‚ in kg.
+   * @param {number}                         party - Group size.
+   * @returns {HTMLElement} Constructed card element.
+   */
+  function buildTransportCard(mode, co2, party) {
+    var card = document.createElement("div");
+    card.className = "transport-card";
+    card.setAttribute("role",       "listitem");
+    card.setAttribute("aria-label", mode.label + ": " + co2 + " kg CO2 for group of " + party);
+
+    var modeEl         = document.createElement("div");
+    modeEl.className   = "tc-mode";
+    modeEl.textContent = mode.label;
+
+    var co2El         = document.createElement("div");
+    co2El.className   = "tc-co2";
+    co2El.textContent = co2 + " kg";
+
+    var unitEl         = document.createElement("div");
+    unitEl.className   = "tc-unit";
+    unitEl.textContent = "CO\u2082 for group of " + party;
+
+    card.appendChild(modeEl);
+    card.appendChild(co2El);
+    card.appendChild(unitEl);
+    return card;
+  }
+
+  /**
+   * Render transport emission cards for all modes and highlight the greenest option.
+   * Also calculates and displays the optimal departure time recommendation.
+   *
+   * @param {number} distance    - Distance in km.
+   * @param {number} party       - Group size.
+   * @param {number} minutesLeft - Minutes until kickoff.
    */
   function renderTransportCards(distance, party, minutesLeft) {
     var fragment = document.createDocumentFragment();
     var minCo2   = Infinity;
-    var minMode  = "";
+    var bestKey  = "";
 
     TRANSPORT_MODES.forEach(function (mode) {
-      var co2PerPerson = Core.estimateCarbonKg(mode.key, distance);
-      var co2Total     = Math.round(co2PerPerson * party * 100) / 100;
-      if (co2Total < minCo2) { minCo2 = co2Total; minMode = mode.key; }
-
-      var card         = document.createElement("div");
-      card.className   = "transport-card";
-      card.setAttribute("role", "listitem");
-      card.setAttribute("aria-label", mode.label + ": " + co2Total + " kg CO2 for group of " + party);
-
-      var modeEl         = document.createElement("div");
-      modeEl.className   = "tc-mode";
-      modeEl.textContent = mode.label;
-
-      var co2El         = document.createElement("div");
-      co2El.className   = "tc-co2";
-      co2El.textContent = co2Total + " kg";
-
-      var unitEl         = document.createElement("div");
-      unitEl.className   = "tc-unit";
-      unitEl.textContent = "CO₂ for group of " + party;
-
-      card.appendChild(modeEl);
-      card.appendChild(co2El);
-      card.appendChild(unitEl);
-      fragment.appendChild(card);
+      var co2 = Math.round(Core.estimateCarbonKg(mode.key, distance) * party * 100) / 100;
+      if (co2 < minCo2) { minCo2 = co2; bestKey = mode.key; }
+      fragment.appendChild(buildTransportCard(mode, co2, party));
     });
 
     transportGrid.replaceChildren(fragment);
 
-    // Mark the lowest-emission card as best
+    // Mark the lowest-emission card
     var cards = transportGrid.querySelectorAll(".transport-card");
     TRANSPORT_MODES.forEach(function (mode, idx) {
-      if (mode.key === minMode) cards[idx].classList.add("best-mode");
+      if (mode.key === bestKey) cards[idx].classList.add("best-mode");
     });
 
-    // Compute optimal departure based on transit travel time (avg 20 min for 6km)
-    var avgTravelMinutes = Math.round(distance * 3.5); // rough transit estimate
-    var dep = Core.computeDepartureTime(avgTravelMinutes, minutesLeft);
+    // Compute and show departure recommendation (rough transit: 3.5 min/km)
+    var avgTravelMin = Math.round(distance * 3.5);
+    var dep          = Core.computeDepartureTime(avgTravelMin, minutesLeft);
     departTime.textContent   = dep.depart;
-    departDetail.textContent = "Includes " + dep.bufferMinutes + " min entry buffer. Depart by this time to arrive comfortably.";
+    departDetail.textContent = "Includes " + dep.bufferMinutes +
+      " min entry queue buffer. Leave by this time to arrive comfortably before kickoff.";
     departRec.style.display  = "flex";
   }
 
-  btnTransport.addEventListener("click", async function () {
+  /** Handle transport compare button: render cards then call AI for recommendation. */
+  async function handleTransport() {
     var distance    = getValidNumber(tDistance, 0.5, 60,  6);
     var minutesLeft = getValidNumber(tTime,     10,  240, 45);
-    var party       = Core.clampNumber(parseInt(tParty.value, 10), 1, 10) || 2;
+    var party       = Core.clampNumber(parseInt(tParty.value, 10) || 2, 1, 10);
 
-    transportOutput.classList.remove("empty");
-    transportOutput.textContent = "Comparing options…";
+    activateOutput(transportOutput);
+    transportOutput.textContent = "Comparing optionsâ€¦";
 
-    // Render pre-computed cards immediately (no AI wait)
-    renderTransportCards(distance, party, minutesLeft);
+    renderTransportCards(distance, party, minutesLeft); // immediate, no AI wait
 
     var rows = TRANSPORT_MODES.map(function (mode) {
-      var co2 = Core.estimateCarbonKg(mode.key, distance) * party;
-      return mode.label + ": ~" + co2 + " kg CO2 for group";
+      return mode.label + ": ~" + (Core.estimateCarbonKg(mode.key, distance) * party) + " kg CO2";
     }).join("; ");
 
     var system =
-      "You are a sustainable-transport advisor for FIFA World Cup 2026 fans. Reply in " + currentLanguage() + ". " +
-      "Recommend ONE best mode given distance, time-to-kickoff, and party size. " +
-      "Briefly justify it and give one concrete sustainability tip. Under 60 words.";
+      "You are a sustainable-transport advisor for FIFA World Cup 2026 fans. Reply in " +
+      currentLanguage() + ". Recommend ONE best transport mode given distance, time-to-kickoff, and " +
+      "party size. Briefly justify it and give one concrete FIFA Green Goal sustainability tip. Under 60 words.";
     var userPrompt =
       "Distance: " + distance + " km. Minutes to kickoff: " + minutesLeft +
-      ". Party size: " + party + ". Estimated group emissions by mode → " + rows;
+      ". Party size: " + party + ". Group emissions by mode â†’ " + rows;
 
     var reply = await askAI(system, userPrompt, btnTransport);
     transportOutput.textContent = (reply === "__ERROR__")
-      ? "Advisor temporarily unavailable. Raw estimates → " + rows
+      ? "Advisor temporarily unavailable. Raw estimates â†’ " + rows
       : reply;
-  });
+  }
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     VOLUNTEER / STAFF ALERT FEED
-  ═══════════════════════════════════════════════════════════════════════ */
+  btnTransport.addEventListener("click", handleTransport);
+
+  /* â”€â”€ VOLUNTEER / STAFF ALERTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
   /**
-   * Render the incident feed sorted by severity.
-   * Uses a DocumentFragment for a single DOM reflow.
+   * Build an individual alert list item element.
+   *
+   * @param {{ text: string, severity: string }} alert - Alert data object.
+   * @returns {HTMLLIElement} Constructed list item.
+   */
+  function buildAlertItem(alert) {
+    var li = document.createElement("li");
+    li.className = "alert-item";
+    li.setAttribute("aria-label", alert.severity + " severity: " + alert.text);
+
+    var sevSpan         = document.createElement("span");
+    sevSpan.className   = "sev sev-" + alert.severity;
+    sevSpan.textContent = alert.severity;
+    sevSpan.setAttribute("aria-hidden", "true");
+
+    var txtSpan         = document.createElement("span");
+    txtSpan.textContent = alert.text;
+
+    li.appendChild(sevSpan);
+    li.appendChild(txtSpan);
+    return li;
+  }
+
+  /**
+   * Render the incident feed sorted by severity using a DocumentFragment.
    */
   function renderAlerts() {
     var ranked   = Core.rankAlertsBySeverity(ALERT_DATA);
     var fragment = document.createDocumentFragment();
-
     ranked.forEach(function (alert) {
-      var li         = document.createElement("li");
-      li.className   = "alert-item";
-      li.setAttribute("aria-label", alert.severity + " severity: " + alert.text);
-
-      var sevSpan         = document.createElement("span");
-      sevSpan.className   = "sev sev-" + alert.severity;
-      sevSpan.textContent = alert.severity;
-      sevSpan.setAttribute("aria-hidden", "true"); // severity already in li aria-label
-
-      var txtSpan         = document.createElement("span");
-      txtSpan.textContent = alert.text;
-
-      li.appendChild(sevSpan);
-      li.appendChild(txtSpan);
-      fragment.appendChild(li);
+      fragment.appendChild(buildAlertItem(alert));
     });
-
     alertList.replaceChildren(fragment);
   }
 
-  btnBriefing.addEventListener("click", async function () {
-    briefingOutput.classList.remove("empty");
-    briefingOutput.textContent = "Drafting briefing…";
+  /** Handle shift briefing button: call AI to summarise the current alert feed. */
+  async function handleBriefing() {
+    activateOutput(briefingOutput);
+    briefingOutput.textContent = "Drafting briefingâ€¦";
 
-    var ranked = Core.rankAlertsBySeverity(ALERT_DATA);
-    var feed   = ranked
-      .map(function (alert) { return "[" + alert.severity + "] " + alert.text; })
+    var feed = Core.rankAlertsBySeverity(ALERT_DATA)
+      .map(function (a) { return "[" + a.severity + "] " + a.text; })
       .join(" | ");
 
     var system =
-      "You are writing a 3-sentence shift-handoff briefing for incoming stadium volunteers at FIFA World Cup 2026. " +
-      "Reply in " + currentLanguage() + ". " +
-      "Prioritize critical and high items first. Be calm and actionable. Under 70 words total.";
+      "You are writing a 3-sentence shift-handoff briefing for incoming FIFA World Cup 2026 stadium volunteers. " +
+      "Reply in " + currentLanguage() + ". Prioritize critical and high items first. " +
+      "Be calm and actionable. Under 70 words total.";
 
-    var reply = await askAI(system, "Current incident feed → " + feed, btnBriefing);
+    var reply = await askAI(system, "Incident feed â†’ " + feed, btnBriefing);
     briefingOutput.textContent = (reply === "__ERROR__")
       ? "Briefing generator temporarily unavailable."
       : reply;
-  });
+  }
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     EMERGENCY & SAFETY ASSISTANT
-  ═══════════════════════════════════════════════════════════════════════ */
-  btnEmergency.addEventListener("click", async function () {
+  btnBriefing.addEventListener("click", handleBriefing);
+
+  /* â”€â”€ EMERGENCY & SAFETY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /** Fallback guidance text shown when the AI is unavailable. */
+  var EMERGENCY_FALLBACK =
+    "âš  AI guidance temporarily unavailable.\n\n" +
+    "IMMEDIATE ACTIONS:\n" +
+    "1. Call 911 (USA / Mexico) or 911 (Canada) for life-threatening emergencies.\n" +
+    "2. Alert the nearest security officer or FIFA steward.\n" +
+    "3. Medical posts are at Gates A, B, C and D.\n" +
+    "4. Follow green illuminated evacuation signs. Do not use lifts during fire.";
+
+  /** Handle emergency guidance button. */
+  async function handleEmergency() {
     var situationType = emergencyType.value;
     var locationRaw   = emergencyZone.value.trim();
     var safeLocation  = locationRaw
       ? Core.sanitizeText(locationRaw, 120)
       : "location not specified";
 
-    emergencyOutput.classList.remove("empty");
-    emergencyOutput.textContent = "Generating emergency guidance…";
+    activateOutput(emergencyOutput);
+    emergencyOutput.textContent = "Generating emergency guidanceâ€¦";
 
     var system =
-      "You are an emergency safety coordinator at a FIFA World Cup 2026 stadium, trained in FIFA Stadium " +
-      "Safety and Security Regulations 2026. Reply in " + currentLanguage() + ". " +
-      "Provide IMMEDIATE, clear, numbered action steps for the reported emergency situation. " +
-      "Always start with: call emergency services if life is at risk (911 US/Mexico, 999 Canada). " +
-      "Name nearby staff positions or facilities. Keep under 100 words. Be calm, direct, and specific.";
+      "You are a FIFA World Cup 2026 stadium emergency coordinator, trained in FIFA Stadium Safety and " +
+      "Security Regulations 2026. Reply in " + currentLanguage() + ". " +
+      "Provide IMMEDIATE, clear numbered action steps for the reported situation. " +
+      "Always start with: call emergency services if life is at risk (911). " +
+      "Name nearby facilities. Keep under 100 words. Be calm, direct and specific.";
     var userPrompt =
-      "Emergency type: " + situationType + ". Location: " + safeLocation + ". " +
-      "What should staff and fans do immediately?";
+      "Emergency type: " + situationType + ". Location: " + safeLocation +
+      ". What should staff and fans do immediately?";
 
     var reply = await askAI(system, userPrompt, btnEmergency);
-    if (reply === "__ERROR__") {
-      emergencyOutput.textContent =
-        "⚠ AI guidance temporarily unavailable.\n\n" +
-        "IMMEDIATE ACTIONS:\n" +
-        "1. Call 911 (US/Mexico) or 999 (Canada) for life-threatening emergencies.\n" +
-        "2. Contact the nearest security or medical post (Gates A, B, C, D).\n" +
-        "3. Follow illuminated evacuation signs (green).\n" +
-        "4. Do not use lifts during fire or evacuation.";
-    } else {
-      emergencyOutput.textContent = reply;
-    }
-  });
+    emergencyOutput.textContent = (reply === "__ERROR__") ? EMERGENCY_FALLBACK : reply;
+  }
 
-  /* ═══════════════════════════════════════════════════════════════════════
-     INITIALISATION
-     Defer non-critical rendering to the next animation frame so it does
-     not block the first paint of the header and hero content.
-  ═══════════════════════════════════════════════════════════════════════ */
-  requestAnimationFrame(function () {
+  btnEmergency.addEventListener("click", handleEmergency);
+
+  /* â”€â”€ MATCH DAY HUB â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /** Handle fan tips button: generate AI personalised match day tips. */
+  async function handleFanTips() {
+    var venue = fanVenue.value;
+    var role  = fanRole.value;
+
+    activateOutput(fanTipsOutput);
+    fanTipsOutput.textContent = "Generating personalised tipsâ€¦";
+
+    var system =
+      "You are a FIFA World Cup 2026 fan experience expert. Reply in " + currentLanguage() + ". " +
+      "Give 4â€“5 practical, personalised match day tips for the specific venue and fan role provided. " +
+      "Include one transport tip, one food/drink tip, one accessibility or safety tip, and one unique " +
+      "experience tip for that city. Under 100 words. Be warm, specific and enthusiastic.";
+    var userPrompt =
+      "Venue: " + venue + ". Fan role: " + role + ". Give personalised match day tips.";
+
+    var reply = await askAI(system, userPrompt, btnFanTips);
+    fanTipsOutput.textContent = (reply === "__ERROR__")
+      ? "Tips generator temporarily unavailable. Please try again."
+      : reply;
+  }
+
+  btnFanTips.addEventListener("click", handleFanTips);
+
+  /* â”€â”€ INITIALISATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+  /**
+   * Deferred initial render: run after the first paint frame so zone and alert
+   * rendering does not block the critical rendering path for the hero and header.
+   */
+  function deferredInit() {
     generateZoneSnapshot();
     renderZones();
     renderAlerts();
-  });
+  }
+
+  requestAnimationFrame(deferredInit);
 
 })();
 </script>
 </body>
 </html>
+
