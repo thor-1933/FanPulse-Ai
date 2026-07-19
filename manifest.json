@@ -1,0 +1,24 @@
+{
+  "name": "FanPulse AI",
+  "short_name": "FanPulse",
+  "description": "GenAI-powered FIFA World Cup 2026 stadium companion for fans, volunteers and venue staff.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F1B16",
+  "theme_color": "#1F7A4D",
+  "lang": "en",
+  "dir": "ltr",
+  "orientation": "any",
+  "categories": ["sports", "utilities", "navigation"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='24' fill='%231F7A4D'/%3E%3Ctext x='96' y='130' font-family='monospace' font-size='80' font-weight='700' text-anchor='middle' fill='%230F1B16'%3EFP%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
