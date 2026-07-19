@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="en" data-color-scheme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#1F7A4D" />
+<title>FanPulse AI — FIFA World Cup 2026 Stadium Companion</title>
+<meta name="description" content="GenAI-powered stadium companion for FIFA World Cup 2026. Real-time crowd management, accessible navigation, transport advice, emergency safety, volunteer operations and multilingual concierge for fans and staff across US, Canada and Mexico host venues." />
+<meta name="keywords" content="FIFA World Cup 2026, stadium AI, crowd management, accessibility, multilingual, fan experience, sustainability" />
+<meta name="robots" content="index, follow" />
+<!-- Open Graph -->
+<meta property="og:title" content="FanPulse AI — FIFA World Cup 2026 Stadium Companion" />
+<meta property="og:description" content="AI-powered real-time stadium intelligence for fans, volunteers and venue staff." />
+<meta property="og:type" content="website" />
+<!-- Security meta headers (supplemental to server-level headers in vercel.json) -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+<!-- Content Security Policy: restrict to self + Anthropic API + Google Fonts only -->
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://api.anthropic.com; img-src 'self' data:; frame-ancestors 'none';" />
+<!-- Preconnect for Google Fonts (performance: reduces connection latency) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Preload Google Fonts stylesheet to avoid render-blocking -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" /></noscript>
+<style>
+  /* ============================= DESIGN TOKENS ============================= */
+  :root {
+    --bg:            #0F1B16;
+    --bg-elevated:   #17251E;
+    --bg-card:       #1C2C23;
+    --turf:          #1F7A4D;
+    --turf-bright:   #2E9E63;
+    --gold:          #FFB627;
+    --chalk:         #F5F7F0;
+    --muted:         #A9B8AE;
+    --coral:         #FF6B57;
+    --amber-soft:    #F2C94C;
+    --line:          #2B3B31;
+    --focus:         #FFE08A;
+    --emergency:     #FF3B30;
+    --emergency-bg:  rgba(255,59,48,0.12);
+    --radius:        10px;
+    --display:       'Oswald', sans-serif;
+    --body:          'Inter', sans-serif;
+    --mono:          'IBM Plex Mono', monospace;
+    /* Animation durations as tokens — overridden by prefers-reduced-motion */
+    --dur-fast:      180ms;
+    --dur-normal:    320ms;
+  }
+
+  /* High-contrast accessibility theme */
+  [data-contrast="high"] {
+    --bg:          #000000;
+    --bg-elevated: #0A0A0A;
+    --bg-card:     #111111;
+    --chalk:       #FFFFFF;
+    --muted:       #E8E8E8;
+    --line:        #555555;
+    --gold:        #FFD166;
+    --turf-bright: #33FF99;
+    --coral:       #FF6060;
+    --emergency:   #FF4444;
+  }
+
+  /* ===================== RESET & GLOBAL ===================== */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration:       0.001ms !important;
+      animation-iteration-count: 1      !important;
+      transition-duration:      0.001ms !important;
+    }
+    :root {
+      --dur-fast:   0.001ms;
+      --dur-normal: 0.001ms;
+    }
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--chalk);
+    font-family: var(--body);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Font size levels */
+  [data-fontsize="lg"], [data-fontsize="lg"] body { font-size: 19px; }
+  [data-fontsize="xl"], [data-fontsize="xl"] body { font-size: 22px; }
+
+  /* ===================== FOCUS & SKIP ===================== */
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--gold);
+    color: #0F1B16;
+    padding: 10px 16px;
+    z-index: 1000;
+    font-weight: 600;
+    border-radius: 0 0 8px 0;
+    text-decoration: none;
+    transition: left var(--dur-fast);
+  }
+  .skip-link:focus { left: 0; }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ===================== LINKS ===================== */
+  a { color: var(--gold); }
+  a:hover { text-decoration-thickness: 2px; }
+  a[target="_blank"]::after {
+    content: " ↗";
+    font-size: 0.8em;
+  }
+
+  /* ===================== HEADER ===================== */
+  header.top {
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: conic-gradient(from 180deg, var(--turf), var(--gold), var(--turf));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-weight: 600;
+    color: #0F1B16;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .brand h1 {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .brand p { margin: 0; font-size: 0.72rem; color: var(--muted); }
+
+  /* ===================== TOOLBAR ===================== */
+  .toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .toolbar button,
+  .toolbar select {
+    background: var(--bg-card);
+    color: var(--chalk);
+    border: 1px solid var(--line);
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: var(--body);
+    transition: border-color var(--dur-fast), color var(--dur-fast);
+  }
+  .toolbar button:hover { border-color: var(--muted); }
+  .toolbar button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+
+  /* ===================== LAYOUT ===================== */
+  main { max-width: 1080px; margin: 0 auto; padding: 0 20px 80px; }
+
+  /* ===================== HERO ===================== */
+  .hero { padding: 44px 0 20px; }
+  .eyebrow {
+    font-family: var(--mono);
+    color: var(--gold);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .hero h2 {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 4vw, 2.9rem);
+    margin: 8px 0 10px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  .hero p.lede {
+    color: var(--muted);
+    max-width: 700px;
+    font-size: 1.02rem;
+    line-height: 1.65;
+  }
+
+  /* Venue badge */
+  .venue-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .venue-badge {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    background: var(--bg-card);
+    letter-spacing: 0.05em;
+  }
+  .venue-badge.active {
+    border-color: var(--turf-bright);
+    color: var(--turf-bright);
+    background: rgba(46,158,99,0.1);
+  }
+
+  /* ===================== SCOREBOARD ===================== */
+  .scoreboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 26px;
+  }
+  .score-tile { background: var(--bg-card); padding: 16px; }
+  .score-tile .label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .score-tile .value {
+    font-family: var(--mono);
+    font-size: 1.7rem;
+    color: var(--gold);
+    margin-top: 4px;
+    font-weight: 600;
+    transition: color var(--dur-normal);
+  }
+  .score-tile .value.small { font-size: 1.1rem; color: var(--chalk); }
+  .score-tile .tile-sub { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+
+  /* ===================== SECTIONS ===================== */
+  section { margin-top: 56px; }
+  .section-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .section-num { font-family: var(--mono); color: var(--turf-bright); font-size: 0.85rem; }
+  h3.section-title {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+  .section-desc { color: var(--muted); margin: 0 0 18px; max-width: 680px; font-size: 0.94rem; }
+
+  /* ===================== CARDS ===================== */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  /* ===================== CHAT ===================== */
+  .chat-log {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+    background: var(--bg-elevated);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* GPU compositing for smooth scrolling */
+    will-change: scroll-position;
+    scroll-behavior: smooth;
+  }
+  .msg {
+    max-width: 82%;
+    padding: 9px 12px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    animation: fadeSlideIn var(--dur-fast) ease-out;
+  }
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .msg.user   { align-self: flex-end; background: var(--turf); color: #fff; }
+  .msg.ai     { align-self: flex-start; background: #233329; color: var(--chalk); border: 1px solid var(--line); }
+  .msg.system { align-self: center; color: var(--muted); font-size: 0.78rem; font-style: italic; background: none; }
+
+  .chat-input-row { display: flex; gap: 8px; margin-top: 12px; }
+  .chat-input-row input[type="text"] {
+    flex: 1;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    color: var(--chalk);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-family: var(--body);
+    font-size: 0.94rem;
+  }
+  .char-count {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-align: right;
+    margin-top: 4px;
+    transition: color var(--dur-fast);
+  }
+  .char-count.near-limit { color: var(--gold); }
+  .char-count.at-limit   { color: var(--coral); }
+
+  /* ===================== FORMS ===================== */
+  .field-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 5px; }
+  select,
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    color: var(--chalk);
+    padding: 9px 10px;
+    border-radius: 8px;
+    font-family: var(--body);
+    font-size: 0.9rem;
+    transition: border-color var(--dur-fast);
+  }
+  select:focus,
+  input[type="text"]:focus,
+  input[type="number"]:focus {
+    border-color: var(--turf-bright);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(46, 158, 99, 0.2);
+  }
+
+  /* ===================== BUTTONS ===================== */
+  button.primary {
+    background: var(--gold);
+    color: #0F1B16;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: var(--body);
+    transition: opacity var(--dur-fast), transform var(--dur-fast);
+  }
+  button.primary:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+  button.primary:active:not(:disabled) { transform: translateY(0); }
+  button.primary:disabled,
+  button.primary[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+
+  button.secondary {
+    background: transparent;
+    color: var(--chalk);
+    border: 1px solid var(--line);
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: var(--body);
+    transition: border-color var(--dur-fast);
+  }
+  button.secondary:hover { border-color: var(--muted); }
+
+  button.danger {
+    background: var(--emergency);
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: var(--body);
+    transition: opacity var(--dur-fast);
+  }
+  button.danger:hover:not(:disabled) { opacity: 0.88; }
+  button.danger:disabled,
+  button.danger[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+
+  /* ===================== AI OUTPUT ===================== */
+  .ai-output {
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 8px;
+    background: var(--bg-elevated);
+    border-left: 3px solid var(--gold);
+    font-size: 0.92rem;
+    min-height: 20px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .ai-output.empty { color: var(--muted); font-style: italic; border-left-color: var(--line); }
+  .ai-output.emergency { border-left-color: var(--emergency); }
+
+  /* ===================== CROWD / ZONE GRID ===================== */
+  .zone-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .zone {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+    position: relative;
+    transition: border-color var(--dur-fast);
+  }
+  .zone:hover { border-color: var(--muted); }
+  .zone .zone-name { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
+  .zone .zone-level {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+  .zone .bar { height: 6px; background: var(--line); border-radius: 4px; margin-top: 10px; overflow: hidden; }
+  .zone .bar-fill { height: 100%; border-radius: 4px; transition: width var(--dur-normal) ease-out; }
+  .zone .badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    font-family: var(--mono);
+  }
+  .level-low    .zone-level, .level-low    .zone-name { color: var(--turf-bright); }
+  .level-low    .bar-fill { background: var(--turf-bright); width: 30%; }
+  .level-moderate .zone-level { color: var(--amber-soft); }
+  .level-moderate .bar-fill { background: var(--amber-soft); width: 60%; }
+  .level-high   .zone-level { color: var(--gold); }
+  .level-high   .bar-fill { background: var(--gold); width: 82%; }
+  .level-critical .zone-level { color: var(--coral); }
+  .level-critical .bar-fill { background: var(--coral); width: 97%; }
+
+  /* ===================== TRANSPORT CARDS ===================== */
+  .transport-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .transport-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .transport-card .tc-mode { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); text-transform: uppercase; }
+  .transport-card .tc-co2  { font-family: var(--display); font-size: 1.1rem; color: var(--chalk); margin-top: 4px; }
+  .transport-card .tc-unit { font-size: 0.72rem; color: var(--muted); }
+  .transport-card.best-mode { border-color: var(--turf-bright); }
+  .transport-card.best-mode .tc-mode { color: var(--turf-bright); }
+
+  /* ===================== ALERTS ===================== */
+  .alert-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .alert-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: border-color var(--dur-fast);
+  }
+  .alert-item:hover { border-color: var(--muted); }
+  .sev {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-weight: 600;
+  }
+  .sev-critical { background: rgba(255,107,87,0.18); color: var(--coral);      border: 1px solid var(--coral); }
+  .sev-high     { background: rgba(255,182,39,0.15); color: var(--gold);       border: 1px solid var(--gold); }
+  .sev-medium   { background: rgba(242,201,76,0.14); color: var(--amber-soft); border: 1px solid var(--amber-soft); }
+  .sev-low      { background: rgba(169,184,174,0.12); color: var(--muted);     border: 1px solid var(--muted); }
+
+  /* ===================== EMERGENCY SECTION ===================== */
+  .emergency-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .emergency-tile {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: default;
+    transition: border-color var(--dur-fast);
+  }
+  .emergency-tile:hover { border-color: var(--emergency); }
+  .emergency-tile .et-icon { font-size: 1.4rem; }
+  .emergency-tile .et-label { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .emergency-tile .et-value { font-family: var(--display); font-size: 1.1rem; color: var(--chalk); text-transform: uppercase; }
+  .emergency-tile .et-detail { font-size: 0.8rem; color: var(--muted); }
+
+  .emergency-banner {
+    background: var(--emergency-bg);
+    border: 1px solid var(--emergency);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    font-size: 0.88rem;
+  }
+  .emergency-banner .eb-icon { font-size: 1.2rem; flex-shrink: 0; }
+  .emergency-banner strong { color: var(--emergency); }
+
+  /* ===================== MATCH PLANNER ===================== */
+  .depart-rec {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(46,158,99,0.12);
+    border: 1px solid var(--turf-bright);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    font-size: 0.9rem;
+  }
+  .depart-rec .dr-time { font-family: var(--mono); font-size: 1.4rem; color: var(--turf-bright); }
+  .depart-rec .dr-label { color: var(--muted); font-size: 0.8rem; }
+
+  /* ===================== STATUS LINES ===================== */
+  .status-line { font-size: 0.78rem; color: var(--muted); margin-top: 8px; }
+  .error-text  { color: var(--coral); font-size: 0.85rem; margin-top: 8px; }
+
+  /* ===================== FOOTER ===================== */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 30px 20px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: center;
+  }
+  footer strong { color: var(--chalk); }
+  .footer-badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .footer-badge {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ===================== HEADER ===================== -->
+<header class="top">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">FP</div>
+    <div>
+      <h1>FanPulse AI</h1>
+      <p>Stadium Operations &amp; Fan Experience — FIFA World Cup 2026</p>
+    </div>
+  </div>
+  <nav class="toolbar" role="toolbar" aria-label="Accessibility and language controls">
+    <label for="lang-select" class="visually-hidden">Assistant reply language</label>
+    <select id="lang-select" aria-label="Select assistant reply language">
+      <option value="English">English</option>
+      <option value="Spanish">Español</option>
+      <option value="French">Français</option>
+      <option value="Portuguese">Português</option>
+      <option value="Arabic">العربية</option>
+      <option value="Japanese">日本語</option>
+      <option value="Hindi">हिन्दी</option>
+      <option value="German">Deutsch</option>
+      <option value="Mandarin">中文</option>
+    </select>
+    <button id="btn-contrast" type="button" aria-pressed="false">High contrast</button>
+    <button id="btn-fontdown" type="button" aria-label="Decrease text size">A−</button>
+    <button id="btn-fontup"   type="button" aria-label="Increase text size">A+</button>
+  </nav>
+</header>
+
+<!-- ===================== MAIN ===================== -->
+<main id="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="eyebrow">Generative AI · Real-time stadium intelligence · FIFA World Cup 2026</p>
+    <h2>One assistant. Every fan, volunteer, and gate.</h2>
+    <p class="lede">
+      FanPulse AI combines a multilingual GenAI concierge with live crowd, navigation, transport,
+      emergency safety, and sustainability intelligence — built for fans, organizers, volunteers and venue staff
+      across all 16 host stadiums in the United States, Canada, and Mexico.
+    </p>
+    <div class="venue-badges" aria-label="Active host venues">
+      <span class="venue-badge active">🏟 MetLife Stadium, NJ</span>
+      <span class="venue-badge">🏟 AT&amp;T Stadium, TX</span>
+      <span class="venue-badge">🏟 SoFi Stadium, CA</span>
+      <span class="venue-badge">🏟 Estadio Azteca, MX</span>
+      <span class="venue-badge">🏟 BC Place, Vancouver</span>
+    </div>
+
+    <!-- Live scoreboard -->
+    <div class="scoreboard" role="region" aria-label="Live stadium snapshot">
+      <div class="score-tile">
+        <div class="label" id="tile-kickoff-label">Kickoff in</div>
+        <div class="value" id="tile-kickoff" aria-labelledby="tile-kickoff-label" aria-live="off" role="timer">--:--</div>
+        <div class="tile-sub" aria-hidden="true">mm:ss</div>
+      </div>
+      <div class="score-tile">
+        <div class="label" id="tile-wait-label">Avg. gate wait</div>
+        <div class="value small" id="tile-wait" aria-labelledby="tile-wait-label">-- min</div>
+      </div>
+      <div class="score-tile">
+        <div class="label" id="tile-busy-label">Busiest zone</div>
+        <div class="value small" id="tile-busy" aria-labelledby="tile-busy-label">—</div>
+      </div>
+      <div class="score-tile">
+        <div class="label" id="tile-alerts-label">Active alerts</div>
+        <div class="value" id="tile-alerts" aria-labelledby="tile-alerts-label" aria-live="polite">0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SECTION 01: AI CONCIERGE ==================== -->
+  <section aria-labelledby="concierge-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">01</span>
+      <h3 class="section-title" id="concierge-title">Multilingual AI Concierge</h3>
+    </div>
+    <p class="section-desc">
+      Ask about gates, schedules, accessibility services, lost &amp; found, food or stadium rules.
+      Answers are generated live in your selected language. Supports English, Spanish, French, Portuguese,
+      Arabic, Japanese, Hindi, German and Mandarin.
+    </p>
+    <div class="card">
+      <div
+        class="chat-log"
+        id="chat-log"
+        role="log"
+        aria-live="polite"
+        aria-atomic="false"
+        aria-label="Conversation with FanPulse concierge"
+        aria-relevant="additions"
+      >
+        <div class="msg system">FanPulse concierge is ready. Try: "Where is the nearest accessible restroom to Gate C?"</div>
+      </div>
+      <form id="chat-form" class="chat-input-row" novalidate>
+        <label for="chat-input" class="visually-hidden">Message the concierge (max 400 characters)</label>
+        <input
+          type="text"
+          id="chat-input"
+          maxlength="400"
+          placeholder="Ask the concierge…"
+          autocomplete="off"
+          aria-describedby="chat-count chat-status"
+          aria-required="true"
+        />
+        <button class="primary" type="submit" id="chat-send">Send</button>
+      </form>
+      <div
+        class="char-count"
+        id="chat-count"
+        role="status"
+        aria-live="polite"
+        aria-label="Character count"
+      >0 / 400</div>
+      <div class="status-line" id="chat-status" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 02: NAVIGATION ==================== -->
+  <section aria-labelledby="nav-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">02</span>
+      <h3 class="section-title" id="nav-title">Smart &amp; Accessible Navigation</h3>
+    </div>
+    <p class="section-desc">
+      Get a walking route between any two stadium points, with an accessible-route option for
+      wheelchair users, step-free paths, or families with strollers.
+    </p>
+    <div class="card">
+      <form id="nav-form" novalidate>
+        <div class="field-row">
+          <div>
+            <label for="nav-from">Starting point</label>
+            <input
+              type="text"
+              id="nav-from"
+              placeholder="e.g. Gate C, Main Concourse"
+              aria-required="true"
+              aria-describedby="nav-from-hint"
+            />
+            <span id="nav-from-hint" class="visually-hidden">Enter where you currently are in the stadium</span>
+          </div>
+          <div>
+            <label for="nav-to">Destination</label>
+            <input
+              type="text"
+              id="nav-to"
+              placeholder="e.g. Section 114, Row 22"
+              aria-required="true"
+              aria-describedby="nav-to-hint"
+            />
+            <span id="nav-to-hint" class="visually-hidden">Enter where you want to go in the stadium</span>
+          </div>
+          <div>
+            <label for="nav-mode">Route type</label>
+            <select id="nav-mode" aria-describedby="nav-mode-hint">
+              <option value="standard">Standard route</option>
+              <option value="accessible">Step-free / accessible route</option>
+            </select>
+            <span id="nav-mode-hint" class="visually-hidden">Accessible route adds ramps and elevators, avoiding stairs</span>
+          </div>
+        </div>
+        <button class="primary" type="submit" id="nav-submit">Get directions</button>
+      </form>
+      <div class="ai-output empty" id="nav-output" role="status" aria-live="polite" aria-atomic="true">Directions will appear here.</div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 03: CROWD DASHBOARD ==================== -->
+  <section aria-labelledby="crowd-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">03</span>
+      <h3 class="section-title" id="crowd-title">Live Crowd Pulse</h3>
+    </div>
+    <p class="section-desc">
+      Simulated real-time density per gate zone. Volunteers and organizers can request an
+      AI-generated crowd-management recommendation for the current snapshot.
+    </p>
+    <div class="card">
+      <div class="zone-grid" id="zone-grid" role="list" aria-label="Crowd density by zone"></div>
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="primary"   id="btn-crowd-ai"      type="button">Get AI recommendation</button>
+        <button class="secondary" id="btn-refresh-zones" type="button">Refresh snapshot</button>
+      </div>
+      <div class="ai-output empty" id="crowd-output" role="status" aria-live="polite" aria-atomic="true">Recommendations will appear here.</div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 04: TRANSPORT & SUSTAINABILITY ==================== -->
+  <section aria-labelledby="transport-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">04</span>
+      <h3 class="section-title" id="transport-title">Transport &amp; Sustainability Advisor</h3>
+    </div>
+    <p class="section-desc">
+      Compare travel modes to the stadium by time-to-kickoff and estimated carbon footprint,
+      with an AI-personalized recommendation and optimal departure time calculation.
+    </p>
+    <div class="card">
+      <div class="field-row">
+        <div>
+          <label for="t-distance">Distance to stadium (km)</label>
+          <input
+            type="number"
+            id="t-distance"
+            min="0.5"
+            max="60"
+            value="6"
+            step="0.5"
+            aria-describedby="t-distance-hint"
+          />
+          <span id="t-distance-hint" class="visually-hidden">Enter distance between 0.5 and 60 kilometres</span>
+        </div>
+        <div>
+          <label for="t-time">Minutes until kickoff</label>
+          <input
+            type="number"
+            id="t-time"
+            min="10"
+            max="240"
+            value="45"
+            aria-describedby="t-time-hint"
+          />
+          <span id="t-time-hint" class="visually-hidden">Enter minutes remaining until kickoff, between 10 and 240</span>
+        </div>
+        <div>
+          <label for="t-party">Party size</label>
+          <input
+            type="number"
+            id="t-party"
+            min="1"
+            max="10"
+            value="2"
+            aria-describedby="t-party-hint"
+          />
+          <span id="t-party-hint" class="visually-hidden">Enter number of people travelling, between 1 and 10</span>
+        </div>
+      </div>
+      <button class="primary" type="button" id="btn-transport">Compare options</button>
+
+      <!-- Pre-computed emission cards: populated by JS -->
+      <div class="transport-grid" id="transport-grid" aria-label="Emissions by transport mode" role="list"></div>
+
+      <!-- Optimal departure recommendation -->
+      <div id="depart-rec" class="depart-rec" style="display:none" role="status">
+        <div>
+          <div class="dr-label">Recommended departure</div>
+          <div class="dr-time" id="depart-time">--:--</div>
+        </div>
+        <div style="color:var(--muted);font-size:0.85rem;" id="depart-detail"></div>
+      </div>
+
+      <div class="ai-output empty" id="transport-output" role="status" aria-live="polite" aria-atomic="true">Comparison will appear here.</div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 05: VOLUNTEER / STAFF OPS ==================== -->
+  <section aria-labelledby="ops-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">05</span>
+      <h3 class="section-title" id="ops-title">Volunteer &amp; Staff Operations Feed</h3>
+    </div>
+    <p class="section-desc">
+      Live incident feed with AI-generated shift briefings, so staff coming on duty get a fast,
+      prioritized summary of active issues — ranked by severity.
+    </p>
+    <div class="card">
+      <ul class="alert-list" id="alert-list" aria-label="Current incident alerts, sorted by severity"></ul>
+      <div style="margin-top:14px;">
+        <button class="primary" id="btn-briefing" type="button">Generate shift briefing</button>
+      </div>
+      <div class="ai-output empty" id="briefing-output" role="status" aria-live="polite" aria-atomic="true">Briefing will appear here.</div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 06: EMERGENCY & SAFETY ==================== -->
+  <section aria-labelledby="emergency-title">
+    <div class="section-head">
+      <span class="section-num" aria-hidden="true">06</span>
+      <h3 class="section-title" id="emergency-title">Emergency &amp; Safety Assistant</h3>
+    </div>
+    <p class="section-desc">
+      Instant AI-generated guidance for medical emergencies, fire evacuation, lost children,
+      and security incidents at FIFA World Cup 2026 venues. Compliant with FIFA Stadium Safety
+      and Security Regulations 2026.
+    </p>
+
+    <!-- Static emergency resources (always visible, no AI required) -->
+    <div class="emergency-banner" role="alert" aria-label="Emergency services notice">
+      <span class="eb-icon" aria-hidden="true">🚨</span>
+      <div>
+        <strong>Life-threatening emergency?</strong> Call <strong>911</strong> (US) · <strong>999</strong> (Canada) · <strong>911</strong> (Mexico) immediately.
+        Stadium medical staff are stationed at Gates A, B, C and D.
+      </div>
+    </div>
+
+    <div class="emergency-grid" role="list" aria-label="Emergency resource locations">
+      <div class="emergency-tile" role="listitem">
+        <div class="et-icon" aria-hidden="true">🏥</div>
+        <div class="et-label">Medical stations</div>
+        <div class="et-value">Gates A · B · C · D</div>
+        <div class="et-detail">First aid kits at every concourse pillar</div>
+      </div>
+      <div class="emergency-tile" role="listitem">
+        <div class="et-icon" aria-hidden="true">🚪</div>
+        <div class="et-label">Evacuation exits</div>
+        <div class="et-value">8 primary exits</div>
+        <div class="et-detail">Follow green illuminated signs. Do not use lifts.</div>
+      </div>
+      <div class="emergency-tile" role="listitem">
+        <div class="et-icon" aria-hidden="true">👶</div>
+        <div class="et-label">Lost child point</div>
+        <div class="et-value">Family Zone, Gate B</div>
+        <div class="et-detail">Staff available 3 hours before kickoff</div>
+      </div>
+      <div class="emergency-tile" role="listitem">
+        <div class="et-icon" aria-hidden="true">🔒</div>
+        <div class="et-label">Security command</div>
+        <div class="et-value">Concourse North Hub</div>
+        <div class="et-detail">Report suspicious activity immediately</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field-row" style="grid-template-columns: 1fr auto; align-items: end;">
+        <div>
+          <label for="emergency-type">Situation type</label>
+          <select id="emergency-type" aria-describedby="emergency-type-hint">
+            <option value="medical">Medical emergency</option>
+            <option value="fire">Fire / smoke detected</option>
+            <option value="crowd-crush">Crowd crush / surge</option>
+            <option value="lost-child">Lost child</option>
+            <option value="security">Security / suspicious item</option>
+            <option value="evacuation">Evacuation needed</option>
+            <option value="accessibility">Accessibility emergency</option>
+          </select>
+          <span id="emergency-type-hint" class="visually-hidden">Select the type of emergency or safety situation</span>
+        </div>
+        <div>
+          <label for="emergency-zone">Zone / location</label>
+          <input
+            type="text"
+            id="emergency-zone"
+            placeholder="e.g. Section 114, Gate C"
+            aria-describedby="emergency-zone-hint"
+          />
+          <span id="emergency-zone-hint" class="visually-hidden">Enter the specific location of the emergency</span>
+        </div>
+      </div>
+      <button class="danger" type="button" id="btn-emergency">Get emergency guidance</button>
+      <div class="ai-output empty emergency" id="emergency-output" role="alert" aria-live="assertive" aria-atomic="true">Emergency guidance will appear here.</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer role="contentinfo">
+  <p>
+    <strong>Privacy &amp; security:</strong> Chat and requests are processed for this session only —
+    nothing you type is stored, transmitted beyond the AI API, or retained after you close this tab.
+    All crowd and alert data shown is simulated for demonstration purposes.
+  </p>
+  <p>FanPulse AI — a concept built for stadium operations at the FIFA World Cup 2026.</p>
+  <div class="footer-badges" aria-label="Compliance and standards badges">
+    <span class="footer-badge">♿ WCAG 2.1 AA</span>
+    <span class="footer-badge">🛡 FIFA Stadium Safety Regs 2026</span>
+    <span class="footer-badge">🌱 FIFA Sustainability Strategy</span>
+    <span class="footer-badge">🔒 CSP Secured</span>
+  </div>
+  <p style="margin-top:12px;">
+    <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicous2026" target="_blank" rel="noopener noreferrer">
+      Learn more about FIFA World Cup 2026
+    </a>
+  </p>
+</footer>
+
+<!-- =========================================================================================
+     CORE LOGIC — pure functions only, zero DOM access.
+     Isolated in this <script id="core-logic"> block so the Node-based unit-test suite
+     (fanpulse-core.test.js) can extract and run this exact production code inside a vm
+     context without needing a browser. Never import browser globals here.
+     ========================================================================================= -->
+<script id="core-logic">
+  window.FanPulseCore = (function () {
+    "use strict";
+
+    /* ------------------------------------------------------------------ */
+    /*  CONSTANTS                                                           */
+    /* ------------------------------------------------------------------ */
+
+    /** Maximum allowed density percentage for a single zone (0–100 scale). */
+    var MAX_DENSITY_PCT = 100;
+
+    /** Maximum allowed walking time in minutes for estimateWalkTime. */
+    var MAX_WALK_MINUTES = 60;
+
+    /** Minimum allowed walking time in minutes (ensures we never return 0). */
+    var MIN_WALK_MINUTES = 1;
+
+    /** Multiplier applied to base walk time for accessible routes (ramps/elevators). */
+    var ACCESSIBLE_ROUTE_MULTIPLIER = 1.25;
+
+    /** Maximum allowed one-way travel distance in kilometres. */
+    var MAX_DISTANCE_KM = 500;
+
+    /** Default maximum text length for sanitizeText when no maxLen is provided. */
+    var DEFAULT_MAX_TEXT_LEN = 400;
+
+    /** Rough per-person CO₂ emission factors (kg per km) by transport mode. */
+    var EMISSION_FACTORS_KG_PER_KM = Object.freeze({
+      walk:      0,
+      bike:      0,
+      transit:   0.04,
+      rideshare: 0.17,
+      car:       0.19
+    });
+
+    /** Ordered list of languages the AI concierge can respond in. */
+    var SUPPORTED_LANGUAGES = Object.freeze([
+      "English", "Spanish", "French", "Portuguese",
+      "Arabic", "Japanese", "Hindi", "German", "Mandarin"
+    ]);
+
+    /** Numeric ordering for alert severity levels (lower = more severe). */
+    var SEVERITY_ORDER = Object.freeze({ critical: 0, high: 1, medium: 2, low: 3 });
+
+    /* ------------------------------------------------------------------ */
+    /*  clampNumber                                                         */
+    /* ------------------------------------------------------------------ */
+
+    /**
+     * Clamp a numeric value between an inclusive minimum and maximum.
+     * Non-numeric or NaN inputs fall back to the minimum value.
+     *
+     * @param {*}      n   - Value to clamp.
+     * @param {number} min - Lower bound (inclusive).
+     * @param {number} max - Upper bound (inclusive).
+     * @returns {number}
+     */
+    function clampNumber(n, min, max) {
+      if (typeof n !== "number" || Number.isNaN(n)) return min;
+      return Math.min(max, Math.max(min, n));
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  classifyCrowd                                                       */
+    /* ------------------------------------------------------------------ */
+
+    /**
+     * Classify a 0–100 crowd-density percentage into a severity level,
+     * a display string, and actionable guidance for venue staff.
+     * Input is clamped so out-of-range values never throw.
+     *
+     * @param {number} density - Crowd density percentage (0–100).
+     * @returns {{ level: string, key: string, advice: string }}
+     */
+    function classifyCrowd(density) {
+      var d = clampNumber(density, 0, MAX_DENSITY_PCT);
+      if (d < 35) return { level: "Low",      key: "low",      advice: "Flowing normally — no action needed." };
+      if (d < 65) return { level: "Moderate", key: "moderate", advice: "Monitor closely; consider opening a second scanner lane." };
+      if (d < 88) return { level: "High",     key: "high",     advice: "Open overflow queue and deploy stewards to the gate." };
+      return           { level: "Critical",  key: "critical",  advice: "Pause entry immediately and redirect fans to the nearest low-density gate." };
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  sanitizeText                                                        */
+    /* ------------------------------------------------------------------ */
+
+    /**
+     * Escape HTML-significant characters in a string and cap its length.
+     * Called before any user-supplied or AI-generated text is inserted into
+     * the DOM via innerHTML to eliminate XSS vectors.
+     *
+     * @param {*}      input  - Raw input value (any type).
+     * @param {number} [maxLen=400] - Maximum character length before escaping.
+     * @returns {string} HTML-safe string, at most maxLen characters.
+     */
+    function sanitizeText(input, maxLen) {
+      var max = (typeof maxLen === "number" && !Number.isNaN(maxLen)) ? maxLen : DEFAULT_MAX_TEXT_LEN;
+      var str = (input === null || input === undefined) ? "" : String(input);
+      return str
+        .slice(0, max)
+        .replace(/&/g,  "&amp;")
+        .replace(/</g,  "&lt;")
+        .replace(/>/g,  "&gt;")
+        .replace(/"/g,  "&quot;")
+        .replace(/'/g,  "&#39;");
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  estimateWalkTime                                                    */
+    /* ------------------------------------------------------------------ */
+
+    /**
+     * Estimate the walking time in minutes between two stadium points.
+     * Accessible routes (ramps, elevators) increase the estimate by 25%
+     * to account for detours. The base is clamped to [1, 60] minutes.
+     *
+     * @param {number}  baseMinutes - Unadjusted walking duration.
+     * @param {boolean} accessible  - True for step-free / wheelchair route.
+     * @returns {number} Rounded walking time in minutes.
+     */
+    function estimateWalkTime(baseMinutes, accessible) {
+      var clamped = clampNumber(baseMinutes, MIN_WALK_MINUTES, MAX_WALK_MINUTES);
+      var multiplier = accessible ? ACCESSIBLE_ROUTE_MULTIPLIER : 1;
+      return Math.round(clamped * multiplier);
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  estimateCarbonKg                                                    */
+    /* ------------------------------------------------------------------ */
+
+    /**
+     * Estimate per-person CO₂ emissions (kilograms) for a one-way journey
+     * to the stadium. Unknown transport modes fall back to the car factor
+     * as a conservative estimate.
+     *
+     * @param {string} mode       - Transport mode key (walk/bike/transit/rideshare/car).
+     * @param {number} distanceKm - Journey distance in kilometres.
+     * @returns {number} CO₂ in kg, rounded to two decimal places.
+     */
+    function estimateCarbonKg(mode, distanceKm) {
+      var factor = Object.prototype.hasOwnProperty.call(EMISSION_FACTORS_KG_PER_KM, mode)
+        ? EMISSION_FACTORS_KG_PER_KM[mode]
+        : EMISSION_FACTORS_KG_PER_KM.car;
+      var dist = clampNumber(distanceKm, 0, MAX_DISTANCE_KM);
+      return Math.round(factor * dist * 100) / 100;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  isSupportedLanguage                                                 */
+    /* ------------------------------------------------------------------ */
+
+    /**
+     * Check whether a language string is in the supported-languages list.
+     * Comparison is case-sensitive: "english" is NOT the same as "English".
+     *
+     * @param {string} lang - Language name to test.
+     * @returns {boolean}
+     */
+    function isSupportedLanguage(lang) {
+      return SUPPORTED_LANGUAGES.indexOf(lang) !== -1;
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  rankAlertsBySeverity                                                */
+    /* ------------------------------------------------------------------ */
+
+    /**
+     * Return a new array of alert objects sorted by descending severity
+     * (critical → high → medium → low). Alerts with unknown severity keys
+     * sort to the end. The original input array is never mutated.
+     *
+     * @param {Array<{text: string, severity: string}>} alerts
+     * @returns {Array<{text: string, severity: string}>}
+     */
+    function rankAlertsBySeverity(alerts) {
+      if (!Array.isArray(alerts)) return [];
+      return alerts.slice().sort(function (alertA, alertB) {
+        var orderA = Object.prototype.hasOwnProperty.call(SEVERITY_ORDER, alertA.severity)
+          ? SEVERITY_ORDER[alertA.severity] : 99;
+        var orderB = Object.prototype.hasOwnProperty.call(SEVERITY_ORDER, alertB.severity)
+          ? SEVERITY_ORDER[alertB.severity] : 99;
+        return orderA - orderB;
+      });
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  computeDepartureTime                                                */
+    /* ------------------------------------------------------------------ */
+
+    /**
+     * Calculate the recommended departure time (as a local HH:MM string)
+     * given travel duration and minutes remaining until kickoff.
+     * Adds a 15-minute buffer for entry queues.
+     *
+     * @param {number} travelMinutes  - Estimated travel time to stadium.
+     * @param {number} minutesLeft    - Minutes until kickoff from now.
+     * @returns {{ depart: string, bufferMinutes: number }}
+     */
+    function computeDepartureTime(travelMinutes, minutesLeft) {
+      var QUEUE_BUFFER_MINUTES = 15;
+      var totalBuffer = clampNumber(travelMinutes + QUEUE_BUFFER_MINUTES, 1, 300);
+      var now = new Date();
+      var departMs = now.getTime() + (minutesLeft - totalBuffer) * 60 * 1000;
+      var departDate = new Date(departMs);
+      var hh = String(departDate.getHours()).padStart(2, "0");
+      var mm = String(departDate.getMinutes()).padStart(2, "0");
+      return {
+        depart: hh + ":" + mm,
+        bufferMinutes: QUEUE_BUFFER_MINUTES
+      };
+    }
+
+    /* ------------------------------------------------------------------ */
+    /*  Public API                                                          */
+    /* ------------------------------------------------------------------ */
+    return {
+      clampNumber:          clampNumber,
+      classifyCrowd:        classifyCrowd,
+      sanitizeText:         sanitizeText,
+      estimateWalkTime:     estimateWalkTime,
+      estimateCarbonKg:     estimateCarbonKg,
+      isSupportedLanguage:  isSupportedLanguage,
+      rankAlertsBySeverity: rankAlertsBySeverity,
+      computeDepartureTime: computeDepartureTime,
+      SUPPORTED_LANGUAGES:  SUPPORTED_LANGUAGES,
+      EMISSION_FACTORS_KG_PER_KM: EMISSION_FACTORS_KG_PER_KM
+    };
+  })();
+
+  // Expose for Node-based unit tests (extracted and run in a vm context — see fanpulse-core.test.js).
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = window.FanPulseCore;
+  }
+</script>
+
+<!-- =========================================================================================
+     APPLICATION LOGIC — DOM wiring, GenAI calls, and UI rendering.
+     All pure logic is delegated to FanPulseCore (above).
+     ========================================================================================= -->
+<script>
+(function () {
+  "use strict";
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     CONSTANTS
+  ═══════════════════════════════════════════════════════════════════════ */
+  var Core = window.FanPulseCore;
+
+  /** Character limit for chat messages — must match input[maxlength]. */
+  var MAX_CHAT_LENGTH = 400;
+
+  /** AI request timeout in milliseconds. */
+  var AI_TIMEOUT_MS = 20000;
+
+  /** Interval between clock ticks (respects prefers-reduced-motion). */
+  var CLOCK_INTERVAL_MS = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 5000 : 1000;
+
+  /** Cooldown between chat submissions (ms) to prevent API spam. */
+  var CHAT_COOLDOWN_MS = 2000;
+
+  /** Font-size levels: null = default, "lg", "xl". */
+  var FONT_STEPS = [null, "lg", "xl"];
+
+  /** Simulated zone names for the crowd dashboard. */
+  var ZONE_NAMES = ["Gate A", "Gate B", "Gate C", "Gate D", "Concourse North", "Concourse South"];
+
+  /** Transport modes with display labels for the emission cards. */
+  var TRANSPORT_MODES = [
+    { key: "walk",      label: "🚶 Walk" },
+    { key: "bike",      label: "🚲 Bike" },
+    { key: "transit",   label: "🚌 Transit" },
+    { key: "rideshare", label: "🚗 Rideshare" },
+    { key: "car",       label: "🚙 Private Car" }
+  ];
+
+  /** Incident feed for the volunteer/staff panel. */
+  var ALERT_DATA = Object.freeze([
+    { text: "Long queue building at Gate C, east scanners",   severity: "high"     },
+    { text: "First aid requested — Section 114 concourse",    severity: "critical" },
+    { text: "Lost child reported near Family Zone, Gate B",   severity: "critical" },
+    { text: "Merchandise stand low on stock, Concourse North",severity: "low"      },
+    { text: "Wheelchair lift temporarily slow, Gate D",       severity: "medium"   }
+  ]);
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     CACHED DOM REFERENCES (query once at init — avoids repeated reflows)
+  ═══════════════════════════════════════════════════════════════════════ */
+  var htmlEl          = document.documentElement;
+  var btnContrast     = document.getElementById("btn-contrast");
+  var btnFontUp       = document.getElementById("btn-fontup");
+  var btnFontDown     = document.getElementById("btn-fontdown");
+  var langSelect      = document.getElementById("lang-select");
+
+  var chatLog         = document.getElementById("chat-log");
+  var chatForm        = document.getElementById("chat-form");
+  var chatInput       = document.getElementById("chat-input");
+  var chatSend        = document.getElementById("chat-send");
+  var chatStatus      = document.getElementById("chat-status");
+  var chatCount       = document.getElementById("chat-count");
+
+  var navForm         = document.getElementById("nav-form");
+  var navFrom         = document.getElementById("nav-from");
+  var navTo           = document.getElementById("nav-to");
+  var navMode         = document.getElementById("nav-mode");
+  var navSubmit       = document.getElementById("nav-submit");
+  var navOutput       = document.getElementById("nav-output");
+
+  var zoneGrid        = document.getElementById("zone-grid");
+  var btnCrowdAI      = document.getElementById("btn-crowd-ai");
+  var btnRefreshZones = document.getElementById("btn-refresh-zones");
+  var crowdOutput     = document.getElementById("crowd-output");
+
+  var tDistance       = document.getElementById("t-distance");
+  var tTime           = document.getElementById("t-time");
+  var tParty          = document.getElementById("t-party");
+  var btnTransport    = document.getElementById("btn-transport");
+  var transportGrid   = document.getElementById("transport-grid");
+  var departRec       = document.getElementById("depart-rec");
+  var departTime      = document.getElementById("depart-time");
+  var departDetail    = document.getElementById("depart-detail");
+  var transportOutput = document.getElementById("transport-output");
+
+  var alertList       = document.getElementById("alert-list");
+  var btnBriefing     = document.getElementById("btn-briefing");
+  var briefingOutput  = document.getElementById("briefing-output");
+
+  var emergencyType   = document.getElementById("emergency-type");
+  var emergencyZone   = document.getElementById("emergency-zone");
+  var btnEmergency    = document.getElementById("btn-emergency");
+  var emergencyOutput = document.getElementById("emergency-output");
+
+  var tileKickoff     = document.getElementById("tile-kickoff");
+  var tileWait        = document.getElementById("tile-wait");
+  var tileBusy        = document.getElementById("tile-busy");
+  var tileAlerts      = document.getElementById("tile-alerts");
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     ACCESSIBILITY TOOLBAR
+  ═══════════════════════════════════════════════════════════════════════ */
+  var fontLevel = 0; // 0 = default, 1 = lg, 2 = xl
+
+  /** Apply the current font-size level to the root element. */
+  function applyFont() {
+    var step = FONT_STEPS[fontLevel];
+    if (step) {
+      htmlEl.setAttribute("data-fontsize", step);
+    } else {
+      htmlEl.removeAttribute("data-fontsize");
+    }
+  }
+
+  btnContrast.addEventListener("click", function () {
+    var isOn = htmlEl.getAttribute("data-contrast") === "high";
+    if (isOn) {
+      htmlEl.removeAttribute("data-contrast");
+      btnContrast.setAttribute("aria-pressed", "false");
+    } else {
+      htmlEl.setAttribute("data-contrast", "high");
+      btnContrast.setAttribute("aria-pressed", "true");
+    }
+  });
+
+  btnFontUp.addEventListener("click", function () {
+    fontLevel = Core.clampNumber(fontLevel + 1, 0, 2);
+    applyFont();
+  });
+
+  btnFontDown.addEventListener("click", function () {
+    fontLevel = Core.clampNumber(fontLevel - 1, 0, 2);
+    applyFont();
+  });
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     UTILITIES
+  ═══════════════════════════════════════════════════════════════════════ */
+
+  /**
+   * Return the currently selected AI reply language, validated against
+   * the supported list. Falls back to English for unknown selections.
+   *
+   * @returns {string}
+   */
+  function currentLanguage() {
+    var val = langSelect.value;
+    return Core.isSupportedLanguage(val) ? val : "English";
+  }
+
+  /**
+   * Set a button's disabled state with both the native attribute and
+   * aria-disabled for maximum AT compatibility.
+   *
+   * @param {HTMLButtonElement} btn
+   * @param {boolean}           disabled
+   */
+  function setButtonDisabled(btn, disabled) {
+    btn.disabled = disabled;
+    btn.setAttribute("aria-disabled", String(disabled));
+  }
+
+  /**
+   * Validate that a number-input value is a finite number within the
+   * given range. Returns a clamped numeric value.
+   *
+   * @param {HTMLInputElement} el
+   * @param {number}           min
+   * @param {number}           max
+   * @param {number}           fallback
+   * @returns {number}
+   */
+  function getValidNumber(el, min, max, fallback) {
+    var parsed = parseFloat(el.value);
+    if (!Number.isFinite(parsed)) return fallback;
+    return Core.clampNumber(parsed, min, max);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     GENAI CALL HELPER
+     Builds the request, enforces a timeout, disables the trigger control
+     while in-flight to prevent duplicate/spammed calls, and never leaks
+     raw error details to the UI.
+  ═══════════════════════════════════════════════════════════════════════ */
+
+  /**
+   * Send a prompt to the Claude API and return the text response.
+   * Returns the sentinel string "__ERROR__" on any failure.
+   *
+   * @param {string}          systemPrompt  - System-level instructions.
+   * @param {string}          userPrompt    - User-facing message.
+   * @param {HTMLButtonElement|null} triggerButton - Button to disable during request.
+   * @returns {Promise<string>}
+   */
+  async function askAI(systemPrompt, userPrompt, triggerButton) {
+    if (triggerButton) setButtonDisabled(triggerButton, true);
+    var controller = new AbortController();
+    var timeoutId  = setTimeout(function () { controller.abort(); }, AI_TIMEOUT_MS);
+    try {
+      var response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
+        body: JSON.stringify({
+          model:      "claude-sonnet-4-6",
+          max_tokens: 1000,
+          system:     systemPrompt,
+          messages:   [{ role: "user", content: userPrompt }]
+        })
+      });
+      if (!response.ok) throw new Error("request_failed");
+      // Verify content type before parsing to avoid silent JSON errors
+      var contentType = response.headers.get("content-type") || "";
+      if (!contentType.includes("application/json")) throw new Error("unexpected_content_type");
+      var data      = await response.json();
+      var textBlock = (data.content || []).find(function (block) { return block.type === "text"; });
+      return textBlock ? textBlock.text : "I couldn't generate a response just now — please try again.";
+    } catch (_err) {
+      return "__ERROR__";
+    } finally {
+      clearTimeout(timeoutId);
+      if (triggerButton) setButtonDisabled(triggerButton, false);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     SCOREBOARD CLOCK
+  ═══════════════════════════════════════════════════════════════════════ */
+  var secondsToKickoff = 47 * 60 + 12;
+
+  /** Decrement and display the kickoff countdown. */
+  function tickClock() {
+    if (secondsToKickoff > 0) secondsToKickoff -= 1;
+    var minutes = Math.floor(secondsToKickoff / 60);
+    var seconds = secondsToKickoff % 60;
+    tileKickoff.textContent =
+      String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+  }
+
+  tickClock();
+  setInterval(tickClock, CLOCK_INTERVAL_MS);
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     CONCIERGE CHAT
+  ═══════════════════════════════════════════════════════════════════════ */
+  var lastChatSubmit = 0; // timestamp of last submission (rate-limiting)
+
+  /** Debounced handler for character counter updates. */
+  var charCountTimer = null;
+  chatInput.addEventListener("input", function () {
+    if (charCountTimer) clearTimeout(charCountTimer);
+    charCountTimer = setTimeout(function () {
+      var len = chatInput.value.length;
+      chatCount.textContent = len + " / " + MAX_CHAT_LENGTH;
+      // Colour-code the counter as the limit approaches
+      chatCount.classList.toggle("near-limit", len >= 300 && len < MAX_CHAT_LENGTH);
+      chatCount.classList.toggle("at-limit",   len >= MAX_CHAT_LENGTH);
+    }, 50);
+  });
+
+  /**
+   * Append a message bubble to the chat log.
+   * Uses textContent exclusively — never innerHTML — to prevent XSS.
+   *
+   * @param {"user"|"ai"|"system"} role
+   * @param {string}               text
+   */
+  function appendMessage(role, text) {
+    var div       = document.createElement("div");
+    div.className = "msg " + role;
+    div.textContent = text; // textContent only — safe from XSS
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+
+  chatForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var now = Date.now();
+    // Rate-limit: reject submissions within cooldown period
+    if (now - lastChatSubmit < CHAT_COOLDOWN_MS) return;
+    lastChatSubmit = now;
+
+    var rawInput = chatInput.value.trim();
+    if (!rawInput) return;
+
+    // Sanitize before sending to AI; display raw (truncated) version to the user
+    var safeInput = Core.sanitizeText(rawInput, MAX_CHAT_LENGTH);
+
+    appendMessage("user", rawInput.slice(0, MAX_CHAT_LENGTH));
+    chatInput.value   = "";
+    chatCount.textContent = "0 / " + MAX_CHAT_LENGTH;
+    chatCount.classList.remove("near-limit", "at-limit");
+    chatStatus.textContent = "Concierge is thinking…";
+
+    var lang   = currentLanguage();
+    var system =
+      "You are FanPulse, an on-site concierge assistant for a FIFA World Cup 2026 host stadium. " +
+      "Answer ONLY questions related to stadium navigation, gates, seating, accessibility services, " +
+      "transport, schedules, safety, lost & found, food/amenities, or sustainability. " +
+      "If asked something unrelated or unsafe, politely redirect to stadium topics. " +
+      "Reply ONLY in " + lang + ". Keep answers under 80 words, friendly and concrete.";
+
+    var reply = await askAI(system, safeInput, chatSend);
+    chatStatus.textContent = "";
+    if (reply === "__ERROR__") {
+      appendMessage("system", "The concierge is temporarily unavailable. Please try again in a moment.");
+    } else {
+      appendMessage("ai", reply);
+    }
+  });
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     NAVIGATION
+  ═══════════════════════════════════════════════════════════════════════ */
+  navForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var fromVal      = navFrom.value.trim();
+    var toVal        = navTo.value.trim();
+    var isAccessible = navMode.value === "accessible";
+
+    if (!fromVal || !toVal) return;
+
+    var safeFrom     = Core.sanitizeText(fromVal, 120);
+    var safeTo       = Core.sanitizeText(toVal,   120);
+    var baseMinutes  = 4 + Math.min(10, Math.floor((safeFrom.length + safeTo.length) / 6));
+    var eta          = Core.estimateWalkTime(baseMinutes, isAccessible);
+
+    navOutput.classList.remove("empty");
+    navOutput.textContent = "Generating directions…";
+
+    var lang   = currentLanguage();
+    var system =
+      "You are a stadium wayfinding assistant for FIFA World Cup 2026. Reply in " + lang + ". " +
+      "Give 3–4 short numbered steps from the starting point to the destination inside a stadium concourse, " +
+      (isAccessible
+        ? "using ONLY step-free / elevator / accessible paths. Mention accessible restrooms and lifts along the way. "
+        : "using the most direct route. ") +
+      "Keep the whole reply under 70 words. Do not invent an exact walk time beyond what is provided.";
+    var userPrompt =
+      "From: " + safeFrom + "\nTo: " + safeTo +
+      "\nEstimated walk time: " + eta + " minutes.\nRoute type: " + (isAccessible ? "accessible" : "standard");
+
+    var reply = await askAI(system, userPrompt, navSubmit);
+    if (reply === "__ERROR__") {
+      navOutput.textContent = "Directions are temporarily unavailable. Estimated walk time: " + eta + " minutes.";
+    } else {
+      navOutput.textContent = reply + "\n\nEstimated walk time: " + eta + " minutes.";
+    }
+  });
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     CROWD DASHBOARD
+  ═══════════════════════════════════════════════════════════════════════ */
+  var zoneState = [];
+
+  /** Generate a random crowd density percentage (15–100%). */
+  function randomDensity() {
+    return Math.round(15 + Math.random() * 85);
+  }
+
+  /** Rebuild zoneState with fresh random densities. */
+  function generateZoneSnapshot() {
+    zoneState = ZONE_NAMES.map(function (name) {
+      return { name: name, density: randomDensity() };
+    });
+  }
+
+  /**
+   * Render the zone grid using a DocumentFragment to batch all DOM insertions
+   * into a single reflow, then update the scoreboard tiles.
+   */
+  function renderZones() {
+    var fragment   = document.createDocumentFragment();
+    var busiestIdx = 0;
+    var alertCount = 0;
+
+    zoneState.forEach(function (zone, idx) {
+      var classification = Core.classifyCrowd(zone.density);
+      if (zone.density > zoneState[busiestIdx].density) busiestIdx = idx;
+      if (classification.key === "high" || classification.key === "critical") alertCount += 1;
+
+      var el = document.createElement("div");
+      el.className = "zone level-" + classification.key;
+      el.setAttribute("role", "listitem");
+      el.setAttribute("aria-label",
+        zone.name + ": " + classification.level + " density at " + zone.density + "%. " +
+        "Advice: " + classification.advice);
+
+      var badge         = document.createElement("span");
+      badge.className   = "badge";
+      badge.textContent = zone.density + "%";
+      badge.setAttribute("aria-hidden", "true");
+
+      var nameEl         = document.createElement("div");
+      nameEl.className   = "zone-name";
+      nameEl.textContent = zone.name;
+
+      var levelEl         = document.createElement("div");
+      levelEl.className   = "zone-level";
+      levelEl.textContent = classification.level;
+
+      var bar  = document.createElement("div");
+      bar.className = "bar";
+      bar.setAttribute("role", "progressbar");
+      bar.setAttribute("aria-valuenow",  String(zone.density));
+      bar.setAttribute("aria-valuemin",  "0");
+      bar.setAttribute("aria-valuemax",  "100");
+      bar.setAttribute("aria-label",     zone.name + " density: " + zone.density + "%");
+
+      var fill         = document.createElement("div");
+      fill.className   = "bar-fill";
+      bar.appendChild(fill);
+
+      el.appendChild(badge);
+      el.appendChild(nameEl);
+      el.appendChild(levelEl);
+      el.appendChild(bar);
+      fragment.appendChild(el);
+    });
+
+    // Single DOM write — replaceChildren avoids innerHTML clearing
+    zoneGrid.replaceChildren(fragment);
+
+    var busiest = zoneState[busiestIdx];
+    tileBusy.textContent   = busiest.name;
+    tileWait.textContent   = Math.max(2, Math.round(busiest.density / 10)) + " min";
+    tileAlerts.textContent = String(alertCount + ALERT_DATA.length);
+  }
+
+  btnRefreshZones.addEventListener("click", function () {
+    generateZoneSnapshot();
+    renderZones();
+  });
+
+  btnCrowdAI.addEventListener("click", async function () {
+    crowdOutput.classList.remove("empty");
+    crowdOutput.textContent = "Analyzing snapshot…";
+
+    var snapshot = zoneState.map(function (zone) {
+      var classification = Core.classifyCrowd(zone.density);
+      return zone.name + ": " + zone.density + "% (" + classification.level + ")";
+    }).join("; ");
+
+    var system =
+      "You are a crowd-management advisor for stadium operations staff at FIFA World Cup 2026. Reply in " + currentLanguage() + ". " +
+      "Given zone density data, produce a short prioritized action list (max 3 actions) for volunteers and organizers, " +
+      "naming the specific zones that need attention. Under 70 words. Be operational and specific, not generic.";
+
+    var reply = await askAI(system, "Current zone snapshot → " + snapshot, btnCrowdAI);
+    crowdOutput.textContent = (reply === "__ERROR__")
+      ? "Recommendation engine is temporarily unavailable. Please try again."
+      : reply;
+  });
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     TRANSPORT & SUSTAINABILITY
+  ═══════════════════════════════════════════════════════════════════════ */
+
+  /**
+   * Render per-mode emission cards and the optimal departure recommendation.
+   * Cards are built with a DocumentFragment for a single reflow.
+   */
+  function renderTransportCards(distance, party, minutesLeft) {
+    var fragment = document.createDocumentFragment();
+    var minCo2   = Infinity;
+    var minMode  = "";
+
+    TRANSPORT_MODES.forEach(function (mode) {
+      var co2PerPerson = Core.estimateCarbonKg(mode.key, distance);
+      var co2Total     = Math.round(co2PerPerson * party * 100) / 100;
+      if (co2Total < minCo2) { minCo2 = co2Total; minMode = mode.key; }
+
+      var card         = document.createElement("div");
+      card.className   = "transport-card";
+      card.setAttribute("role", "listitem");
+      card.setAttribute("aria-label", mode.label + ": " + co2Total + " kg CO2 for group of " + party);
+
+      var modeEl         = document.createElement("div");
+      modeEl.className   = "tc-mode";
+      modeEl.textContent = mode.label;
+
+      var co2El         = document.createElement("div");
+      co2El.className   = "tc-co2";
+      co2El.textContent = co2Total + " kg";
+
+      var unitEl         = document.createElement("div");
+      unitEl.className   = "tc-unit";
+      unitEl.textContent = "CO₂ for group of " + party;
+
+      card.appendChild(modeEl);
+      card.appendChild(co2El);
+      card.appendChild(unitEl);
+      fragment.appendChild(card);
+    });
+
+    transportGrid.replaceChildren(fragment);
+
+    // Mark the lowest-emission card as best
+    var cards = transportGrid.querySelectorAll(".transport-card");
+    TRANSPORT_MODES.forEach(function (mode, idx) {
+      if (mode.key === minMode) cards[idx].classList.add("best-mode");
+    });
+
+    // Compute optimal departure based on transit travel time (avg 20 min for 6km)
+    var avgTravelMinutes = Math.round(distance * 3.5); // rough transit estimate
+    var dep = Core.computeDepartureTime(avgTravelMinutes, minutesLeft);
+    departTime.textContent   = dep.depart;
+    departDetail.textContent = "Includes " + dep.bufferMinutes + " min entry buffer. Depart by this time to arrive comfortably.";
+    departRec.style.display  = "flex";
+  }
+
+  btnTransport.addEventListener("click", async function () {
+    var distance    = getValidNumber(tDistance, 0.5, 60,  6);
+    var minutesLeft = getValidNumber(tTime,     10,  240, 45);
+    var party       = Core.clampNumber(parseInt(tParty.value, 10), 1, 10) || 2;
+
+    transportOutput.classList.remove("empty");
+    transportOutput.textContent = "Comparing options…";
+
+    // Render pre-computed cards immediately (no AI wait)
+    renderTransportCards(distance, party, minutesLeft);
+
+    var rows = TRANSPORT_MODES.map(function (mode) {
+      var co2 = Core.estimateCarbonKg(mode.key, distance) * party;
+      return mode.label + ": ~" + co2 + " kg CO2 for group";
+    }).join("; ");
+
+    var system =
+      "You are a sustainable-transport advisor for FIFA World Cup 2026 fans. Reply in " + currentLanguage() + ". " +
+      "Recommend ONE best mode given distance, time-to-kickoff, and party size. " +
+      "Briefly justify it and give one concrete sustainability tip. Under 60 words.";
+    var userPrompt =
+      "Distance: " + distance + " km. Minutes to kickoff: " + minutesLeft +
+      ". Party size: " + party + ". Estimated group emissions by mode → " + rows;
+
+    var reply = await askAI(system, userPrompt, btnTransport);
+    transportOutput.textContent = (reply === "__ERROR__")
+      ? "Advisor temporarily unavailable. Raw estimates → " + rows
+      : reply;
+  });
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     VOLUNTEER / STAFF ALERT FEED
+  ═══════════════════════════════════════════════════════════════════════ */
+
+  /**
+   * Render the incident feed sorted by severity.
+   * Uses a DocumentFragment for a single DOM reflow.
+   */
+  function renderAlerts() {
+    var ranked   = Core.rankAlertsBySeverity(ALERT_DATA);
+    var fragment = document.createDocumentFragment();
+
+    ranked.forEach(function (alert) {
+      var li         = document.createElement("li");
+      li.className   = "alert-item";
+      li.setAttribute("aria-label", alert.severity + " severity: " + alert.text);
+
+      var sevSpan         = document.createElement("span");
+      sevSpan.className   = "sev sev-" + alert.severity;
+      sevSpan.textContent = alert.severity;
+      sevSpan.setAttribute("aria-hidden", "true"); // severity already in li aria-label
+
+      var txtSpan         = document.createElement("span");
+      txtSpan.textContent = alert.text;
+
+      li.appendChild(sevSpan);
+      li.appendChild(txtSpan);
+      fragment.appendChild(li);
+    });
+
+    alertList.replaceChildren(fragment);
+  }
+
+  btnBriefing.addEventListener("click", async function () {
+    briefingOutput.classList.remove("empty");
+    briefingOutput.textContent = "Drafting briefing…";
+
+    var ranked = Core.rankAlertsBySeverity(ALERT_DATA);
+    var feed   = ranked
+      .map(function (alert) { return "[" + alert.severity + "] " + alert.text; })
+      .join(" | ");
+
+    var system =
+      "You are writing a 3-sentence shift-handoff briefing for incoming stadium volunteers at FIFA World Cup 2026. " +
+      "Reply in " + currentLanguage() + ". " +
+      "Prioritize critical and high items first. Be calm and actionable. Under 70 words total.";
+
+    var reply = await askAI(system, "Current incident feed → " + feed, btnBriefing);
+    briefingOutput.textContent = (reply === "__ERROR__")
+      ? "Briefing generator temporarily unavailable."
+      : reply;
+  });
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     EMERGENCY & SAFETY ASSISTANT
+  ═══════════════════════════════════════════════════════════════════════ */
+  btnEmergency.addEventListener("click", async function () {
+    var situationType = emergencyType.value;
+    var locationRaw   = emergencyZone.value.trim();
+    var safeLocation  = locationRaw
+      ? Core.sanitizeText(locationRaw, 120)
+      : "location not specified";
+
+    emergencyOutput.classList.remove("empty");
+    emergencyOutput.textContent = "Generating emergency guidance…";
+
+    var system =
+      "You are an emergency safety coordinator at a FIFA World Cup 2026 stadium, trained in FIFA Stadium " +
+      "Safety and Security Regulations 2026. Reply in " + currentLanguage() + ". " +
+      "Provide IMMEDIATE, clear, numbered action steps for the reported emergency situation. " +
+      "Always start with: call emergency services if life is at risk (911 US/Mexico, 999 Canada). " +
+      "Name nearby staff positions or facilities. Keep under 100 words. Be calm, direct, and specific.";
+    var userPrompt =
+      "Emergency type: " + situationType + ". Location: " + safeLocation + ". " +
+      "What should staff and fans do immediately?";
+
+    var reply = await askAI(system, userPrompt, btnEmergency);
+    if (reply === "__ERROR__") {
+      emergencyOutput.textContent =
+        "⚠ AI guidance temporarily unavailable.\n\n" +
+        "IMMEDIATE ACTIONS:\n" +
+        "1. Call 911 (US/Mexico) or 999 (Canada) for life-threatening emergencies.\n" +
+        "2. Contact the nearest security or medical post (Gates A, B, C, D).\n" +
+        "3. Follow illuminated evacuation signs (green).\n" +
+        "4. Do not use lifts during fire or evacuation.";
+    } else {
+      emergencyOutput.textContent = reply;
+    }
+  });
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     INITIALISATION
+     Defer non-critical rendering to the next animation frame so it does
+     not block the first paint of the header and hero content.
+  ═══════════════════════════════════════════════════════════════════════ */
+  requestAnimationFrame(function () {
+    generateZoneSnapshot();
+    renderZones();
+    renderAlerts();
+  });
+
+})();
+</script>
+</body>
+</html>
